@@ -16,20 +16,20 @@ public protocol UIButtonCreateProtocol {
 public extension UIButtonCreateProtocol where Self: UIButton {
     
     @discardableResult
-    func ys_adjustsImageWhenHighlighted(b: Bool) -> Self {
+    public func ys_adjustsImageWhenHighlighted(b: Bool) -> Self {
         self.adjustsImageWhenHighlighted = b
         return self
     }
     
     @discardableResult
-    func ys_adjustsImageWhenDisabled(b: Bool) -> Self {
+    public func ys_adjustsImageWhenDisabled(b: Bool) -> Self {
         self.adjustsImageWhenDisabled = b
         return self
     }
     
     
     @discardableResult
-    func ys_setImage(imgName: String?, state: UIControl.State) -> Self {
+    public func ys_setImage(imgName: String?, state: UIControl.State) -> Self {
         var img: UIImage? = nil
         if let imgName = imgName {
             img = UIImage(named: imgName)
@@ -39,38 +39,38 @@ public extension UIButtonCreateProtocol where Self: UIButton {
     }
     
     @discardableResult
-    func ys_setImage(img: UIImage?, state: UIControl.State) -> Self {
+    public func ys_setImage(img: UIImage?, state: UIControl.State) -> Self {
         self.setImage(img, for: state)
         return self
     }
     
     @discardableResult
-    func ys_isSelected(_ isSelected: Bool) -> Self {
+    public func ys_isSelected(_ isSelected: Bool) -> Self {
         self.isSelected = isSelected
         return self
     }
     
     
     @discardableResult
-    func ys_setTitle(_ title: String?, state: UIControl.State) -> Self {
+    public func ys_setTitle(_ title: String?, state: UIControl.State) -> Self {
         self.setTitle(title, for: state)
         return self
     }
     
     @discardableResult
-    func ys_setTitleFont(_ font: UIFont?) -> Self {
+    public func ys_setTitleFont(_ font: UIFont?) -> Self {
         if let font = font { self.titleLabel?.font = font }
         return self
     }
     
     @discardableResult
-    func ys_setTitleColor(_ color: UIColor?, state: UIControl.State) -> Self {
+    public func ys_setTitleColor(_ color: UIColor?, state: UIControl.State) -> Self {
         self.setTitleColor(color, for: state)
         return self
     }
     
     @discardableResult
-    func ys_setBackgroundImage(imgName: String?, state: UIControl.State) -> Self {
+    public func ys_setBackgroundImage(imgName: String?, state: UIControl.State) -> Self {
         if let imgName = imgName, let img = UIImage(named: imgName) {
             self.setBackgroundImage(img, for: state)
         } else {
@@ -80,33 +80,33 @@ public extension UIButtonCreateProtocol where Self: UIButton {
     }
     
     @discardableResult
-    func ys_setBackgroundImage(img: UIImage?, state: UIControl.State) -> Self {
+    public func ys_setBackgroundImage(img: UIImage?, state: UIControl.State) -> Self {
         self.setBackgroundImage(img, for: state)
         return self
     }
 
     @discardableResult
-    func ys_setAttributedTitle(_ title: NSAttributedString?, for state: UIControl.State) -> Self {
+    public func ys_setAttributedTitle(_ title: NSAttributedString?, for state: UIControl.State) -> Self {
         self.setAttributedTitle(title, for: state)
         return self
     }
     
     
     @discardableResult
-    func ys_contentHorizontalAlignment(_ alignment: UIControl.ContentHorizontalAlignment) -> Self {
+    public func ys_contentHorizontalAlignment(_ alignment: UIControl.ContentHorizontalAlignment) -> Self {
         self.contentHorizontalAlignment = alignment
         return self
     }
     
     @discardableResult
-    func ys_contentVerticalAlignment(_ alignment: UIControl.ContentVerticalAlignment) -> Self {
+    public func ys_contentVerticalAlignment(_ alignment: UIControl.ContentVerticalAlignment) -> Self {
         self.contentVerticalAlignment = alignment
         return self
     }
     
     
     @discardableResult
-    func ys_contentEdgeInsets(_ insets: UIEdgeInsets = .zero) -> Self {
+    public func ys_contentEdgeInsets(_ insets: UIEdgeInsets = .zero) -> Self {
         self.contentEdgeInsets = insets
         return self
     }

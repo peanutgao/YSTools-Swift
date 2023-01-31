@@ -13,62 +13,63 @@ public protocol UITextFieldCreateProtocol {
 }
 
 public extension UITextFieldCreateProtocol where Self: UITextField {
+    
     @discardableResult
-    func ys_text(_ text: String?) -> Self {
+    public func ys_text(_ text: String?) -> Self {
         if let text = text { self.text = text}
         return self
     }
     
     @discardableResult
-    func ys_font(_ font: UIFont?) -> Self {
+    public func ys_font(_ font: UIFont?) -> Self {
         if let font = font { self.font = font}
         return self
     }
     
     @discardableResult
-    func ys_textColor(_ color: UIColor?) -> Self {
+    public func ys_textColor(_ color: UIColor?) -> Self {
         if let color = color { self.textColor = color}
         return self
     }
     
     @discardableResult
-    func ys_textAlignment(_ alignment: NSTextAlignment) -> Self {
+    public func ys_textAlignment(_ alignment: NSTextAlignment) -> Self {
         self.textAlignment = alignment
         return self
     }
     
     @discardableResult
-    func ys_placeholder(_ placeholder: String?) -> Self {
+    public func ys_placeholder(_ placeholder: String?) -> Self {
         if let placeholder = placeholder { self.placeholder = placeholder}
         return self
     }
     
     @discardableResult
-    func ys_borderStyle(_ style: UITextField.BorderStyle) -> Self {
+    public func ys_borderStyle(_ style: UITextField.BorderStyle) -> Self {
         self.borderStyle = style
         return self
     }
     
     @discardableResult
-    func ys_keyboardType(_ type: UIKeyboardType) -> Self {
+    public func ys_keyboardType(_ type: UIKeyboardType) -> Self {
         self.keyboardType = type
         return self
     }
     
     @discardableResult
-    func ys_delegate(_ delegate: UITextFieldDelegate) -> Self {
+    public func ys_delegate(_ delegate: UITextFieldDelegate) -> Self {
         self.delegate = delegate
         return self
     }
     
     @discardableResult
-    func ys_clearButtonMode(_ mode: UITextField.ViewMode) -> Self {
+    public func ys_clearButtonMode(_ mode: UITextField.ViewMode) -> Self {
         self.clearButtonMode = mode
         return self
     }
     
     @discardableResult
-    func ys_adjustsFontSizeToFitWidth(_ b: Bool = false) -> Self {
+    public func ys_adjustsFontSizeToFitWidth(_ b: Bool = false) -> Self {
         self.adjustsFontSizeToFitWidth = b
         return self
     }

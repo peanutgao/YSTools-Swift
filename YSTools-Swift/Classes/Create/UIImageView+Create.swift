@@ -9,9 +9,9 @@
 import UIKit
 import SDWebImage
 
-extension UIImageView {
+public extension UIImageView {
     
-    convenience init(imageName: String?) {
+    public convenience init(imageName: String?) {
         self.init()
         
         guard let imageName = imageName else {
@@ -45,7 +45,7 @@ extension UIImageView: UIImageViewCreateProtocol {
 //    }
 //    
     @discardableResult
-    internal func ys_setImage(with name: String?) -> Self {
+    public func ys_setImage(with name: String?) -> Self {
         guard let name = name else {
             self.image = nil
             return self
@@ -55,13 +55,13 @@ extension UIImageView: UIImageViewCreateProtocol {
     }
     
     @discardableResult
-    internal func ys_setImage(with image: UIImage?) -> Self {
+    public func ys_setImage(with image: UIImage?) -> Self {
         self.image = image
         return self
     }
     
     @discardableResult
-    internal func ys_setImage(withUrlStr urlStr: String?, placeholder: String? = nil) -> Self {
+    public func ys_setImage(withUrlStr urlStr: String?, placeholder: String? = nil) -> Self {
         var placeholderImage: UIImage? = nil
         if let placeholder = placeholder {
             placeholderImage = UIImage(named: placeholder)
@@ -70,7 +70,7 @@ extension UIImageView: UIImageViewCreateProtocol {
     }
     
     @discardableResult
-    internal func ys_setImage(withUrlStr urlStr: String?, placeholderImage: UIImage?) -> Self {
+    public func ys_setImage(withUrlStr urlStr: String?, placeholderImage: UIImage?) -> Self {
         guard let urlStr = urlStr,
             let url = URL.init(string: urlStr) else {
             self.image = placeholderImage
@@ -83,7 +83,7 @@ extension UIImageView: UIImageViewCreateProtocol {
     }
     
     @discardableResult
-    internal func ys_setImage(withURL url: URL?, placeholder: String? = nil) -> Self {
+    public func ys_setImage(withURL url: URL?, placeholder: String? = nil) -> Self {
         var placeholderImage: UIImage? = nil
         if let placeholder = placeholder {
             placeholderImage = UIImage(named: placeholder)
@@ -92,7 +92,7 @@ extension UIImageView: UIImageViewCreateProtocol {
     }
     
     @discardableResult
-    internal func ys_setImage(withURL url: URL?, placeholderImage: UIImage?) -> Self {
+    public func ys_setImage(withURL url: URL?, placeholderImage: UIImage?) -> Self {
         guard let url = url else {
             self.image = placeholderImage
             return self

@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIColor {
+public extension UIColor {
     public private(set) class var random: UIColor {
         get {
             return UIColor(red: CGFloat.random(in: 0...1.0),
@@ -19,7 +19,7 @@ extension UIColor {
         set {}
     }
     
-    convenience init(hex: String, alpha: CGFloat = 1.0) {
+    public convenience init(hex: String, alpha: CGFloat = 1.0) {
         var hexFormatted: String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()
 
         if hexFormatted.hasPrefix("#") {

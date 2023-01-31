@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - UI
-public struct Screen {
+public struct MainScreen {
     public static let keyWindow = {
         var window: UIWindow?
         if #available(iOS 13.0, *) {
@@ -75,7 +75,7 @@ public struct SaveArea {
     public static var bottom: CGFloat {
         get {
             if #available(iOS 11.0, *) {
-                return Screen.keyWindow?.safeAreaInsets.bottom ?? 0
+                return MainScreen.keyWindow?.safeAreaInsets.bottom ?? 0
             } else {
                 return 0
             }
@@ -89,7 +89,7 @@ public struct SaveArea {
     public static var top: CGFloat {
         get {
             if #available(iOS 11.0, *) {
-                return Screen.keyWindow?.safeAreaInsets.top ?? 0
+                return MainScreen.keyWindow?.safeAreaInsets.top ?? 0
             } else {
                 return 0
             }

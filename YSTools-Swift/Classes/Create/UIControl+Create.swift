@@ -15,20 +15,20 @@ public protocol UIControlCreateProtocol {
 public extension UIControlCreateProtocol where Self: UIControl {
     
     @discardableResult
-    func ys_isEnable(_ isEnabled: Bool) -> Self {
+    public func ys_isEnable(_ isEnabled: Bool) -> Self {
         self.isEnabled = isEnabled
         return self
     }
     
     
     @discardableResult
-    func ys_isSelected(_ isSelected: Bool) -> Self {
+    public func ys_isSelected(_ isSelected: Bool) -> Self {
         self.isSelected = isSelected
         return self
     }
     
     @discardableResult
-    func ys_addTarget(_ target: Any?, action: Selector, for controlEvents: UIControl.Event) -> Self {
+    public func ys_addTarget(_ target: Any?, action: Selector, for controlEvents: UIControl.Event) -> Self {
         self.addTarget(target, action: action, for: controlEvents)
         return self
     }

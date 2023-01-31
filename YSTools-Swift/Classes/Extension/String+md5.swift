@@ -9,7 +9,7 @@
 import UIKit
 import CommonCrypto
 
-extension String {
+public extension String {
     
     public func md5() -> String {
         let str = self.cString(using: String.Encoding.utf8)

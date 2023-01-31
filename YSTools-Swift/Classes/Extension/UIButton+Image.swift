@@ -17,7 +17,7 @@ public protocol UIButtonBuildWithSDWebImageProtocol {
 public extension UIButtonBuildWithSDWebImageProtocol where Self: UIButton {
     // MARK: - SDWebImage
     @discardableResult
-    func ys_setImage(withUrlStr urlStr: String?, for state: UIControl.State, placeholder: String?) -> Self {
+    public func ys_setImage(withUrlStr urlStr: String?, for state: UIControl.State, placeholder: String?) -> Self {
         var placeholderImage: UIImage?
         if let placeholder = placeholder {
             placeholderImage = UIImage(named: placeholder)
@@ -26,7 +26,7 @@ public extension UIButtonBuildWithSDWebImageProtocol where Self: UIButton {
     }
     
     @discardableResult
-    func ys_setImage(withUrlStr urlStr: String?, for state: UIControl.State, placeholderImage: UIImage? = nil) -> Self {
+    public func ys_setImage(withUrlStr urlStr: String?, for state: UIControl.State, placeholderImage: UIImage? = nil) -> Self {
         guard let urlStr = urlStr else {
             self.setImage(placeholderImage, for: state)
             return self
@@ -40,7 +40,7 @@ public extension UIButtonBuildWithSDWebImageProtocol where Self: UIButton {
     }
     
     @discardableResult
-    func ys_setImage(withUrl url: URL?, for state: UIControl.State, placeholder: String?) -> Self {
+    public func ys_setImage(withUrl url: URL?, for state: UIControl.State, placeholder: String?) -> Self {
         var placeholderImage: UIImage?
         if let placeholder = placeholder {
             placeholderImage = UIImage(named: placeholder)
@@ -49,7 +49,7 @@ public extension UIButtonBuildWithSDWebImageProtocol where Self: UIButton {
     }
     
     @discardableResult
-    func ys_setImage(withUrl url: URL?, for state: UIControl.State, placeholderImage: UIImage?) -> Self {
+    public func ys_setImage(withUrl url: URL?, for state: UIControl.State, placeholderImage: UIImage?) -> Self {
         self.sd_setImage(with: url,
                          for: state,
                          placeholderImage: placeholderImage,

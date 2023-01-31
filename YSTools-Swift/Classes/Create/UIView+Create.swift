@@ -14,7 +14,7 @@ public protocol UIViewCreateProtocol {
 
 public extension UIViewCreateProtocol where Self: UIView {
     @discardableResult
-    func ys_inView(_ inView: UIView?) -> Self {
+    public func ys_inView(_ inView: UIView?) -> Self {
         if let v = inView {
             v.addSubview(self)
         }
@@ -22,63 +22,63 @@ public extension UIViewCreateProtocol where Self: UIView {
     }
     
     @discardableResult
-    func ys_frame(_ frame: CGRect) -> Self {
+    public func ys_frame(_ frame: CGRect) -> Self {
         self.frame = frame
         return self
     }
     
     @discardableResult
-    func ys_backgroundColor(_ color: UIColor) -> Self {
+    public func ys_backgroundColor(_ color: UIColor) -> Self {
         self.backgroundColor = color
         return self
     }
     
     @discardableResult
-    func ys_setCorner(radius: CGFloat, clickToBounds: Bool) -> Self {
+    public func ys_setCorner(radius: CGFloat, clickToBounds: Bool) -> Self {
         self.layer.cornerRadius = radius
         return ys_clickToBounds(b: clickToBounds)
     }
     
     
     @discardableResult
-    func ys_clickToBounds(b: Bool) -> Self {
+    public func ys_clickToBounds(b: Bool) -> Self {
         self.clipsToBounds = b
         return self
     }
     
     @discardableResult
-    func ys_addSubview(_ view: UIView) -> Self {
+    public func ys_addSubview(_ view: UIView) -> Self {
         addSubview(view)
         return self
     }
     
     @discardableResult
-    func ys_tag(_ tag: Int) -> Self {
+    public func ys_tag(_ tag: Int) -> Self {
         self.tag = tag
         return self
     }
     
     @discardableResult
-    func ys_isHidden(_ b: Bool) -> Self {
+    public func ys_isHidden(_ b: Bool) -> Self {
         self.isHidden = b
         return self
     }
     
     
     @discardableResult
-    func ys_isUserInteractionEnabled(_ b: Bool) -> Self {
+    public func ys_isUserInteractionEnabled(_ b: Bool) -> Self {
         self.isUserInteractionEnabled = b
         return self
     }
     
     @discardableResult
-    func ys_contentMode(_ mode: ContentMode) -> Self {
+    public func ys_contentMode(_ mode: ContentMode) -> Self {
         self.contentMode = mode
         return self
     }
     
     @discardableResult
-    func ys_addGestureRecognizer(_ gesture: UIGestureRecognizer) -> Self {
+    public func ys_addGestureRecognizer(_ gesture: UIGestureRecognizer) -> Self {
         self.addGestureRecognizer(gesture)
         return self
     }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UINavigationController {
+public extension UINavigationController {
     
     @discardableResult
     public func popToViewController(_ viewController: UIViewController.Type, animated: Bool) -> [UIViewController]? {

@@ -36,15 +36,16 @@ Pod::Spec.new do |s|
   # 模块1
   s.subspec 'Extension' do |sp|
     sp.source_files = 'YSTools-Swift/Classes/Extension/**/*'
+    sp.dependency 'SDWebImage', '~> 5.0'
   end
   # 子模块
   s.subspec 'Create' do |sp|
       sp.source_files = 'YSTools-Swift/Classes/Create/**/*'
       sp.dependency 'YSTools-Swift/Extension'
+      sp.dependency 'SDWebImage', '~> 5.0'
   end 
-  s.subspec 'Tools' do |sp|
-      sp.source_files = 'YSTools-Swift/Classes/Tools/**/*'
-      sp.dependency 'YSTools-Swift/Extension'
+  s.subspec 'Utils' do |sp|
+      sp.source_files = 'YSTools-Swift/Classes/Utils/**/*'
   end 
   # s.resource_bundles = {
   #   'YSTools-Swift' => ['YSTools-Swift/Assets/*']
@@ -52,5 +53,5 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'YSTools-Swift/Classes/**/*.h'
   s.frameworks = 'UIKit', 'Foundation'
-  s.dependency 'SDWebImage', '~> 5.0'
+  
 end

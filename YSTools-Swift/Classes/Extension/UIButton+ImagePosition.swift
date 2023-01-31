@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIButton {
+public extension UIButton {
     public enum ImagePositionType: Int{
         case left
         case right
@@ -17,7 +17,7 @@ extension UIButton {
     }
 }
 
-extension UIButton {
+public extension UIButton {
     
     @discardableResult
     public func ys_setImagePosition(_ position: ImagePositionType, withMargin margin: CGFloat) -> Self {

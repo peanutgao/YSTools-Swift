@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension String {
+public extension String {
     
     public func boundingRect(with constrainedSize: CGSize, font: UIFont, lineSpacing: CGFloat? = nil) -> CGSize {
         let attritube = NSMutableAttributedString(string: self)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIView {
+public extension UIView {
     @discardableResult
     public func ys_roundCorners(corners: UIRectCorner, radius: CGFloat) -> Self {
         let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))

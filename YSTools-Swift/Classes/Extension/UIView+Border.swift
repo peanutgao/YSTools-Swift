@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIView {
+public extension UIView {
     
     @discardableResult
     public func ys_addBorders(edges: UIRectEdge,

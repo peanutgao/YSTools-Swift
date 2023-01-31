@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension CALayer {
+public extension CALayer {
     
     public func applySketchShadow(color: UIColor = .black,
                                   alpha: Float = 0.5,
