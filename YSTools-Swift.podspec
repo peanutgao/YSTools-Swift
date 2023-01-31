@@ -42,7 +42,7 @@ Pod::Spec.new do |s|
   s.subspec 'Create' do |sp|
       sp.source_files = 'YSTools-Swift/Classes/Create/**/*'
       sp.dependency 'YSTools-Swift/Extension'
-      sp.dependency 'SDWebImage', '~> 5.0'
+      sp.dependency 'SDWebImage'
   end 
   s.subspec 'Utils' do |sp|
       sp.source_files = 'YSTools-Swift/Classes/Utils/**/*'
