@@ -8,7 +8,7 @@
 
 import UIKit
 
-public extension UIColor {
+extension UIColor {
     public var hexString:String? {
         if let components = self.cgColor.components {
             let r = components[0]
@@ -20,7 +20,7 @@ public extension UIColor {
     }
 }
 
-public extension String {
+extension String {
     public var html2Attributed: NSAttributedString? {
         do {
             guard let data = data(using: String.Encoding.utf8) else {

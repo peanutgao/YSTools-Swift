@@ -12,7 +12,7 @@ public protocol UIControlCreateProtocol {
     
 }
 
-public extension UIControlCreateProtocol where Self: UIControl {
+extension UIControlCreateProtocol where Self: UIControl {
     
     @discardableResult
     public func ys_isEnable(_ isEnabled: Bool) -> Self {

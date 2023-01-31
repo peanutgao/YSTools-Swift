@@ -8,7 +8,8 @@
 
 import UIKit
 
-public extension UIViewController {
+extension UIViewController {
+    
     // Get ViewController in top present level
     public var topPresentedViewController: UIViewController? {
         var target: UIViewController? = self

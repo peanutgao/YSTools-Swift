@@ -9,7 +9,7 @@
 import UIKit
 import SDWebImage
 
-public extension UIImageView {
+extension UIImageView {
     
     public convenience init(imageName: String?) {
         self.init()

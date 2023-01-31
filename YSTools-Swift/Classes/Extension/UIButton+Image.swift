@@ -14,7 +14,8 @@ public protocol UIButtonBuildWithSDWebImageProtocol {
 }
 
 
-public extension UIButtonBuildWithSDWebImageProtocol where Self: UIButton {
+extension UIButtonBuildWithSDWebImageProtocol where Self: UIButton {
+    
     // MARK: - SDWebImage
     @discardableResult
     public func ys_setImage(withUrlStr urlStr: String?, for state: UIControl.State, placeholder: String?) -> Self {

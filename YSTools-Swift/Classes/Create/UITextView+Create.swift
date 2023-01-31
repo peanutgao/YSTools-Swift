@@ -13,7 +13,8 @@ public protocol UITextViewCreateProtocol {
     
 }
 
-public extension UITextViewCreateProtocol where Self: UITextView {
+extension UITextViewCreateProtocol where Self: UITextView {
+    
     @discardableResult
     public func ys_text(_ text: String?) -> Self {
         self.text = text

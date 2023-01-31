@@ -12,7 +12,8 @@ public protocol UIScrollViewCreateProtocol {
     
 }
 
-public extension UIScrollViewCreateProtocol where Self: UIScrollView {
+extension UIScrollViewCreateProtocol where Self: UIScrollView {
+    
     @discardableResult
     public func ys_delegate(_ delegate: UIScrollViewDelegate) -> Self {
         self.delegate = delegate

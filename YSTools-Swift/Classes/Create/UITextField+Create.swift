@@ -12,7 +12,7 @@ public protocol UITextFieldCreateProtocol {
     
 }
 
-public extension UITextFieldCreateProtocol where Self: UITextField {
+extension UITextFieldCreateProtocol where Self: UITextField {
     
     @discardableResult
     public func ys_text(_ text: String?) -> Self {

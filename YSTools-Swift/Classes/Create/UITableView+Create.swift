@@ -12,7 +12,8 @@ public protocol UITableViewCreateProtocol {
     
 }
 
-public extension UITableViewCreateProtocol where Self: UITableView {
+extension UITableViewCreateProtocol where Self: UITableView {
+    
     @discardableResult
     public func ys_dataSource(_ dataSource: UITableViewDataSource) -> Self {
         self.dataSource = dataSource

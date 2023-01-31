@@ -8,7 +8,7 @@
 
 import UIKit
 
-public extension UIView {
+extension UIView {
     
     public var x: CGFloat {
         get {

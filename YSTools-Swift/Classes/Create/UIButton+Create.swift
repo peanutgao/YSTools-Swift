@@ -13,7 +13,7 @@ public protocol UIButtonCreateProtocol {
 }
 
 
-public extension UIButtonCreateProtocol where Self: UIButton {
+extension UIButtonCreateProtocol where Self: UIButton {
     
     @discardableResult
     public func ys_adjustsImageWhenHighlighted(b: Bool) -> Self {

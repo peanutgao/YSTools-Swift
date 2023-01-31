@@ -12,7 +12,7 @@ public protocol UISwitchCreateProtocol {
     
 }
 
-public extension UISwitchCreateProtocol where Self: UISwitch  {
+extension UISwitchCreateProtocol where Self: UISwitch  {
     
     @discardableResult
     public func ys_onTintColor(_ color: UIColor?) -> Self {

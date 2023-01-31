@@ -12,7 +12,8 @@ public protocol UICollectionViewCreateProtocol {
 
 }
 
-public extension UICollectionViewCreateProtocol where Self: UICollectionView {
+extension UICollectionViewCreateProtocol where Self: UICollectionView {
+    
     @discardableResult
     public func ys_delegate(_ delegate: UICollectionViewDelegate) -> Self {
         self.delegate = delegate

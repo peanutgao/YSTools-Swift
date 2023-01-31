@@ -12,7 +12,8 @@ import UIKit
     
 }
 
-public extension UITextViewPlaceholderProtocol where Self: UITextView {
+extension UITextViewPlaceholderProtocol where Self: UITextView {
+    
     @discardableResult
     public func ys_placeholder(_ placeholder: String?) -> Self {
         self.placeholder = placeholder

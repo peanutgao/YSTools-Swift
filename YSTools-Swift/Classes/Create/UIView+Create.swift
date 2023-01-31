@@ -12,7 +12,8 @@ public protocol UIViewCreateProtocol {
     
 }
 
-public extension UIViewCreateProtocol where Self: UIView {
+extension UIViewCreateProtocol where Self: UIView {
+    
     @discardableResult
     public func ys_inView(_ inView: UIView?) -> Self {
         if let v = inView {

@@ -12,7 +12,8 @@ public protocol UILabelCreateProtocol {
     
 }
 
-public extension UILabelCreateProtocol where Self: UILabel {
+extension UILabelCreateProtocol where Self: UILabel {
+    
     @discardableResult
     public func ys_text(_ text: String?) -> Self {
         self.text = text

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public extension String {
+extension String {
     subscript(_ i: Int) -> String {
         let idx1 = index(startIndex, offsetBy: i)
         let idx2 = index(idx1, offsetBy: 1)

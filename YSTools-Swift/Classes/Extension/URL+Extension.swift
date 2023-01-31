@@ -8,7 +8,7 @@
 
 import UIKit
 
-public extension URL {
+extension URL {
     
     public static func urlString(_ urlString: String?) -> URL? {
         guard let urlString = urlString else { return nil }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public extension UISearchBar {
+extension UISearchBar {
     
     public func getTextField() -> UITextField? { return value(forKey: "searchField") as? UITextField }
     
@@ -17,7 +17,8 @@ public extension UISearchBar {
     }
 }
 
-public extension UITextField {
+
+extension UITextField {
     
 //    var clearButton: UIButton? {
 //        return value(forKey: "clearButton") as? UIButton

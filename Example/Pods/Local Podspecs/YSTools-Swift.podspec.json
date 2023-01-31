@@ -28,7 +28,12 @@
   "subspecs": [
     {
       "name": "Extension",
-      "source_files": "YSTools-Swift/Classes/Extension/**/*"
+      "source_files": "YSTools-Swift/Classes/Extension/**/*",
+      "dependencies": {
+        "SDWebImage": [
+          "~> 5.0"
+        ]
+      }
     },
     {
       "name": "Create",
@@ -43,13 +48,8 @@
       }
     },
     {
-      "name": "Tools",
-      "source_files": "YSTools-Swift/Classes/Tools/**/*",
-      "dependencies": {
-        "YSTools-Swift/Extension": [
-
-        ]
-      }
+      "name": "Utils",
+      "source_files": "YSTools-Swift/Classes/Utils/**/*"
     }
   ],
   "swift_version": "5.0"

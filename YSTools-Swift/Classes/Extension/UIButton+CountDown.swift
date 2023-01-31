@@ -8,7 +8,7 @@
 
 import UIKit
 
-public extension UIButton {
+extension UIButton {
     
     public func startCountDown(limitTime: TimeInterval,
                                normalTitle: String?,

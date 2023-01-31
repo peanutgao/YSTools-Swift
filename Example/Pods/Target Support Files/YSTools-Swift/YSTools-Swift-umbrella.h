@@ -10,6 +10,10 @@
 #endif
 #endif
 
+#import "UITextView+PlaceHolder.h"
+#import "YSToolsSwift.h"
+#import "CompareVersion.h"
+#import "YSToolsUtils.h"
 
 FOUNDATION_EXPORT double YSTools_SwiftVersionNumber;
 FOUNDATION_EXPORT const unsigned char YSTools_SwiftVersionString[];

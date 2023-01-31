@@ -8,7 +8,8 @@
 
 import UIKit
 
-public extension UIColor {
+extension UIColor {
+    
     public private(set) class var random: UIColor {
         get {
             return UIColor(red: CGFloat.random(in: 0...1.0),

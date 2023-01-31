@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc public extension UIFont {
+@objc extension UIFont {
     
     @objc public class func pingFangFont(ofSize fontSize: CGFloat) -> UIFont {
         return UIFont(name: "PingFangSC-Regular", size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
