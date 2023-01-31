@@ -31,7 +31,7 @@ extension String {
                                                     .characterEncoding: String.Encoding.utf8.rawValue],
                                           documentAttributes: nil)
         } catch {
-            println("error: ", error)
+            print("error: ", error)
             return nil
         }
     }
@@ -50,7 +50,7 @@ extension String {
                                                      .characterEncoding: String.Encoding.utf8.rawValue],
                                            documentAttributes: &dict), dict)
         } catch {
-            println("error: ", error)
+            print("error: ", error)
             return (nil, nil)
         }
     }
@@ -74,7 +74,7 @@ extension String {
                                                     .characterEncoding: String.Encoding.utf8.rawValue],
                                           documentAttributes: nil)
         } catch {
-            println("error: ", error)
+            print("error: ", error)
             return nil
         }
     }
@@ -98,7 +98,7 @@ extension String {
                                                     .characterEncoding: String.Encoding.utf8.rawValue],
                                           documentAttributes: nil)
         } catch {
-            println("error: ", error)
+            print("error: ", error)
             return nil
         }
     }

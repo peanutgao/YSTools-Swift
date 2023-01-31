@@ -41,7 +41,6 @@ Pod::Spec.new do |s|
   s.subspec 'Create' do |sp|
       sp.source_files = 'YSTools-Swift/Classes/Create/**/*'
       sp.dependency 'YSTools-Swift/Extension'
-      sp.dependency 'SDWebImage', '~> 5.0'
   end 
   s.subspec 'Tools' do |sp|
       sp.source_files = 'YSTools-Swift/Classes/Tools/**/*'
@@ -53,5 +52,5 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'YSTools-Swift/Classes/**/*.h'
   s.frameworks = 'UIKit', 'Foundation'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency 'SDWebImage', '~> 5.0'
 end
