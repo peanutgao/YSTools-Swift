@@ -37,9 +37,14 @@ Pod::Spec.new do |s|
   s.subspec 'Extension' do |sp|
     sp.source_files = 'YSTools-Swift/Classes/Extension/**/*'
   end
-  # 可选的子模块
+  # 子模块
   s.subspec 'Create' do |sp|
       sp.source_files = 'YSTools-Swift/Classes/Create/**/*'
+      sp.dependency 'YSTools-Swift/Extension'
+      sp.dependency 'SDWebImage', '~> 5.0'
+  end 
+  s.subspec 'Tools' do |sp|
+      sp.source_files = 'YSTools-Swift/Classes/Tools/**/*'
       sp.dependency 'YSTools-Swift/Extension'
   end 
   # s.resource_bundles = {

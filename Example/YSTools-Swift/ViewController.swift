@@ -12,12 +12,16 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        aTextView.text = ""
+        aTextView.placeholder = "aaaa"
     }
 
+    @IBOutlet weak var aTextView: UITextView!
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+
     }
 
 }
