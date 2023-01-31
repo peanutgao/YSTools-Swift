@@ -1,8 +1,8 @@
 {
   "name": "YSTools-Swift",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "summary": "collection commom tools used in projects.",
-  "description": "collection commom tools used in projects.",
+  "description": "collection commom tools used in projects. private project.",
   "homepage": "https://github.com/peanutgao/YSTools-Swift",
   "license": {
     "type": "MIT",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/peanutgao/YSTools-Swift.git",
-    "tag": "0.1.1"
+    "tag": "0.1.2"
   },
   "platforms": {
     "ios": "13.0"
@@ -25,15 +25,15 @@
     "UIKit",
     "Foundation"
   ],
+  "dependencies": {
+    "SDWebImage": [
+      "~> 5.0.0"
+    ]
+  },
   "subspecs": [
     {
       "name": "Extension",
-      "source_files": "YSTools-Swift/Classes/Extension/**/*",
-      "dependencies": {
-        "SDWebImage": [
-          "~> 5.0"
-        ]
-      }
+      "source_files": "YSTools-Swift/Classes/Extension/**/*"
     },
     {
       "name": "Create",
@@ -41,9 +41,6 @@
       "dependencies": {
         "YSTools-Swift/Extension": [
 
-        ],
-        "SDWebImage": [
-          "~> 5.0"
         ]
       }
     },
