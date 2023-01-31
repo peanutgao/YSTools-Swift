@@ -21,12 +21,6 @@
   "swift_versions": [
     "5.0"
   ],
-  "source_files": "YSTools-Swift/Classes/**/*",
-  "resource_bundles": {
-    "YSTools-Swift": [
-      "YSTools-Swift/Assets/*"
-    ]
-  },
   "frameworks": [
     "UIKit",
     "Foundation"
@@ -34,21 +28,16 @@
   "subspecs": [
     {
       "name": "Extension",
-      "source_files": "Extension/**/*"
+      "source_files": "YSTools-Swift/Classes/Extension/**/*"
     },
     {
       "name": "Create",
-      "subspecs": [
-        {
-          "name": "Create",
-          "source_files": "Create/**/*",
-          "dependencies": {
-            "YSTools-Swift/Extension": [
+      "source_files": "YSTools-Swift/Classes/Create/**/*",
+      "dependencies": {
+        "YSTools-Swift/Extension": [
 
-            ]
-          }
-        }
-      ]
+        ]
+      }
     }
   ],
   "swift_version": "5.0"
