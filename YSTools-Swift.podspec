@@ -51,7 +51,7 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'YSTools-Swift/Classes/**/*.h'
   s.frameworks = 'UIKit', 'Foundation'
-  s.dependency 'SDWebImage', '~> 5.0.0'
+  s.dependency 'SDWebImage', '>= 5.0.0'
 
 
 end
