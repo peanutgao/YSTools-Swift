@@ -2,7 +2,7 @@
 
 import Quick
 import Nimble
-import YSTools-Swift
+import YSTools_Swift
 
 class TableOfContentsSpec: QuickSpec {
     override func spec() {

@@ -1,0 +1,6 @@
+framework module YSTools_Swift {
+  umbrella header "YSTools-Swift-umbrella.h"
+
+  export *
+  module * { export * }
+}

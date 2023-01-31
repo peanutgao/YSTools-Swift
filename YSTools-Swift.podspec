@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'YSTools-Swift'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of YSTools-Swift.'
+  s.summary          = 'collection commom tools used in projects.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+  collection commom tools used in projects.
                        DESC
 
   s.homepage         = 'https://github.com/peanutgao/YSTools-Swift'
@@ -29,14 +29,26 @@ TODO: Add long description of the pod here.
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '10.0'
+  s.swift_versions = ['5.0']
 
   s.source_files = 'YSTools-Swift/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'YSTools-Swift' => ['YSTools-Swift/Assets/*.png']
-  # }
+    # 核心模块
+    s.subspec 'Extension' do |sp|
+    sp.source_files = 'YSTools-Swift/Classes/Extension/**/*.{swift, h}'
+  end
+  # 可选的子模块
+  s.subspec 'Create' do |sp|
+      # Create
+      sp.subspec 'Create' do |ssp|
+          ssp.source_files = 'YSTools-Swift/Create/**/*.{swift, h}'
+          ssp.dependency 'YSTools-Swift/Extension'
+      end
+  end 
+  s.resource_bundles = {
+    'YSTools-Swift' => ['YSTools-Swift/Assets/*']
+  }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
+  # s.public_header_files = 'YSTools-Swift/Classes/**/*.h'
+  s.frameworks = 'UIKit', 'Foundation'
   # s.dependency 'AFNetworking', '~> 2.3'
 end
