@@ -34,14 +34,14 @@
   "subspecs": [
     {
       "name": "Extension",
-      "source_files": "YSTools-Swift/Classes/Extension/**/*.{swift, h}"
+      "source_files": "Extension/**/*"
     },
     {
       "name": "Create",
       "subspecs": [
         {
           "name": "Create",
-          "source_files": "YSTools-Swift/Create/**/*.{swift, h}",
+          "source_files": "Create/**/*",
           "dependencies": {
             "YSTools-Swift/Extension": [
 

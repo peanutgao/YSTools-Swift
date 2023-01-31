@@ -31,22 +31,20 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '10.0'
   s.swift_versions = ['5.0']
 
-  s.source_files = 'YSTools-Swift/Classes/**/*'
-    # 核心模块
-    s.subspec 'Extension' do |sp|
-    sp.source_files = 'YSTools-Swift/Classes/Extension/**/*.{swift, h}'
+  # s.source_files = 'YSTools-Swift/Classes/**/*'
+    
+  # 模块1
+  s.subspec 'Extension' do |sp|
+    sp.source_files = 'YSTools-Swift/Classes/Extension/**/*'
   end
   # 可选的子模块
   s.subspec 'Create' do |sp|
-      # Create
-      sp.subspec 'Create' do |ssp|
-          ssp.source_files = 'YSTools-Swift/Create/**/*.{swift, h}'
-          ssp.dependency 'YSTools-Swift/Extension'
-      end
+      sp.source_files = 'YSTools-Swift/Classes/Create/**/*'
+      sp.dependency 'YSTools-Swift/Extension'
   end 
-  s.resource_bundles = {
-    'YSTools-Swift' => ['YSTools-Swift/Assets/*']
-  }
+  # s.resource_bundles = {
+  #   'YSTools-Swift' => ['YSTools-Swift/Assets/*']
+  # }
 
   # s.public_header_files = 'YSTools-Swift/Classes/**/*.h'
   s.frameworks = 'UIKit', 'Foundation'
