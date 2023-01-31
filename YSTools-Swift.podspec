@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'YSTools-Swift'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'collection commom tools used in projects.'
 
 # This description is used to generate tags and improve search results.
@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/peanutgao/YSTools-Swift.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '13.0'
   s.swift_versions = ['5.0']
 
   # s.source_files = 'YSTools-Swift/Classes/**/*'
