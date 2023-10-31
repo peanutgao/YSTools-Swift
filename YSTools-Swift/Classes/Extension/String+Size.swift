@@ -1,6 +1,6 @@
 //
 //  String+Size.swift
-//  TCDoctor
+//  YSTools-Swift
 //
 //  Created by Joseph Koh on 2019/5/16.
 //  Copyright © 2019 Joseph Koh. All rights reserved.
@@ -20,7 +20,10 @@ extension String {
             attritube.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
         }
         
-        let rect = attritube.boundingRect(with: constrainedSize, options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
+        let rect = attritube.boundingRect(
+            with: constrainedSize,
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            context: nil)
         var size = rect.size
         
         if let currentLineSpacing = lineSpacing {
@@ -34,7 +37,11 @@ extension String {
         return size
     }
     
-    public func boundingRect(with constrainedSize: CGSize, font: UIFont, lineSpacing: CGFloat? = nil, lines: Int) -> CGSize {
+    public func boundingRect(
+        with constrainedSize: CGSize,
+        font: UIFont, lineSpacing: CGFloat? = nil,
+        lines: Int
+    ) -> CGSize {
         if lines < 0 {
             return .zero
         }

@@ -1,6 +1,6 @@
 //
 //  DebugPrint.swift
-//  SCDoctor
+//  YSTools-Swift
 //
 //  Created by Joseph Koh on 2019/6/11.
 //  Copyright © 2019 Joseph Koh. All rights reserved.

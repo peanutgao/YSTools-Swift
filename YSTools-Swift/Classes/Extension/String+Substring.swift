@@ -1,6 +1,6 @@
 //
 //  String+Substring.swift
-//  SCDoctor
+//  YSTools-Swift
 //
 //  Created by Joseph Koh on 2019/7/17.
 //  Copyright © 2019 Joseph Koh. All rights reserved.

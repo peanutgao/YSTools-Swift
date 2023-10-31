@@ -1,6 +1,6 @@
 //
 //  QRCodeUtil.swift
-//  SCDoctor
+//  YSTools-Swift
 //
 //  Created by Joseph Koh on 2019/7/4.
 //  Copyright © 2019 Joseph Koh. All rights reserved.

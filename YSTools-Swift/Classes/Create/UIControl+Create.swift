@@ -1,6 +1,6 @@
 //
 //  UIControl+Create.swift
-//  SCDoctor
+//  YSTools-Swift
 //
 //  Created by Joseph Koh on 2019/7/31.
 //  Copyright © 2019 Joseph Koh. All rights reserved.

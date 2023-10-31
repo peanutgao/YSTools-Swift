@@ -1,6 +1,6 @@
 //
 //  CompareVersion.h
-//  SCDoctor
+//  YSTools-Swift
 //
 //  Created by Joseph Koh on 2019/8/30.
 //  Copyright © 2019 Joseph Koh. All rights reserved.

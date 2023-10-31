@@ -1,51 +1,25 @@
 PODS:
-  - FBSnapshotTestCase (2.1.4):
-    - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
-  - FBSnapshotTestCase/Core (2.1.4)
-  - FBSnapshotTestCase/SwiftSupport (2.1.4):
-    - FBSnapshotTestCase/Core
-  - iOSSnapshotTestCase (8.0.0):
-    - iOSSnapshotTestCase/SwiftSupport (= 8.0.0)
-  - iOSSnapshotTestCase/Core (8.0.0)
-  - iOSSnapshotTestCase/SwiftSupport (8.0.0):
-    - iOSSnapshotTestCase/Core
-  - Nimble (10.0.0)
-  - Nimble-Snapshots (9.4.0):
-    - Nimble-Snapshots/Core (= 9.4.0)
-  - Nimble-Snapshots/Core (9.4.0):
-    - iOSSnapshotTestCase (~> 8.0)
-    - Nimble
-  - Quick (2.2.1)
-  - SDWebImage (5.0.6):
-    - SDWebImage/Core (= 5.0.6)
-  - SDWebImage/Core (5.0.6)
-  - YSTools-Swift (0.1.2):
-    - SDWebImage (~> 5.0.0)
-    - YSTools-Swift/Create (= 0.1.2)
-    - YSTools-Swift/Extension (= 0.1.2)
-    - YSTools-Swift/Utils (= 0.1.2)
-  - YSTools-Swift/Create (0.1.2):
-    - SDWebImage (~> 5.0.0)
+  - SDWebImage (5.18.3):
+    - SDWebImage/Core (= 5.18.3)
+  - SDWebImage/Core (5.18.3)
+  - YSTools-Swift (0.1.3):
+    - SDWebImage (>= 5.0.0)
+    - YSTools-Swift/Create (= 0.1.3)
+    - YSTools-Swift/Extension (= 0.1.3)
+    - YSTools-Swift/Utils (= 0.1.3)
+  - YSTools-Swift/Create (0.1.3):
+    - SDWebImage (>= 5.0.0)
     - YSTools-Swift/Extension
-  - YSTools-Swift/Extension (0.1.2):
-    - SDWebImage (~> 5.0.0)
-  - YSTools-Swift/Utils (0.1.2):
-    - SDWebImage (~> 5.0.0)
+  - YSTools-Swift/Extension (0.1.3):
+    - SDWebImage (>= 5.0.0)
+  - YSTools-Swift/Utils (0.1.3):
+    - SDWebImage (>= 5.0.0)
 
 DEPENDENCIES:
-  - FBSnapshotTestCase (~> 2.1.4)
-  - Nimble (~> 10.0.0)
-  - Nimble-Snapshots (~> 9.4.0)
-  - Quick (~> 2.2.0)
   - YSTools-Swift (from `../`)
 
 SPEC REPOS:
   trunk:
-    - FBSnapshotTestCase
-    - iOSSnapshotTestCase
-    - Nimble
-    - Nimble-Snapshots
-    - Quick
     - SDWebImage
 
 EXTERNAL SOURCES:
@@ -53,14 +27,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
-  iOSSnapshotTestCase: a670511f9ee3829c2b9c23e6e68f315fd7b6790f
-  Nimble: 5316ef81a170ce87baf72dd961f22f89a602ff84
-  Nimble-Snapshots: ef281b908c604f78c8313587e25ea92c8ab513d7
-  Quick: f5754d69b7013f5864c29aab9ae6f0c79c5bc200
-  SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
-  YSTools-Swift: 8929e7334b5820813819f1bcdd913c4306ad9b72
+  SDWebImage: 96e0c18ef14010b7485210e92fac888587ebb958
+  YSTools-Swift: 295938557a2bd21030aa5597d47a7265be45cf91
 
-PODFILE CHECKSUM: 3d09589f181242d16e1f60b52d10eedb3771ed6d
+PODFILE CHECKSUM: fa4adc8162353544cdd1a19cdfb0818d849b3783
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.14.2

@@ -1,6 +1,6 @@
 //
 //  UISwitch+Create.swift
-//  SCDoctor
+//  YSTools-Swift
 //
 //  Created by Joseph Koh on 2019/8/8.
 //  Copyright © 2019 Joseph Koh. All rights reserved.

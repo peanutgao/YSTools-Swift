@@ -1,6 +1,6 @@
 //
 //  URL+Extension.swift
-//  JDoctor
+//  YSTools-Swift
 //
 //  Created by Joseph Koh on 2020/7/2.
 //  Copyright © 2020 Joseph Koh. All rights reserved.

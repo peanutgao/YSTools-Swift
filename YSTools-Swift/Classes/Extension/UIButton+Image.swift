@@ -1,6 +1,6 @@
 //
 //  UIButton+Image.swift
-//  SCDoctor
+//  YSTools-Swift
 //
 //  Created by Joseph Koh on 2022/2/21.
 //  Copyright © 2022 Joseph Koh. All rights reserved.

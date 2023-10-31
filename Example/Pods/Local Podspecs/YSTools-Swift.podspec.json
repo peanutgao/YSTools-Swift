@@ -1,6 +1,6 @@
 {
   "name": "YSTools-Swift",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "summary": "collection commom tools used in projects.",
   "description": "collection commom tools used in projects. private project.",
   "homepage": "https://github.com/peanutgao/YSTools-Swift",
@@ -13,10 +13,10 @@
   },
   "source": {
     "git": "https://github.com/peanutgao/YSTools-Swift.git",
-    "tag": "0.1.2"
+    "tag": "0.1.3"
   },
   "platforms": {
-    "ios": "13.0"
+    "ios": "12.0"
   },
   "swift_versions": [
     "5.0"
@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "SDWebImage": [
-      "~> 5.0.0"
+      ">= 5.0.0"
     ]
   },
   "subspecs": [

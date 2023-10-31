@@ -1,6 +1,6 @@
 //
 //  Array+Extension.swift
-//  SCDoctor
+//  YSTools-Swift
 //
 //  Created by Joseph Koh on 2019/9/23.
 //  Copyright © 2019 Joseph Koh. All rights reserved.

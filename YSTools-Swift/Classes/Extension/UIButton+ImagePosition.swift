@@ -1,6 +1,6 @@
 //
 //  UIButton+ImagePosition.swift
-//  TCDoctor
+//  YSTools-Swift
 //
 //  Created by Joseph Koh on 2019/5/9.
 //  Copyright © 2019 Joseph Koh. All rights reserved.
@@ -63,8 +63,6 @@ extension UIButton {
         }
         return self
     }
-    
-
 }
 
 fileprivate extension UIButton {

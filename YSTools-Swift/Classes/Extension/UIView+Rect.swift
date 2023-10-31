@@ -1,6 +1,6 @@
 //
 //  UIView+Rect.swift
-//  TCDoctor
+//  UIImage(data: data)
 //
 //  Created by Joseph Koh on 2019/4/29.
 //  Copyright © 2019 Joseph Koh. All rights reserved.
