@@ -8,89 +8,96 @@
 
 import UIKit
 
-public protocol UITableViewCreateProtocol {
-    
-}
+// MARK: - UITableViewCreateProtocol
 
-extension UITableViewCreateProtocol where Self: UITableView {
-    
+public protocol UITableViewCreateProtocol {}
+
+public extension UITableViewCreateProtocol where Self: UITableView {
     @discardableResult
-    public func ys_dataSource(_ dataSource: UITableViewDataSource) -> Self {
+    func ys_dataSource(_ dataSource: UITableViewDataSource) -> Self {
         self.dataSource = dataSource
         return self
     }
     
     @discardableResult
-    public func ys_delegate(_ delegate: UITableViewDelegate) -> Self {
+    func ys_delegate(_ delegate: UITableViewDelegate) -> Self {
         self.delegate = delegate
         return self
     }
     
     @discardableResult
-    public func ys_separatorStyle(_ style: UITableViewCell.SeparatorStyle) -> Self {
+    func ys_separatorStyle(_ style: UITableViewCell.SeparatorStyle) -> Self {
         self.separatorStyle = style
         return self
     }
     
     @discardableResult
-    public func ys_register(_ cellClass: AnyClass, forCellReuseIdentifier identifier: String) -> Self {
+    func ys_contentInset(_ inset: UIEdgeInsets) -> Self {
+        self.contentInset = inset
+        return self
+    }
+    
+    @discardableResult
+    func ys_register(_ cellClass: AnyClass, forCellReuseIdentifier identifier: String) -> Self {
         self.register(cellClass, forCellReuseIdentifier: identifier)
         return self
     }
     
     @discardableResult
-    public func ys_sectionIndexColor(_ color: UIColor) -> Self {
+    func ys_sectionIndexColor(_ color: UIColor) -> Self {
         self.sectionIndexColor = color
         return self
     }
     
     @discardableResult
-    public func ys_sectionIndexBackgroundColor(_ color: UIColor) -> Self {
+    func ys_sectionIndexBackgroundColor(_ color: UIColor) -> Self {
         self.sectionIndexBackgroundColor = color
         return self
     }
     
     @discardableResult
-    public func ys_sectionFooterHeight(_ height: CGFloat) -> Self {
+    func ys_sectionFooterHeight(_ height: CGFloat) -> Self {
         self.sectionFooterHeight = height
         return self
     }
     
     @discardableResult
-    public func ys_rowHeight(_ rowHeight: CGFloat) -> Self {
+    func ys_rowHeight(_ rowHeight: CGFloat) -> Self {
         self.rowHeight = rowHeight
         return self
     }
     
     @discardableResult
-    public func ys_tableFooterView(_ view: UIView) -> Self {
+    func ys_tableFooterView(_ view: UIView) -> Self {
         self.tableFooterView = view
         return self
     }
     
     @discardableResult
-    public func ys_tableHeaderView(_ view: UIView) -> Self {
+    func ys_tableHeaderView(_ view: UIView) -> Self {
         self.tableHeaderView = view
         return self
     }
     
     @discardableResult
-    public func ys_estimatedRowHeight(_ height: CGFloat) -> Self {
+    func ys_estimatedRowHeight(_ height: CGFloat) -> Self {
         self.estimatedRowHeight = height
         return self
     }
     
     @discardableResult
-    public func ys_estimatedSectionHeaderHeight(_ height: CGFloat) -> Self {
+    func ys_estimatedSectionHeaderHeight(_ height: CGFloat) -> Self {
         self.estimatedSectionHeaderHeight = height
         return self
     }
     
+    @discardableResult
+    func ys_keyboardDismissMode(_ mode: UIScrollView.KeyboardDismissMode) -> Self {
+        self.keyboardDismissMode = mode
+        return self
+    }
 }
 
- extension UITableView: UITableViewCreateProtocol {
-   
-}
+// MARK: - UITableView + UITableViewCreateProtocol
 
-
-
+extension UITableView: UITableViewCreateProtocol {}

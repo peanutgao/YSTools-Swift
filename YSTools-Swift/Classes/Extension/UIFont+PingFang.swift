@@ -23,6 +23,14 @@ import UIKit
     }
 }
 
+/*
+ for fontfamilyname in UIFont.familyNames {
+     print("fontfamilyname: \(fontfamilyname))")
+     for fontname in UIFont.fontNames(forFamilyName: fontfamilyname) {
+         print("fontname: \(fontname))")
+     }
+ }
+ */
 
 
 /*

@@ -8,14 +8,23 @@
 
 import UIKit
 
-extension UIView {
-    
+public extension UIView {
     @discardableResult
-    public func ys_roundCorners(corners: UIRectCorner, radius: CGFloat) -> Self {
-        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        self.layer.mask = mask
+    func roundCorners(corners: UIRectCorner, radius: CGFloat) -> Self {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = path.cgPath
+        layer.mask = maskLayer
+        return self
+    }
+
+    @discardableResult
+    func addShadow(offset: CGSize, color: UIColor, radius: CGFloat, opacity: Float) -> Self {
+        layer.masksToBounds = false
+        layer.shadowOffset = offset
+        layer.shadowColor = color.cgColor
+        layer.shadowRadius = radius
+        layer.shadowOpacity = opacity
         return self
     }
 }

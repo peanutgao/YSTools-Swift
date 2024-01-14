@@ -8,49 +8,62 @@
 
 import UIKit
 
-// MARK: - UI
-public struct MainScreen {
-    
+// MARK: - MainScreen
+
+public enum MainScreen {
     public struct SaveArea {
-        public static var top: CGFloat {
+        public var top: CGFloat {
             get {
                 if #available(iOS 13.0, *) {
-                      let scene = UIApplication.shared.connectedScenes.first
-                      guard let windowScene = scene as? UIWindowScene else { return 0 }
-                      guard let window = windowScene.windows.first else { return 0 }
-                      return window.safeAreaInsets.top
-                  } else {
-                      guard let window = UIApplication.shared.windows.first else { return 0 }
-                      return window.safeAreaInsets.top
-                  }
+                    let scene = UIApplication.shared.connectedScenes.first
+                    guard let windowScene = scene as? UIWindowScene else {
+                        return 0
+                    }
+                    guard let window = windowScene.windows.first else {
+                        return 0
+                    }
+                    return window.safeAreaInsets.top
+                } else {
+                    guard let window = UIApplication.shared.windows.first else {
+                        return 0
+                    }
+                    return window.safeAreaInsets.top
+                }
             }
             set {}
         }
-        
-        public static var bottom: CGFloat {
+
+        public var bottom: CGFloat {
             get {
                 if #available(iOS 13.0, *) {
-                     let scene = UIApplication.shared.connectedScenes.first
-                     guard let windowScene = scene as? UIWindowScene else { return 0 }
-                     guard let window = windowScene.windows.first else { return 0 }
-                     return window.safeAreaInsets.bottom
-                 } else {
-                     guard let window = UIApplication.shared.windows.first else { return 0 }
-                     return window.safeAreaInsets.bottom
-                 }
+                    let scene = UIApplication.shared.connectedScenes.first
+                    guard let windowScene = scene as? UIWindowScene else {
+                        return 0
+                    }
+                    guard let window = windowScene.windows.first else {
+                        return 0
+                    }
+                    return window.safeAreaInsets.bottom
+                } else {
+                    guard let window = UIApplication.shared.windows.first else {
+                        return 0
+                    }
+                    return window.safeAreaInsets.bottom
+                }
             }
             set {}
         }
     }
-    
+
+    public static let saveArea = SaveArea()
     public static let keyWindow = {
         var window: UIWindow?
         if #available(iOS 13.0, *) {
-            window =  UIApplication.shared.connectedScenes
-                .filter({$0.activationState == .foregroundActive})
-                .compactMap({$0 as? UIWindowScene})
+            window = UIApplication.shared.connectedScenes
+                .filter { $0.activationState == .foregroundActive }
+                .compactMap { $0 as? UIWindowScene }
                 .first?.windows
-                .filter({$0.isKeyWindow}).first
+                .filter(\.isKeyWindow).first
         } else {
             window = UIApplication.shared.keyWindow!
         }
@@ -60,18 +73,23 @@ public struct MainScreen {
     public static var statusBarHeight: CGFloat {
         get {
             var statusBarHeight: CGFloat = 0
-              if #available(iOS 13.0, *) {
-                  let scene = UIApplication.shared.connectedScenes.first
-                  guard let windowScene = scene as? UIWindowScene else { return 0 }
-                  guard let statusBarManager = windowScene.statusBarManager else { return 0 }
-                  statusBarHeight = statusBarManager.statusBarFrame.height
-              } else {
-                  statusBarHeight = UIApplication.shared.statusBarFrame.height
-              }
-              return statusBarHeight
+            if #available(iOS 13.0, *) {
+                let scene = UIApplication.shared.connectedScenes.first
+                guard let windowScene = scene as? UIWindowScene else {
+                    return 0
+                }
+                guard let statusBarManager = windowScene.statusBarManager else {
+                    return 0
+                }
+                statusBarHeight = statusBarManager.statusBarFrame.height
+            } else {
+                statusBarHeight = UIApplication.shared.statusBarFrame.height
+            }
+            return statusBarHeight
         }
         set {}
     }
+
     public static let navigationBarHeight: CGFloat = 44.0
     /// tatusBar height + top SaveArea + navigation bar height
     public static var navigationMaxY: CGFloat {
@@ -80,27 +98,28 @@ public struct MainScreen {
         }
         set {}
     }
-    
+
     public static let tabBarHeight: CGFloat = 49.0
     public static var tabBarHeightWithSaveArea: CGFloat {
         get {
-            statusBarHeight + SaveArea.bottom
+            tabBarHeight + saveArea.bottom
         }
         set {}
     }
-    
+
     public static let width = Double(UIScreen.main.bounds.size.width)
     public static let height = Double(UIScreen.main.bounds.size.height)
     public static let maxLength = Double(max(UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.height))
     public static let minLength = Double(min(UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.height))
 
     /// 屏幕长宽比
-    public static let aspectRatio = Double(UIScreen.main.bounds.size.height/UIScreen.main.bounds.size.width)
+    public static let aspectRatio = Double(UIScreen.main.bounds.size.height / UIScreen.main.bounds.size.width)
     ///
     public static let designScale = UIScreen.main.bounds.size.width / 375.0
 
     // MARK: - Device
-    //
+
+    ///
     public static var hasNotch: Bool {
         get {
             if #available(iOS 11.0, *) {
@@ -115,12 +134,12 @@ public struct MainScreen {
     }
 }
 
-// MARK: - Device
+// MARK: - DeviceType
 
-public struct DeviceType {
+public enum DeviceType {
     public static let is_iPhone = (UIDevice.current.userInterfaceIdiom == .phone)
     public static let is_iPad = (UIDevice.current.userInterfaceIdiom == .pad)
-    
+
     public static let is_iPhone_5 = (UIDevice.current.userInterfaceIdiom == .phone
         && max(UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.height) == 568.0)
     public static let is_iPhone_6_7_8 = (UIDevice.current.userInterfaceIdiom == .phone
@@ -135,9 +154,9 @@ public struct DeviceType {
         && max(UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.height) == 896.0)
 }
 
-// MARK: - App Info
+// MARK: - AppInfo
 
-public struct AppInfo {
+public enum AppInfo {
     public static let displayName = Bundle.main.infoDictionary?["CFBundleDisplayName"]
     public static let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
     public static let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"]

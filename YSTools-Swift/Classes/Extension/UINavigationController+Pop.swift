@@ -9,15 +9,20 @@
 import UIKit
 
 extension UINavigationController {
-    
     @discardableResult
-    public func popToViewController(_ viewController: UIViewController.Type, animated: Bool) -> [UIViewController]? {
-        for vc in self.children {
+    public func popToViewController(_ viewController: UIViewController.Type, animated _: Bool) -> [UIViewController]? {
+        for vc in children {
             if vc.isKind(of: viewController) == true {
                 return self.popToViewController(vc, animated: true)
             }
         }
-        
         return nil
+    }
+
+    public func removeViewControllers<T: UIViewController>(ofType _: T.Type) {
+        let updatedViewControllers = self.viewControllers.filter { viewController in
+            !(viewController is T)
+        }
+        self.setViewControllers(updatedViewControllers, animated: false)
     }
 }

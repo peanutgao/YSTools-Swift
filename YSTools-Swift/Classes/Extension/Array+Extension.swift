@@ -9,10 +9,12 @@
 import UIKit
 
 extension Array where Element: Equatable {
-    
+
     public func contains(array: [Element]) -> Bool {
         for item in array {
-            if !self.contains(item) { return false }
+            if !self.contains(item) {
+                return false
+            }
         }
         return true
     }

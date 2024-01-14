@@ -11,9 +11,9 @@ import UIKit
 extension UIButton {
     
     public func startCountDown(limitTime: TimeInterval,
-                               normalTitle: String?,
-                               waitingTitle: String?,
+                               resendTitle: String?,
                                waitingEnable: Bool = false,
+                               waitingTitleFormate: ((Int) -> String)?,
                                finishHandler: (() -> ())? = nil) {
         var timeOut = limitTime - 1
         
@@ -23,28 +23,37 @@ extension UIButton {
         let finishHandler = {
             timer.cancel()
             DispatchQueue.main.async { [weak self] in
-                self?.setTitle(normalTitle, for: .normal)
-                self?.isUserInteractionEnabled = true
-                self?.isEnabled = true
+                guard let self else {
+                    return
+                }
+                self.setTitle(resendTitle, for: .normal)
+                self.isUserInteractionEnabled = true
+                self.isEnabled = true
                 
                 finishHandler?()
             }
         }
         timer.setEventHandler { [weak self] in
+            guard let self else {
+                return
+            }
             guard timeOut >= 0 else {
-                finishHandler()
+                DispatchQueue.main.async { [weak self] in
+                    self?.setTitle(resendTitle, for: .disabled)
+                    finishHandler()
+                }
                 return
             }
             
             let seconds = Int(timeOut) % 60
             DispatchQueue.main.async { [weak self] in
-                self?.setTitle(" \(seconds)\(waitingTitle ?? "") ", for: .disabled)
+                let waitingTitle = waitingTitleFormate?(seconds + 1) ?? "\(seconds + 1)"
+                self?.setTitle(" \(waitingTitle) ", for: .disabled)
                 self?.isEnabled = false
                 self?.isUserInteractionEnabled = waitingEnable
             }
             
             timeOut -= 1
-            
         }
         
         timer.setCancelHandler {
