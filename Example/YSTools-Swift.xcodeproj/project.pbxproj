@@ -47,7 +47,7 @@
 		7F11AB3E6DFA90B510EFC3E3 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		93EA2BBDC183A27B916877F6 /* Pods_YSTools_Swift_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YSTools_Swift_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5A3C5497F80E88038906B03 /* Pods-YSTools-Swift_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YSTools-Swift_Tests.debug.xcconfig"; path = "Target Support Files/Pods-YSTools-Swift_Tests/Pods-YSTools-Swift_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		CDCE166FDAC565537869B682 /* YSTools-Swift.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "YSTools-Swift.podspec"; path = "../YSTools-Swift.podspec"; sourceTree = "<group>"; };
+		CDCE166FDAC565537869B682 /* YSTools-Swift.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "YSTools-Swift.podspec"; path = "../YSTools-Swift.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
