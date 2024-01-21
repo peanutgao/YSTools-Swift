@@ -38,3 +38,9 @@ extension String {
         }
     }
 }
+
+extension String {
+    public var isBlank: Bool {
+        return self.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+}
