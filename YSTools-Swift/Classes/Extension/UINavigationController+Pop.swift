@@ -8,9 +8,9 @@
 
 import UIKit
 
-extension UINavigationController {
+public extension UINavigationController {
     @discardableResult
-    public func popToViewController(_ viewController: UIViewController.Type, animated _: Bool) -> [UIViewController]? {
+    func popToViewController(_ viewController: UIViewController.Type, animated _: Bool) -> [UIViewController]? {
         for vc in children {
             if vc.isKind(of: viewController) == true {
                 return self.popToViewController(vc, animated: true)
@@ -19,7 +19,7 @@ extension UINavigationController {
         return nil
     }
 
-    public func removeViewControllers<T: UIViewController>(ofType _: T.Type) {
+    func removeViewControllers<T: UIViewController>(ofType _: T.Type) {
         let updatedViewControllers = self.viewControllers.filter { viewController in
             !(viewController is T)
         }

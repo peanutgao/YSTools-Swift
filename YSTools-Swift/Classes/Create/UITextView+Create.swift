@@ -8,40 +8,36 @@
 
 import UIKit
 
+// MARK: - UITextViewCreateProtocol
 
-public protocol UITextViewCreateProtocol {
-    
-}
+public protocol UITextViewCreateProtocol {}
 
-extension UITextViewCreateProtocol where Self: UITextView {
-    
+public extension UITextViewCreateProtocol where Self: UITextView {
     @discardableResult
-    public func ys_text(_ text: String?) -> Self {
+    func ys_text(_ text: String?) -> Self {
         self.text = text
         return self
     }
-    
+
     @discardableResult
-    public func ys_font(_ font: UIFont) -> Self {
+    func ys_font(_ font: UIFont) -> Self {
         self.font = font
         return self
     }
-    
+
     @discardableResult
-    public func ys_textColor(_ color: UIColor) -> Self {
+    func ys_textColor(_ color: UIColor) -> Self {
         self.textColor = color
         return self
     }
-    
+
     @discardableResult
-    public func ys_textAlignment(_ textAlignment: NSTextAlignment) -> Self {
+    func ys_textAlignment(_ textAlignment: NSTextAlignment) -> Self {
         self.textAlignment = textAlignment
         return self
     }
-
 }
 
-extension UITextView: UITextViewCreateProtocol {
+// MARK: - UITextView + UITextViewCreateProtocol
 
-
-}
+extension UITextView: UITextViewCreateProtocol {}

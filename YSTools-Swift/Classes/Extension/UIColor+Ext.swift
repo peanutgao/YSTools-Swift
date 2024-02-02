@@ -1,30 +1,41 @@
 //
 //  UIColor+Ext.swift
+//  YSTools-Swift
 //
-//  Created by Joseph Koh on 2023/10/18.
+//  Created by Joseph Koh on 2019/5/24.
+//  Copyright © 2019 Joseph Koh. All rights reserved.
 //
 
 import UIKit
 
-extension UIColor {
-    convenience init(hex: String, alpha: CGFloat = 1.0) {
-        var hexValue = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()
-
-        if hexValue.hasPrefix("#") {
-            hexValue.remove(at: hexValue.startIndex)
+public extension UIColor {
+    private(set) class var random: UIColor {
+        get {
+            UIColor(
+                red: CGFloat.random(in: 0 ... 1.0),
+                green: CGFloat.random(in: 0 ... 1.0),
+                blue: CGFloat.random(in: 0 ... 1.0),
+                alpha: 1.0
+            )
         }
-
-        var rgbValue: UInt64 = 0
-        Scanner(string: hexValue).scanHexInt64(&rgbValue)
-
-        let red = CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0
-        let green = CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0
-        let blue = CGFloat(rgbValue & 0x0000FF) / 255.0
-
-        self.init(red: red, green: green, blue: blue, alpha: alpha)
+        set {}
     }
 
-    convenience init(hexString: String) {
-        self.init(hex: hexString, alpha: 1.0)
+    convenience init(hex: String, alpha: CGFloat = 1.0) {
+        var hexFormatted: String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()
+
+        if hexFormatted.hasPrefix("#") {
+            hexFormatted = String(hexFormatted.dropFirst())
+        }
+
+        assert(hexFormatted.count == 6, "Invalid hex code used.")
+
+        var rgbValue: UInt64 = 0
+        Scanner(string: hexFormatted).scanHexInt64(&rgbValue)
+
+        self.init(red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+                  green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+                  blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+                  alpha: alpha)
     }
 }

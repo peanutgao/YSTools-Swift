@@ -8,9 +8,26 @@
 
 import UIKit
 
-extension String {
+public extension String {
+    func size(
+        font: UIFont,
+        size: CGSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+    ) -> CGSize {
+        self.size(attributes: [NSAttributedString.Key.font: font], size: size)
+    }
 
-    public func boundingRect(with constrainedSize: CGSize, font: UIFont, lineSpacing: CGFloat? = nil) -> CGSize {
+    func size(
+        attributes: [NSAttributedString.Key: Any]? = nil,
+        size: CGSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+    ) -> CGSize {
+        let size = self.boundingRect(with: size,
+                                     options: .usesLineFragmentOrigin,
+                                     attributes: attributes,
+                                     context: nil).size
+        return CGSize(width: ceil(Double(size.width)), height: ceil(Double(size.height)))
+    }
+
+    func boundingRect(with constrainedSize: CGSize, font: UIFont, lineSpacing: CGFloat? = nil) -> CGSize {
         let attritube = NSMutableAttributedString(string: self)
         let range = NSRange(location: 0, length: attritube.length)
         attritube.addAttributes([.font: font], range: range)
@@ -21,15 +38,16 @@ extension String {
         }
 
         let rect = attritube.boundingRect(
-                with: constrainedSize,
-                options: [.usesLineFragmentOrigin, .usesFontLeading],
-                context: nil)
+            with: constrainedSize,
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            context: nil
+        )
         var size = rect.size
 
         if let currentLineSpacing = lineSpacing {
             // 文本的高度减去字体高度小于等于行间距，判断为当前只有1行
             let spacing = size.height - font.lineHeight
-            if spacing <= currentLineSpacing && spacing > 0 {
+            if spacing <= currentLineSpacing, spacing > 0 {
                 size = CGSize(width: size.width, height: font.lineHeight)
             }
         }
@@ -37,10 +55,10 @@ extension String {
         return size
     }
 
-    public func boundingRect(
-            with constrainedSize: CGSize,
-            font: UIFont, lineSpacing: CGFloat? = nil,
-            lines: Int
+    func boundingRect(
+        with constrainedSize: CGSize,
+        font: UIFont, lineSpacing: CGFloat? = nil,
+        lines: Int
     ) -> CGSize {
         if lines < 0 {
             return .zero
@@ -60,7 +78,7 @@ extension String {
         return size
     }
 
-    public func isValidEmail() -> Bool {
+    func isValidEmail() -> Bool {
         let emailRegex = "^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$"
         let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
         return emailPredicate.evaluate(with: self)

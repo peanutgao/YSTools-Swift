@@ -12,7 +12,7 @@ import UIKit
 extension UITableView {
     /**
      *  Calculate the size of tableHeaderView
-        *  Usage:
+        *  Usage Example:
         1.  tableView.tableHeaderView = headerView
         2.  call sizeTableHeaderViewToFit() in viewDidLayoutSubviews
          override func viewDidLayoutSubviews() {

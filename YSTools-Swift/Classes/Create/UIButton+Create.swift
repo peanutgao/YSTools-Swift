@@ -8,118 +8,110 @@
 
 import UIKit
 
-public protocol UIButtonCreateProtocol {
+// MARK: - UIButtonCreateProtocol
 
-}
+public protocol UIButtonCreateProtocol {}
 
-
-extension UIButtonCreateProtocol where Self: UIButton {
-    
+public extension UIButtonCreateProtocol where Self: UIButton {
     @discardableResult
-    public func ys_adjustsImageWhenHighlighted(b: Bool) -> Self {
+    func ys_adjustsImageWhenHighlighted(b: Bool) -> Self {
         self.adjustsImageWhenHighlighted = b
         return self
     }
-    
+
     @discardableResult
-    public func ys_adjustsImageWhenDisabled(b: Bool) -> Self {
+    func ys_adjustsImageWhenDisabled(b: Bool) -> Self {
         self.adjustsImageWhenDisabled = b
         return self
     }
-    
-    
+
     @discardableResult
-    public func ys_setImage(imgName: String?, state: UIControl.State) -> Self {
+    func ys_setImage(imgName: String?, state: UIControl.State) -> Self {
         var img: UIImage? = nil
-        if let imgName = imgName {
+        if let imgName {
             img = UIImage(named: imgName)
         }
         self.setImage(img, for: state)
         return self
     }
-    
+
     @discardableResult
-    public func ys_setImage(img: UIImage?, state: UIControl.State) -> Self {
+    func ys_setImage(img: UIImage?, state: UIControl.State) -> Self {
         self.setImage(img, for: state)
         return self
     }
-    
+
     @discardableResult
-    public func ys_isSelected(_ isSelected: Bool) -> Self {
+    func ys_isSelected(_ isSelected: Bool) -> Self {
         self.isSelected = isSelected
         return self
     }
-    
-    
+
     @discardableResult
-    public func ys_setTitle(_ title: String?, state: UIControl.State) -> Self {
+    func ys_setTitle(_ title: String?, state: UIControl.State) -> Self {
         self.setTitle(title, for: state)
         return self
     }
-    
+
     @discardableResult
-    public func ys_setTitleFont(_ font: UIFont?) -> Self {
-        if let font = font { self.titleLabel?.font = font }
+    func ys_setTitleFont(_ font: UIFont?) -> Self {
+        if let font { self.titleLabel?.font = font }
         return self
     }
-    
+
     @discardableResult
-    public func ys_setTitleColor(_ color: UIColor?, state: UIControl.State) -> Self {
+    func ys_setTitleColor(_ color: UIColor?, state: UIControl.State) -> Self {
         self.setTitleColor(color, for: state)
         return self
     }
-    
+
     @discardableResult
-    public func ys_setBackgroundImage(imgName: String?, state: UIControl.State) -> Self {
-        if let imgName = imgName, let img = UIImage(named: imgName) {
+    func ys_setBackgroundImage(imgName: String?, state: UIControl.State) -> Self {
+        if let imgName, let img = UIImage(named: imgName) {
             self.setBackgroundImage(img, for: state)
         } else {
             self.setBackgroundImage(nil, for: state)
         }
         return self
     }
-    
+
     @discardableResult
-    public func ys_setBackgroundImage(img: UIImage?, state: UIControl.State) -> Self {
+    func ys_setBackgroundImage(img: UIImage?, state: UIControl.State) -> Self {
         self.setBackgroundImage(img, for: state)
         return self
     }
 
     @discardableResult
-    public func ys_setAttributedTitle(_ title: NSAttributedString?, for state: UIControl.State) -> Self {
+    func ys_setAttributedTitle(_ title: NSAttributedString?, for state: UIControl.State) -> Self {
         self.setAttributedTitle(title, for: state)
         return self
     }
-    
-    
+
     @discardableResult
-    public func ys_contentHorizontalAlignment(_ alignment: UIControl.ContentHorizontalAlignment) -> Self {
+    func ys_contentHorizontalAlignment(_ alignment: UIControl.ContentHorizontalAlignment) -> Self {
         self.contentHorizontalAlignment = alignment
         return self
     }
-    
+
     @discardableResult
-    public func ys_contentVerticalAlignment(_ alignment: UIControl.ContentVerticalAlignment) -> Self {
+    func ys_contentVerticalAlignment(_ alignment: UIControl.ContentVerticalAlignment) -> Self {
         self.contentVerticalAlignment = alignment
         return self
     }
-    
-    
+
     @discardableResult
-    public func ys_contentEdgeInsets(_ insets: UIEdgeInsets = .zero) -> Self {
+    func ys_contentEdgeInsets(_ insets: UIEdgeInsets = .zero) -> Self {
         self.contentEdgeInsets = insets
         return self
     }
-    
-    
-    
 }
 
+// MARK: - UIButton + UIButtonCreateProtocol
+
 extension UIButton: UIButtonCreateProtocol {
-    
-    public typealias ActionHandler = (UIButton) -> ()
-    
-    private struct EventKeys{
+    public typealias ActionHandler = (UIButton) -> Void
+
+    private enum EventKeys {
         static var touchDown = "touchDown"
         static var touchDownRepeat = "touchDownRepeat"
         static var touchDragInside = "touchDragInside"
@@ -141,32 +133,26 @@ extension UIButton: UIButtonCreateProtocol {
         static var systemReserved = "systemReserved"
         static var allEvents = "allEvents"
     }
-    
-    private struct AssociatedKeys {
+
+    private enum AssociatedKeys {
         static var kSelMapperKey = "kSelMapperKey"
     }
-    
-    
+
     private var __selMapper: [String: ActionHandler]? {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.kSelMapperKey) as? [String: ActionHandler]
+            objc_getAssociatedObject(self, &AssociatedKeys.kSelMapperKey) as? [String: ActionHandler]
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.kSelMapperKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-    
-   
 
-    
-    
     @discardableResult
     @objc public func ys_action(event: UIControl.Event, acton: ActionHandler?) -> Self {
         guard let action = acton else {
             return self
         }
-        
-        
+
         var sel: Selector?
         var key: String?
         switch event {
@@ -234,7 +220,7 @@ extension UIButton: UIButtonCreateProtocol {
         default:
             break
         }
-        if let sel = sel, let key = key {
+        if let sel, let key {
             self.addTarget(self, action: sel, for: event)
             if self.__selMapper == nil {
                 self.__selMapper = [String: ActionHandler]()
@@ -245,107 +231,123 @@ extension UIButton: UIButtonCreateProtocol {
         return self
     }
 
-    
-    @objc private func __ys_touchDownAction(btn: UIButton, event: UIControl.Event) {
+    @objc private func __ys_touchDownAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.touchDown] {
             action(self)
         }
     }
-    @objc private func __ys_touchDownRepeatAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_touchDownRepeatAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.touchDownRepeat] {
             action(self)
         }
     }
-    @objc private func __ys_touchDragInsideAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_touchDragInsideAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.touchDragInside] {
             action(self)
         }
     }
-    @objc private func __ys_touchDragOutsideAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_touchDragOutsideAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.touchDragOutside] {
             action(self)
         }
     }
-    @objc private func __ys_touchDragEnterAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_touchDragEnterAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.touchDragEnter] {
             action(self)
         }
     }
-    @objc private func __ys_touchDragExitAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_touchDragExitAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.touchDragExit] {
             action(self)
         }
     }
-    @objc private func __ys_touchUpInsideAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_touchUpInsideAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.touchUpInside] {
             action(self)
         }
     }
-    @objc private func __ys_touchUpOutsideAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_touchUpOutsideAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.touchUpOutside] {
             action(self)
         }
     }
-    @objc private func __ys_touchCancelAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_touchCancelAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.touchCancel] {
             action(self)
         }
     }
-    @objc private func __ys_valueChangedAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_valueChangedAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.valueChanged] {
             action(self)
         }
     }
-    @objc private func __ys_primaryActionTriggeredAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_primaryActionTriggeredAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.primaryActionTriggered] {
             action(self)
         }
     }
-    @objc private func __ys_editingDidBeginAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_editingDidBeginAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.editingDidBegin] {
             action(self)
         }
     }
-    @objc private func __ys_editingChangedAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_editingChangedAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.editingChanged] {
             action(self)
         }
     }
-    @objc private func __ys_editingDidEndAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_editingDidEndAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.editingDidEnd] {
             action(self)
         }
     }
-    @objc private func __ys_editingDidEndOnExitAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_editingDidEndOnExitAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.editingDidEndOnExit] {
             action(self)
         }
     }
-    @objc private func __ys_allTouchEventsAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_allTouchEventsAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.allTouchEvents] {
             action(self)
         }
     }
-    @objc private func __ys_allEditingEventsAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_allEditingEventsAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.allEditingEvents] {
             action(self)
         }
     }
-    @objc private func __ys_applicationReservedAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_applicationReservedAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.applicationReserved] {
             action(self)
         }
     }
-    @objc private func __ys_systemReservedAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_systemReservedAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.systemReserved] {
             action(self)
         }
     }
-    @objc private func __ys_allEventsAction(btn: UIButton, event: UIControl.Event) {
+
+    @objc private func __ys_allEventsAction(btn _: UIButton, event _: UIControl.Event) {
         if let map = self.__selMapper, let action = map[EventKeys.allEditingEvents] {
             action(self)
         }
     }
-    
-    
 }

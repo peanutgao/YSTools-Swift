@@ -8,19 +8,18 @@
 
 import UIKit
 
-@objc public protocol UITextViewPlaceholderProtocol {
-    
-}
+// MARK: - UITextViewPlaceholderProtocol
 
-extension UITextViewPlaceholderProtocol where Self: UITextView {
-    
+@objc public protocol UITextViewPlaceholderProtocol {}
+
+public extension UITextViewPlaceholderProtocol where Self: UITextView {
     @discardableResult
-    public func ys_placeholder(_ placeholder: String?) -> Self {
+    func ys_placeholder(_ placeholder: String?) -> Self {
         self.placeholder = placeholder
         return self
     }
 }
 
-extension UITextView: UITextViewPlaceholderProtocol {
-}
+// MARK: - UITextView + UITextViewPlaceholderProtocol
 
+extension UITextView: UITextViewPlaceholderProtocol {}

@@ -8,11 +8,9 @@
 
 import UIKit
 
-extension URL {
-    
-    public static func urlString(_ urlString: String?) -> URL? {
-        guard let urlString = urlString else { return nil }
-        return URL.init(string: urlString)
+public extension URL {
+    static func from(_ urlString: String?) -> URL? {
+        guard let urlString else { return nil }
+        return URL(string: urlString)
     }
 }
-

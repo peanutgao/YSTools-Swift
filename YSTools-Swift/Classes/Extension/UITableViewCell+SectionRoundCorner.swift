@@ -9,7 +9,29 @@
 
 import UIKit
 
-extension UITableViewCell {
+public extension UITableViewCell {
+    /// Usage Example
+    /// ```swift
+    ///       func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath:
+    ///  IndexPath) {
+    ///       cell.applyCornerRadius(20, in: tableView, at: indexPath)
+    ///       }
+    ///
+    ///   * set cell padding if need
+    ///    class AppPermissionListCell: UITableViewCell {
+    ///    override var frame: CGRect {
+    ///         get {
+    ///             super.frame
+    ///         }
+    ///         set {
+    ///             var frame = newValue
+    ///             frame.origin.x += 15
+    ///             frame.size.width -= 2 * 15
+    ///             super.frame = frame
+    ///         }
+    ///    }
+    ///
+    ///  ```
     func applyCornerRadius(_ cornerRadius: CGFloat, in tableView: UITableView, at indexPath: IndexPath) {
         let cornerRadius: CGFloat = 8.0
         backgroundColor = .clear

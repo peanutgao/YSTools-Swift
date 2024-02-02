@@ -9,7 +9,7 @@
 
 import Foundation
 
-extension Int {
+public extension Int {
     func formattedWithThousandSeparator() -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -20,12 +20,11 @@ extension Int {
         guard let value else {
             return nil
         }
-
         return value.formattedWithThousandSeparator()
     }
 }
 
-extension String {
+public extension String {
     func formattedWithThousandSeparator() -> String {
         guard let intValue = Int(self) else {
             return self

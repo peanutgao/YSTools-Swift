@@ -1,6 +1,6 @@
 use_frameworks!
 
-platform :ios, '12.0'
+platform :ios, '11.0'
 
 target 'YSTools-Swift_Example' do
   pod 'YSTools-Swift', :path => '../'
@@ -16,8 +16,8 @@ target 'YSTools-Swift_Example' do
         config.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
         config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
         config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
-        if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 12.0
-          config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+        if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 11.0
+          config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
         end
       end
     end

@@ -8,18 +8,16 @@
 
 import UIKit
 
-extension UIView {
-    
+public extension UIView {
     @discardableResult
-    public func ys_addBorders(
+    func ys_addBorders(
         edges: UIRectEdge,
         color: UIColor,
         inset: CGFloat = 0.0,
         thickness: CGFloat = 0.5
     ) -> [UIView] {
-        
         var borders = [UIView]()
-        
+
         @discardableResult
         func addBorder(formats: String...) -> UIView {
             let border = UIView(frame: .zero)
@@ -31,12 +29,13 @@ extension UIView {
                     withVisualFormat: $0,
                     options: [],
                     metrics: ["inset": inset, "thickness": thickness],
-                    views: ["border": border])
+                    views: ["border": border]
+                )
             })
             borders.append(border)
             return border
         }
-        
+
         if edges.contains(.top) || edges.contains(.all) {
             addBorder(formats: "V:|-0-[border(==thickness)]", "H:|-inset-[border]-inset-|")
         }
@@ -49,16 +48,16 @@ extension UIView {
         if edges.contains(.right) || edges.contains(.all) {
             addBorder(formats: "V:|-inset-[border]-inset-|", "H:[border(==thickness)]-0-|")
         }
-        
+
         return borders
     }
-    
-    public func addDashLine(width: CGFloat, color: UIColor) {
+
+    func addDashLine(width: CGFloat, color: UIColor) {
         let caShapeLayer = CAShapeLayer()
         caShapeLayer.strokeColor = color.cgColor
         caShapeLayer.lineWidth = width
         caShapeLayer.lineDashPattern = [5, 3]
-        
+
         let cgPath = CGMutablePath()
         let cgPoint = [CGPoint(x: 0, y: 0), CGPoint(x: self.frame.width, y: 0)]
         cgPath.addLines(between: cgPoint)

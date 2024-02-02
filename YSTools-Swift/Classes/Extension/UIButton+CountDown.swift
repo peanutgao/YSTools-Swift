@@ -8,18 +8,19 @@
 
 import UIKit
 
-extension UIButton {
-    
-    public func startCountDown(limitTime: TimeInterval,
-                               resendTitle: String?,
-                               waitingEnable: Bool = false,
-                               waitingTitleFormate: ((Int) -> String)?,
-                               finishHandler: (() -> ())? = nil) {
+public extension UIButton {
+    func startCountDown(
+        limitTime: TimeInterval,
+        resendTitle: String?,
+        waitingEnable: Bool = false,
+        waitingTitleFormate: ((Int) -> String)?,
+        finishHandler: (() -> Void)? = nil
+    ) {
         var timeOut = limitTime - 1
-        
+
         let queue = DispatchQueue.global()
         let timer = DispatchSource.makeTimerSource(flags: [], queue: queue)
-        
+
         let finishHandler = {
             timer.cancel()
             DispatchQueue.main.async { [weak self] in
@@ -29,7 +30,7 @@ extension UIButton {
                 self.setTitle(resendTitle, for: .normal)
                 self.isUserInteractionEnabled = true
                 self.isEnabled = true
-                
+
                 finishHandler?()
             }
         }
@@ -44,7 +45,7 @@ extension UIButton {
                 }
                 return
             }
-            
+
             let seconds = Int(timeOut) % 60
             DispatchQueue.main.async { [weak self] in
                 let waitingTitle = waitingTitleFormate?(seconds + 1) ?? "\(seconds + 1)"
@@ -52,10 +53,10 @@ extension UIButton {
                 self?.isEnabled = false
                 self?.isUserInteractionEnabled = waitingEnable
             }
-            
+
             timeOut -= 1
         }
-        
+
         timer.setCancelHandler {
             finishHandler()
         }

@@ -9,21 +9,32 @@
 import UIKit
 
 extension String {
-    public func size(
-        font: UIFont,
-        size: CGSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-    ) -> CGSize {
-        return self.size(attributes: [NSAttributedString.Key.font: font], size: size)
+    /// Covert string to Class
+    /// usage:
+    /// if let myClass = "MyAppName.MyClassName".toClass() {
+    ///         debugPrint(myClass)
+    /// } else {
+    /// }
+    /// - Returns: class
+    func toClass() -> AnyClass? {
+        NSClassFromString(self)
     }
-    
-    
-    public func size(attributes: [NSAttributedString.Key : Any]? = nil,
-                           size: CGSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)) -> CGSize {
+}
 
-        let size = self.boundingRect(with: size,
-                                    options: .usesLineFragmentOrigin,
-                                    attributes: attributes,
-                                    context: nil).size
-        return CGSize(width: ceil(Double(size.width)), height: ceil(Double(size.height)))
+// MARK: - ClassConverter
+
+enum ClassConverter {
+    /// 根据给定的类名字符串和模块名返回对应的类。
+    /// - Parameters:
+    ///   - className: 类名的字符串表示。
+    ///   - moduleName: 包含类定义的模块名。
+    /// - Returns: 如果找到对应的类，则返回该类；否则返回nil。
+    static func classFromString(_ className: String, inModuleName moduleName: String? = nil) -> AnyClass? {
+        if let moduleName {
+            let fullClassName = "\(moduleName).\(className)"
+            return NSClassFromString(fullClassName)
+        } else {
+            return NSClassFromString(className)
+        }
     }
 }

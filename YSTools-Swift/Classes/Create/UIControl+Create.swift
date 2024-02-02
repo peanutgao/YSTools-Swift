@@ -8,38 +8,34 @@
 
 import UIKit
 
-public protocol UIControlCreateProtocol {
-    
-}
+// MARK: - UIControlCreateProtocol
 
-extension UIControlCreateProtocol where Self: UIControl {
-    
+public protocol UIControlCreateProtocol {}
+
+public extension UIControlCreateProtocol where Self: UIControl {
     @discardableResult
-    public func ys_isEnable(_ isEnabled: Bool) -> Self {
+    func ys_isEnable(_ isEnabled: Bool) -> Self {
         self.isEnabled = isEnabled
         return self
     }
-    
-    
+
     @discardableResult
-    public func ys_isSelected(_ isSelected: Bool) -> Self {
+    func ys_isSelected(_ isSelected: Bool) -> Self {
         self.isSelected = isSelected
         return self
     }
-    
+
     @discardableResult
-    public func ys_addTarget(_ target: Any?, action: Selector, for controlEvents: UIControl.Event) -> Self {
+    func ys_addTarget(_ target: Any?, action: Selector, for controlEvents: UIControl.Event) -> Self {
         self.addTarget(target, action: action, for: controlEvents)
         return self
     }
-
 }
 
-extension UIButton: UIControlCreateProtocol {
-    
-}
+// MARK: - UIButton + UIControlCreateProtocol
 
+extension UIButton: UIControlCreateProtocol {}
 
-extension UISwitch: UIControlCreateProtocol {
-    
-}
+// MARK: - UISwitch + UIControlCreateProtocol
+
+extension UISwitch: UIControlCreateProtocol {}

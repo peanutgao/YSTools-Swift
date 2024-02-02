@@ -8,65 +8,60 @@
 
 import UIKit
 
-public protocol UILabelCreateProtocol {
-    
-}
+// MARK: - UILabelCreateProtocol
 
-extension UILabelCreateProtocol where Self: UILabel {
-    
+public protocol UILabelCreateProtocol {}
+
+public extension UILabelCreateProtocol where Self: UILabel {
     @discardableResult
-    public func ys_text(_ text: String?) -> Self {
+    func ys_text(_ text: String?) -> Self {
         self.text = text
         return self
     }
-    
+
     @discardableResult
-    public func ys_font(_ font: UIFont?) -> Self {
+    func ys_font(_ font: UIFont?) -> Self {
         self.font = font
         return self
     }
-    
+
     @discardableResult
-    public func ys_textColor(_ color: UIColor?) -> Self {
+    func ys_textColor(_ color: UIColor?) -> Self {
         self.textColor = color
         return self
     }
-    
+
     @discardableResult
-    public func ys_numberOfLines(_ lines: Int) -> Self {
+    func ys_numberOfLines(_ lines: Int) -> Self {
         self.numberOfLines = lines
         return self
     }
-    
+
     @discardableResult
-    public func ys_textAlignment(_ alignment: NSTextAlignment) -> Self {
+    func ys_textAlignment(_ alignment: NSTextAlignment) -> Self {
         self.textAlignment = alignment
         return self
     }
-    
+
     @discardableResult
-    public func ys_attributedText(_ text: NSAttributedString?) -> Self {
+    func ys_attributedText(_ text: NSAttributedString?) -> Self {
         self.attributedText = text
         return self
     }
 
     @discardableResult
-    public func ys_adjustsFontSizeToFitWidth(_ b: Bool = false) -> Self {
+    func ys_adjustsFontSizeToFitWidth(_ b: Bool = false) -> Self {
         self.adjustsFontSizeToFitWidth = b
         return self
     }
-    
+
     @discardableResult
-    public func ys_lineBreakMode(_ mode: NSLineBreakMode = .byWordWrapping) -> Self {
+    func ys_lineBreakMode(_ mode: NSLineBreakMode = .byWordWrapping) -> Self {
         self.lineBreakMode = mode
         return self
     }
-    
-    
 }
 
+// MARK: - UILabel + UILabelCreateProtocol
 
-extension UILabel: UILabelCreateProtocol {
-    
-    
-}
+extension UILabel: UILabelCreateProtocol {}

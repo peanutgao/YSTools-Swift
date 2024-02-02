@@ -8,16 +8,14 @@
 
 import UIKit
 
-extension UIImage {
-    
-    public static func imageOfBase64String(_ str: String?) -> UIImage? {
-        guard let str = str,
+public extension UIImage {
+    static func imageOfBase64String(_ str: String?) -> UIImage? {
+        guard let str,
               let data = Data(base64Encoded: str, options: .ignoreUnknownCharacters)
         else {
             return nil
         }
-        
+
         return UIImage(data: data)
     }
 }
-

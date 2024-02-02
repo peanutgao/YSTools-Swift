@@ -11,29 +11,31 @@ import UIKit
 
 // MARK: - AttributedStringBuilder
 
-struct AttributedStringBuilder {
+public struct AttributedStringBuilder {
     private var string = NSMutableAttributedString()
 
-    init(_ text: String? = nil) {
+    public init(_ text: String? = nil) {
         string = NSMutableAttributedString(string: text ?? "")
     }
 
     @discardableResult
-    func append(_ text: String?) -> AttributedStringBuilder {
+    public func append(_ text: String?) -> AttributedStringBuilder {
         let attributedString = NSAttributedString(string: text ?? "")
         string.append(attributedString)
         return self
     }
 
     @discardableResult
-    func append(_ text: String?, withAttributes attributes: [NSAttributedString.Key: Any]) -> AttributedStringBuilder {
+    public func append(_ text: String?,
+                       withAttributes attributes: [NSAttributedString.Key: Any]) -> AttributedStringBuilder
+    {
         let attributedString = NSAttributedString(string: text ?? "", attributes: attributes)
         string.append(attributedString)
         return self
     }
 
     @discardableResult
-    func appendImage(_ image: UIImage?, size: CGSize) -> AttributedStringBuilder {
+    public func appendImage(_ image: UIImage?, size: CGSize) -> AttributedStringBuilder {
         guard let image else {
             return self
         }
@@ -49,18 +51,18 @@ struct AttributedStringBuilder {
     }
 
     @discardableResult
-    func setAttributes(_ attributes: [NSAttributedString.Key: Any]) -> AttributedStringBuilder {
+    public func setAttributes(_ attributes: [NSAttributedString.Key: Any]) -> AttributedStringBuilder {
         let range = NSRange(location: 0, length: string.length)
         string.addAttributes(attributes, range: range)
         return self
     }
 
-    func build() -> NSMutableAttributedString {
+    public func build() -> NSMutableAttributedString {
         string
     }
 }
 
-extension NSMutableParagraphStyle {
+public extension NSMutableParagraphStyle {
     @discardableResult
     func then(_ block: (NSMutableParagraphStyle) -> Void) -> NSMutableParagraphStyle {
         block(self)

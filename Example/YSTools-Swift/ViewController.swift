@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YSTools_Swift
 
 class ViewController: UIViewController {
 
@@ -14,6 +15,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         aTextView.text = ""
         aTextView.placeholder = "aaaa"
+     
     }
 
     @IBOutlet weak var aTextView: UITextView!

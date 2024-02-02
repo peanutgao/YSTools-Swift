@@ -34,13 +34,15 @@ public extension UIViewController {
         return self
     }
 
-    /// Combine both topPresentedViewController and topVisibleViewController methods, to get top visible viewcontroller in top present level
+    /// Combine both topPresentedViewController and topVisibleViewController methods, to get top visible viewcontroller
+    /// in top present level
     var topMostViewController: UIViewController? {
         topPresentedViewController?.topVisibleViewController
     }
 
     static var topMostViewController: UIViewController? {
-        guard let rootViewController = UIApplication.shared.windows.filter(\.isKeyWindow).first?.rootViewController else {
+        guard let rootViewController = UIApplication.shared.windows.filter(\.isKeyWindow).first?.rootViewController
+        else {
             return nil
         }
         return rootViewController.topMostViewController

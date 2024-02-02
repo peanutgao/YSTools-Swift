@@ -8,10 +8,22 @@
 
 import UIKit
 
+// MARK: - GroupTableSeparatorFix
+
 public class GroupTableSeparatorFix {
+    /// You should add in appdelegate
+    ///  ```swift
+    ///  func application(_ application: UIApplication,didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey:
+    /// Any]?) -> Bool {
+    ///         GroupTableSeparatorFix.removeFirstAndLastSeparatorLine()
+    ///  }
+    ///  ```
     private static let removeFirstAndLastSeparatorLine: () = {
         guard let method = class_getInstanceMethod(UITableViewCell.self, #selector(UITableViewCell.layoutSubviews)),
-              let otherMethod = class_getInstanceMethod(UITableViewCell.self, #selector(UITableViewCell.fix_layoutSubviews))
+              let otherMethod = class_getInstanceMethod(
+                  UITableViewCell.self,
+                  #selector(UITableViewCell.fix_layoutSubviews)
+              )
         else {
             print("GroupTableSeparatorFix: Failure to remove first and last separator line")
             return

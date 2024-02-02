@@ -53,12 +53,12 @@ extension UIButton {
             self?.isThrottling = false
         }
     }
-    
+
     public func addThrottledAction(
         interval: TimeInterval = 1.0,
         for event: UIControl.Event,
         action: @escaping (UIButton) -> Void
-    ){
+    ) {
         _ = ys_addThrottledAction(interval: interval, for: event, action: action)
     }
 
