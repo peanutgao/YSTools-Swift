@@ -1,8 +1,8 @@
 {
   "name": "YSTools-Swift",
-  "version": "0.1.4",
-  "summary": "collection commom tools used in projects.",
-  "description": "Common collection of tools used in Swift projects",
+  "version": "0.2.0",
+  "summary": "Commom tools used in Swift projects.",
+  "description": "Tools commonly used in Swift projects can facilitate rapid project development",
   "homepage": "https://github.com/peanutgao/YSTools-Swift",
   "license": {
     "type": "MIT",
@@ -13,10 +13,10 @@
   },
   "source": {
     "git": "https://github.com/peanutgao/YSTools-Swift.git",
-    "tag": "0.1.4"
+    "tag": "0.2.0"
   },
   "platforms": {
-    "ios": "12.0"
+    "ios": "11.0"
   },
   "swift_versions": [
     "5.0"
