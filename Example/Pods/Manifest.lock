@@ -2,17 +2,17 @@ PODS:
   - SDWebImage (5.18.3):
     - SDWebImage/Core (= 5.18.3)
   - SDWebImage/Core (5.18.3)
-  - YSTools-Swift (0.1.3):
+  - YSTools-Swift (0.1.4):
     - SDWebImage (>= 5.0.0)
-    - YSTools-Swift/Create (= 0.1.3)
-    - YSTools-Swift/Extension (= 0.1.3)
-    - YSTools-Swift/Utils (= 0.1.3)
-  - YSTools-Swift/Create (0.1.3):
+    - YSTools-Swift/Create (= 0.1.4)
+    - YSTools-Swift/Extension (= 0.1.4)
+    - YSTools-Swift/Utils (= 0.1.4)
+  - YSTools-Swift/Create (0.1.4):
     - SDWebImage (>= 5.0.0)
     - YSTools-Swift/Extension
-  - YSTools-Swift/Extension (0.1.3):
+  - YSTools-Swift/Extension (0.1.4):
     - SDWebImage (>= 5.0.0)
-  - YSTools-Swift/Utils (0.1.3):
+  - YSTools-Swift/Utils (0.1.4):
     - SDWebImage (>= 5.0.0)
 
 DEPENDENCIES:
@@ -28,8 +28,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   SDWebImage: 96e0c18ef14010b7485210e92fac888587ebb958
-  YSTools-Swift: 295938557a2bd21030aa5597d47a7265be45cf91
+  YSTools-Swift: 99ff67e52957df4b989b08dd59149633e398e6e2
 
 PODFILE CHECKSUM: fa4adc8162353544cdd1a19cdfb0818d849b3783
 
-COCOAPODS: 1.14.2
+COCOAPODS: 1.15.0
