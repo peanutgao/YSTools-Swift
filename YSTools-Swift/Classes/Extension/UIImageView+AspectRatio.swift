@@ -4,7 +4,7 @@
 
 import UIKit
 
-extension UIImageView {
+public extension UIImageView {
     /// Aspect ratio of the image
     var imageAspectRatio: CGFloat {
         if let image {

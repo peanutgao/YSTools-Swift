@@ -145,10 +145,6 @@ public enum AppInfo {
 public class DeviceInfo {
     public static let shared = DeviceInfo()
 
-    public var UUID: String {
-        Foundation.UUID().uuidString
-    }
-
     public let model: String = UIDevice.current.model
 
     private var _CPU: String?

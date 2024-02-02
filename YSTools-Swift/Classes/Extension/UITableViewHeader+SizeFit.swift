@@ -9,7 +9,7 @@
 
 import UIKit
 
-extension UITableView {
+public extension UITableView {
     /**
      *  Calculate the size of tableHeaderView
         *  Usage Example:

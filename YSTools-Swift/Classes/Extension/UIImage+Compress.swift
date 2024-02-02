@@ -9,7 +9,7 @@
 
 import UIKit
 
-extension UIImage {
+public extension UIImage {
     func compress(to maxLength: Int = 300 * 1024) -> Data? {
         // Compression by quality
         var compression: CGFloat = 1
