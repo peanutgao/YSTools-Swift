@@ -9,8 +9,8 @@
 
 import Foundation
 
-extension String {
-    public var isBlank: Bool {
-        return self.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+public extension String {
+    var isBlank: Bool {
+        self.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 }

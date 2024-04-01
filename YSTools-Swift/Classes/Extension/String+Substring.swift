@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension String {
+public extension String {
     subscript(_ i: Int) -> String {
         let idx1 = index(startIndex, offsetBy: i)
         let idx2 = index(idx1, offsetBy: 1)
@@ -27,7 +27,7 @@ extension String {
         return String(self[startIndex ... endIndex])
     }
 
-    public func substring(from index: Int) -> String {
+    func substring(from index: Int) -> String {
         if self.count > index {
             let startIndex = self.index(self.startIndex, offsetBy: index)
             let subString = self[startIndex ..< self.endIndex]
@@ -36,11 +36,5 @@ extension String {
         } else {
             return self
         }
-    }
-}
-
-public extension String {
-    var isBlank: Bool {
-        self.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 }
