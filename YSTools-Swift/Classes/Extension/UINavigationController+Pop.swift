@@ -10,7 +10,7 @@ import UIKit
 
 public extension UINavigationController {
     @discardableResult
-    func popToViewController(_ viewController: UIViewController.Type, animated _: Bool) -> [UIViewController]? {
+    func popToViewController(type viewController: UIViewController.Type, animated _: Bool) -> [UIViewController]? {
         for vc in children {
             if vc.isKind(of: viewController) == true {
                 return self.popToViewController(vc, animated: true)

@@ -3,7 +3,7 @@
 // Created by Joseph Koh on 2024/1/8.
 // Author: Joseph Koh
 // Email: Joseph0750@gmail.com
-// Create Time: 2024/1/8 15:47
+// Create Date: 2024/1/8 15:47
 // *************************************************
 //
 
@@ -55,18 +55,18 @@ extension UIButton {
     }
 
     public func addThrottledAction(
-        interval: TimeInterval = 1.0,
-        for event: UIControl.Event,
-        action: @escaping (UIButton) -> Void
+            interval: TimeInterval = 1.0,
+            for event: UIControl.Event,
+            action: @escaping (UIButton) -> Void
     ) {
         _ = ys_addThrottledAction(interval: interval, for: event, action: action)
     }
 
     @discardableResult
     public func ys_addThrottledAction(
-        interval: TimeInterval = 1.0,
-        for event: UIControl.Event,
-        action: @escaping (UIButton) -> Void
+            interval: TimeInterval = 1.0,
+            for event: UIControl.Event,
+            action: @escaping (UIButton) -> Void
     ) -> Self {
         self.throttleInterval = interval
         self.throttledAction = action

@@ -21,6 +21,10 @@ import UIKit
     @objc public class func boldPingFangFont(ofSize fontSize: CGFloat) -> UIFont {
         return UIFont(name: "PingFangSC-Bold", size: fontSize) ?? UIFont.boldSystemFont(ofSize: fontSize)
     }
+    
+    @objc public class func semiboldPingFangFont(ofSize fontSize: CGFloat) -> UIFont {
+        return UIFont(name: "PingFangSC-Semibold", size: fontSize) ?? UIFont.boldSystemFont(ofSize: fontSize)
+    }
 }
 
 /*

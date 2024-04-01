@@ -10,24 +10,31 @@ import UIKit
 
 // MARK: - UITextFieldCreateProtocol
 
-public protocol UITextFieldCreateProtocol {}
+public protocol UITextFieldCreateProtocol {
+}
 
 public extension UITextFieldCreateProtocol where Self: UITextField {
     @discardableResult
     func ys_text(_ text: String?) -> Self {
-        if let text { self.text = text }
+        if let text {
+            self.text = text
+        }
         return self
     }
 
     @discardableResult
     func ys_font(_ font: UIFont?) -> Self {
-        if let font { self.font = font }
+        if let font {
+            self.font = font
+        }
         return self
     }
 
     @discardableResult
     func ys_textColor(_ color: UIColor?) -> Self {
-        if let color { self.textColor = color }
+        if let color {
+            self.textColor = color
+        }
         return self
     }
 
@@ -39,7 +46,17 @@ public extension UITextFieldCreateProtocol where Self: UITextField {
 
     @discardableResult
     func ys_placeholder(_ placeholder: String?) -> Self {
-        if let placeholder { self.placeholder = placeholder }
+        if let placeholder {
+            self.placeholder = placeholder
+        }
+        return self
+    }
+
+    @discardableResult
+    func ys_attributedPlaceholder(_ attributedPlaceholder: NSAttributedString?) -> Self {
+        if let attributedPlaceholder {
+            self.attributedPlaceholder = attributedPlaceholder
+        }
         return self
     }
 
@@ -72,8 +89,21 @@ public extension UITextFieldCreateProtocol where Self: UITextField {
         self.adjustsFontSizeToFitWidth = b
         return self
     }
+    
+    @discardableResult
+    func ys_leftView(_ leftView: UIView) -> Self {
+        self.leftView = leftView
+        return self
+    }
+    
+    @discardableResult
+    func ys_leftViewMode(_ leftViewMode: UITextField.ViewMode) -> Self {
+        self.leftViewMode = leftViewMode
+        return self
+    }
 }
 
 // MARK: - UITextField + UITextFieldCreateProtocol
 
-extension UITextField: UITextFieldCreateProtocol {}
+extension UITextField: UITextFieldCreateProtocol {
+}

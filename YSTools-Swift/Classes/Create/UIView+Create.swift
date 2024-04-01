@@ -10,7 +10,8 @@ import UIKit
 
 // MARK: - UIViewCreateProtocol
 
-public protocol UIViewCreateProtocol {}
+public protocol UIViewCreateProtocol {
+}
 
 public extension UIViewCreateProtocol where Self: UIView {
     @discardableResult
@@ -35,8 +36,15 @@ public extension UIViewCreateProtocol where Self: UIView {
 
     @discardableResult
     func ys_setCorner(radius: CGFloat, clickToBounds: Bool) -> Self {
-        self.layer.cornerRadius = radius
+        layer.cornerRadius = radius
         return ys_clickToBounds(b: clickToBounds)
+    }
+
+    @discardableResult
+    func ys_setBorder(width: CGFloat, color: UIColor) -> Self {
+        layer.borderWidth = width
+        layer.borderColor = color.cgColor
+        return self
     }
 
     @discardableResult
@@ -84,4 +92,5 @@ public extension UIViewCreateProtocol where Self: UIView {
 
 // MARK: - UIView + UIViewCreateProtocol
 
-extension UIView: UIViewCreateProtocol {}
+extension UIView: UIViewCreateProtocol {
+}

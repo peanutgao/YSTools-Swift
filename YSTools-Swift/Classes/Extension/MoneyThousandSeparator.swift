@@ -3,13 +3,17 @@
 // Created by Joseph Koh on 2023/11/25.
 // Author: Joseph Koh
 // Email: Joseph0750@gmail.com
-// Create Time: 2023/11/25 23:49
+// Create Date: 2023/11/25 23:49
 // *************************************************
 //
 
 import Foundation
 
 public extension Int {
+    var thousandSeparatorString: String {
+        formattedWithThousandSeparator()
+    }
+    
     func formattedWithThousandSeparator() -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -25,6 +29,11 @@ public extension Int {
 }
 
 public extension String {
+    
+    var thousandSeparatorString: String {
+        formattedWithThousandSeparator()
+    }
+    
     func formattedWithThousandSeparator() -> String {
         guard let intValue = Int(self) else {
             return self

@@ -77,19 +77,22 @@ public extension String {
         }
     }
 
-    func convertHTMLStringToNSAttributedString(fontSize: CGFloat) -> NSAttributedString? {
+    func toAttributedString(fontSize: CGFloat, lineHeight: CGFloat? = nil) -> NSAttributedString? {
+        let lineHeightMultiplier = lineHeight != nil ? lineHeight! : 1.5
+        let lineHeightStr = lineHeight != nil ? "line-height: \(lineHeightMultiplier * fontSize)px;" : ""
+
         let modifiedFontString = String(
-            format: "<span style=\"font-size: \(fontSize)px; font-family: '-apple-system', 'HelveticaNeue';\">%@</span>",
+            format: "<span style=\"font-size: \(fontSize)px; font-family: '-apple-system', 'HelveticaNeue'; \(lineHeightStr)\">%@</span>",
             self
         )
 
-        guard let data = modifiedFontString.data(using: String.Encoding.utf8) else {
+        guard let data = modifiedFontString.data(using: .utf8) else {
             return nil
         }
 
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
             .documentType: NSAttributedString.DocumentType.html,
-            .characterEncoding: String.Encoding.utf8.rawValue,
+            .characterEncoding: String.Encoding.utf8.rawValue
         ]
 
         do {
