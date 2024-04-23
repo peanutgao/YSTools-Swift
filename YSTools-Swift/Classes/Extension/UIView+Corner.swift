@@ -10,7 +10,7 @@ import UIKit
 
 public extension UIView {
     @discardableResult
-    func roundCorners(corners: UIRectCorner, radius: CGFloat) -> Self {
+    func addRoundCorners(corners: UIRectCorner, radius: CGFloat) -> Self {
         let path = UIBezierPath(
             roundedRect: bounds,
             byRoundingCorners: corners,

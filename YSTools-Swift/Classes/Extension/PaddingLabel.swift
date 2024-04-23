@@ -35,3 +35,17 @@ public class PaddingLabel: UILabel {
         return textRect.inset(by: invertedInsets)
     }
 }
+
+public protocol PaddingLabelCreateProtocol {
+}
+
+public extension PaddingLabelCreateProtocol where Self: PaddingLabel {
+    @discardableResult
+    func ys_padding(_ padding: UIEdgeInsets) -> PaddingLabel {
+        self.padding = padding
+        return self
+    }
+}
+
+extension PaddingLabel: PaddingLabelCreateProtocol {
+}
