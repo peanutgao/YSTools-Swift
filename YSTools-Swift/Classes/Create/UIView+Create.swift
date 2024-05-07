@@ -10,8 +10,7 @@ import UIKit
 
 // MARK: - UIViewCreateProtocol
 
-public protocol UIViewCreateProtocol {
-}
+public protocol UIViewCreateProtocol {}
 
 public extension UIViewCreateProtocol where Self: UIView {
     @discardableResult
@@ -72,6 +71,12 @@ public extension UIViewCreateProtocol where Self: UIView {
     }
 
     @discardableResult
+    func ys_alpha(_ alpha: CGFloat) -> Self {
+        self.alpha = alpha
+        return self
+    }
+
+    @discardableResult
     func ys_isUserInteractionEnabled(_ b: Bool) -> Self {
         self.isUserInteractionEnabled = b
         return self
@@ -92,5 +97,4 @@ public extension UIViewCreateProtocol where Self: UIView {
 
 // MARK: - UIView + UIViewCreateProtocol
 
-extension UIView: UIViewCreateProtocol {
-}
+extension UIView: UIViewCreateProtocol {}

@@ -10,16 +10,6 @@
 import UIKit
 
 public extension UITableView {
-    /**
-     *  Calculate the size of tableHeaderView
-        *  Usage Example:
-        1.  tableView.tableHeaderView = headerView
-        2.  call sizeTableHeaderViewToFit() in viewDidLayoutSubviews
-         override func viewDidLayoutSubviews() {
-            super.viewDidLayoutSubviews()
-            sizeHeaderToFit()
-        }
-     */
     func sizeTableHeaderViewToFit() {
         guard let headerView = tableHeaderView else {
             return
@@ -33,5 +23,23 @@ public extension UITableView {
         headerView.setNeedsLayout()
         headerView.layoutIfNeeded()
         tableHeaderView = headerView
+    }
+    
+    func sizeTableFooterViewToFit() {
+        guard let footerView = tableFooterView else {
+            return
+        }
+        setNeedsLayout()
+        layoutIfNeeded()
+        
+        let height = footerView.systemLayoutSizeFitting(CGSize(width: bounds.size.width, height: CGFloat.infinity))
+            .height
+        var frame = footerView.frame
+        frame.size.height = height
+        footerView.frame = frame
+
+        footerView.setNeedsLayout()
+        footerView.layoutIfNeeded()
+        tableFooterView = footerView
     }
 }
