@@ -18,13 +18,15 @@ public func println(_ items: Any..., separator: String = " ", terminator: String
     #endif
 }
 
-public func printLog(
-    message: some Any,
-    file: String = #file,
-    method: String = #function,
-    line: Int = #line
-) {
-    #if DEBUG
-        print("\((file as NSString).lastPathComponent)[\(line)], \(method): \(message)")
-    #endif
+public func printLog(_ items: Any..., separator: String = " ", file: String = #file, line: Int = #line) {
+    if #available(iOS 15.0, *) {
+#if DEBUG
+        let fileName = (file as NSString).lastPathComponent
+        let timestamp = Date().formatted(date: .numeric, time: .standard)
+        print("[\(timestamp)] [\(fileName):\(line)] \(items[0])")
+#endif
+    } else {
+        // Fallback on earlier versions
+    }
 }
+

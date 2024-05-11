@@ -43,9 +43,9 @@ Pod::Spec.new do |s|
   s.subspec 'Utils' do |sp|
       sp.source_files = 'YSTools-Swift/Classes/Utils/**/*'
   end 
-  # s.resource_bundles = {
-  #   'YSTools-Swift' => ['YSTools-Swift/Assets/*']
-  # }
+   s.resource_bundles = {
+     'YSTools-Swift' => ['YSTools-Swift/PrivacyInfo.xcprivacy']
+   }
 
   # s.public_header_files = 'YSTools-Swift/Classes/**/*.h'
   s.frameworks = 'UIKit', 'Foundation'
