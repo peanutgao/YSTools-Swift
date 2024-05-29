@@ -156,25 +156,25 @@ public class DeviceInfo {
         return _CPU!
     }
 
-    public let RAM = "\(ProcessInfo.processInfo.physicalMemory)"
+    public let RAM: UInt64 = ProcessInfo.processInfo.physicalMemory
 
-    private var _ROM: String?
-    public var ROM: String? {
+    private var _ROM: UInt64?
+    public var ROM: UInt64? {
         if _ROM != nil {
             return _ROM!
         }
         let fileManager = FileManager.default
         if let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).last,
            let attributes = try? fileManager.attributesOfFileSystem(forPath: documentDirectory.path),
-           let totalSpace = attributes[.systemSize] as? NSNumber
+           let totalSpace = attributes[.systemSize] as? UInt64
         {
-            _ROM = "\(totalSpace)"
+            _ROM = totalSpace
             return _ROM
         }
         return nil
     }
 
-    public var memoryUsage: String {
+    public var memoryUsage: UInt64? {
         var info = mach_task_basic_info()
         var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size) / 4
 
@@ -190,9 +190,9 @@ public class DeviceInfo {
 //            let usedMemoryMB = usedMemory / 1024 / 1024
 //            let totalMemoryMB = totalMemory / 1024 / 1024
 //            let memoryUsage = Double(usedMemory) / Double(totalMemory) * 100
-            return "\(usedMemory)"
+            return usedMemory
         } else {
-            return "unknown"
+            return nil
         }
     }
 
