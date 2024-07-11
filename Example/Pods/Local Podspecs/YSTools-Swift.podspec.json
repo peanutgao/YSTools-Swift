@@ -1,6 +1,6 @@
 {
   "name": "YSTools-Swift",
-  "version": "0.2.2",
+  "version": "0.2.7",
   "summary": "Commom tools used in Swift projects.",
   "description": "Tools commonly used in Swift projects can facilitate rapid project development",
   "homepage": "https://github.com/peanutgao/YSTools-Swift",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/peanutgao/YSTools-Swift.git",
-    "tag": "0.2.2"
+    "tag": "0.2.7"
   },
   "platforms": {
     "ios": "11.0"
@@ -21,6 +21,11 @@
   "swift_versions": [
     "5.0"
   ],
+  "resource_bundles": {
+    "YSTools-Swift": [
+      "YSTools-Swift/PrivacyInfo.xcprivacy"
+    ]
+  },
   "frameworks": [
     "UIKit",
     "Foundation"
