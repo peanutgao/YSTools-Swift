@@ -233,9 +233,7 @@ public class DeviceInfo {
     }
 
     public var resolution: String? {
-        guard let size = UIApplication.shared.windows.first?.frame.size else {
-            return nil
-        }
+        let size = UIScreen.main.bounds
         return "\(size.width)x\(size.height)"
     }
 

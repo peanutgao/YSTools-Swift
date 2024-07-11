@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension String {
+public extension String {
     /// Covert string to Class
     /// usage:
     /// if let myClass = "MyAppName.MyClassName".toClass() {
@@ -23,13 +23,13 @@ extension String {
 
 // MARK: - ClassConverter
 
-enum ClassConverter {
+public enum ClassConverter {
     /// 根据给定的类名字符串和模块名返回对应的类。
     /// - Parameters:
     ///   - className: 类名的字符串表示。
     ///   - moduleName: 包含类定义的模块名。
     /// - Returns: 如果找到对应的类，则返回该类；否则返回nil。
-    static func classFromString(_ className: String, inModuleName moduleName: String? = nil) -> AnyClass? {
+    public static func classFromString(_ className: String, inModuleName moduleName: String? = nil) -> AnyClass? {
         if let moduleName {
             let fullClassName = "\(moduleName).\(className)"
             return NSClassFromString(fullClassName)
