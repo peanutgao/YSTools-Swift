@@ -104,6 +104,12 @@ public extension UIButtonCreateProtocol where Self: UIButton {
         self.contentEdgeInsets = insets
         return self
     }
+    
+    @discardableResult
+    func ys_imageEdgeInsets(_ insets: UIEdgeInsets = .zero) -> Self {
+        self.imageEdgeInsets = insets
+        return self
+    }
 }
 
 // MARK: - UIButton + UIButtonCreateProtocol
