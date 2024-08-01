@@ -11,129 +11,129 @@ import UIKit
 public extension UIView {
     var x: CGFloat {
         get {
-            self.frame.origin.x
+            frame.origin.x
         }
         set {
-            var origin = self.frame.origin
+            var origin = frame.origin
             origin.x = newValue
-            self.frame.origin = origin
+            frame.origin = origin
         }
     }
 
     var y: CGFloat {
         get {
-            self.frame.origin.y
+            frame.origin.y
         }
         set {
-            var origin = self.frame.origin
+            var origin = frame.origin
             origin.y = newValue
-            self.frame.origin = origin
+            frame.origin = origin
         }
     }
 
     var width: CGFloat {
         get {
-            self.bounds.size.width
+            bounds.size.width
         }
         set {
-            var size = self.bounds.size
+            var size = bounds.size
             size.width = newValue
-            self.bounds.size = size
+            bounds.size = size
         }
     }
 
     var height: CGFloat {
         get {
-            self.bounds.size.height
+            bounds.size.height
         }
         set {
-            var size = self.bounds.size
+            var size = bounds.size
             size.height = newValue
-            self.bounds.size = size
+            bounds.size = size
         }
     }
 
     var top: CGFloat {
         get {
-            self.frame.origin.y
+            frame.origin.y
         }
         set {
-            var origin = self.frame.origin
+            var origin = frame.origin
             origin.y = newValue
-            self.frame.origin = origin
+            frame.origin = origin
         }
     }
 
     var left: CGFloat {
         get {
-            self.frame.origin.x
+            frame.origin.x
         }
         set {
-            var origin = self.frame.origin
+            var origin = frame.origin
             origin.x = newValue
-            self.frame.origin = origin
+            frame.origin = origin
         }
     }
 
     var bottom: CGFloat {
         get {
-            self.frame.maxY
+            frame.maxY
         }
         set {
-            var origin = self.frame.origin
-            origin.y = newValue - self.frame.origin.y
-            self.frame.origin = origin
+            var origin = frame.origin
+            origin.y = newValue - frame.origin.y
+            frame.origin = origin
         }
     }
 
     var right: CGFloat {
         get {
-            self.frame.maxX
+            frame.maxX
         }
         set {
-            var origin = self.frame.origin
-            origin.x = newValue - self.frame.origin.x
-            self.frame.origin = origin
+            var origin = frame.origin
+            origin.x = newValue - frame.origin.x
+            frame.origin = origin
         }
     }
 
     var centerX: CGFloat {
         get {
-            self.center.x
+            center.x
         }
         set {
-            self.center.x = newValue
+            center.x = newValue
         }
     }
 
     var centerY: CGFloat {
         get {
-            self.center.y
+            center.y
         }
         set {
-            self.center.y = newValue
+            center.y = newValue
         }
     }
 
     var midX: CGFloat {
         get {
-            self.frame.midX
+            frame.midX
         }
         set {
-            var origin = self.frame.origin
-            origin.x = newValue - self.frame.size.width * 0.5
-            self.frame.origin = origin
+            var origin = frame.origin
+            origin.x = newValue - frame.size.width * 0.5
+            frame.origin = origin
         }
     }
 
     var midY: CGFloat {
         get {
-            self.frame.midY
+            frame.midY
         }
         set {
-            var origin = self.frame.origin
-            origin.y = newValue - self.frame.size.height * 0.5
-            self.frame.origin = origin
+            var origin = frame.origin
+            origin.y = newValue - frame.size.height * 0.5
+            frame.origin = origin
         }
     }
 }
