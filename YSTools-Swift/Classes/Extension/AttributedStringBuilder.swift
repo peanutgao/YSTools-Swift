@@ -51,6 +51,21 @@ public struct AttributedStringBuilder {
     }
 
     @discardableResult
+    public func appendImage(_ image: UIImage?, bounds: CGRect) -> AttributedStringBuilder {
+        guard let image else {
+            return self
+        }
+        let textAttachment = NSTextAttachment()
+        textAttachment.image = image
+        textAttachment.bounds = bounds
+
+        let attributedStringWithImage = NSAttributedString(attachment: textAttachment)
+        string.append(attributedStringWithImage)
+
+        return self
+    }
+
+    @discardableResult
     public func setAttributes(_ attributes: [NSAttributedString.Key: Any]) -> AttributedStringBuilder {
         let range = NSRange(location: 0, length: string.length)
         string.addAttributes(attributes, range: range)
