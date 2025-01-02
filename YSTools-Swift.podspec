@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'YSTools-Swift'
-  s.version          = '0.2.11'
+  s.version          = '0.2.12'
   s.summary          = 'Commom tools used in Swift projects.'
 
 # This description is used to generate tags and improve search results.
