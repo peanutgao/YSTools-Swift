@@ -242,14 +242,7 @@ public class DeviceInfo {
         if let _isJailBroken {
             return _isJailBroken
         }
-        if FileManager.default.fileExists(atPath: "/Applications/Cydia.app") ||
-            FileManager.default.fileExists(atPath: "/Library/MobileSubstrate/MobileSubstrate.dylib") ||
-            FileManager.default.fileExists(atPath: "/bin/bash") ||
-            FileManager.default.fileExists(atPath: "/usr/sbin/sshd") ||
-            FileManager.default.fileExists(atPath: "/etc/apt") ||
-            FileManager.default.fileExists(atPath: "/private/var/lib/apt/") ||
-            UIApplication.shared.canOpenURL(URL(string: "cydia://package/com.example.package")!)
-        {
+        if isContainsJailbrokenFiles() {
             _isJailBroken = true
             return true
         }
@@ -292,6 +285,36 @@ public class DeviceInfo {
 }
 
 private extension DeviceInfo {
+    func isContainsJailbrokenFiles() -> Bool {
+        #if targetEnvironment(simulator)
+            return false
+        #else
+            let filePaths = [
+                "/private/var/lib/apt/",
+                "/Applications/Cydia.app",
+                "/Applications/RockApp.app",
+                "/Applications/Icy.app",
+                "/Applications/WinterBoard.app",
+                "/Applications/SBSetttings.app",
+                "/Applications/blackra1n.app",
+                "/Applications/IntelliScreen.app",
+                "/Applications/Snoop-itConfig.app",
+                "/usr/libexec/sftp-server",
+                "/bin/sh",
+                "/bin/bash",
+                "/usr/sbin/sshd",
+                "/etc/apt",
+                "/etc/apt/System/Library/LaunchDaemons/com.saurik.Cydia.Startup.plist",
+                "/System/Library/LaunchDaemons/com.ikey.bbot.plist",
+                "/Library/MobileSubstrate/MobileSubstrate.dylib",
+                "cydia://package/com.example.package"
+            ]
+            return filePaths.contains(where: {
+                FileManager.default.fileExists(atPath: $0)
+            })
+        #endif
+    }
+
     func canWriteOutsideOfSandbox() -> Bool {
         let path = "/private/" + NSUUID().uuidString
         do {
@@ -382,84 +405,119 @@ public enum DeviceType {
         "iPhone14,8": "iPhone 14 Plus",
         "iPhone15,2": "iPhone 14 Pro",
         "iPhone15,3": "iPhone 14 Pro Max",
-
         "iPhone15,4": "iPhone 15",
         "iPhone15,5": "iPhone 15 Plus",
         "iPhone16,1": "iPhone 15 Pro",
         "iPhone16,2": "iPhone 15 Pro Max",
 
+        "iPhone17,1": "iPhone 16 Pro",
+        "iPhone17,2": "iPhone 16 Pro Max",
+        "iPhone17,3": "iPhone 16",
+        "iPhone17,4": "iPhone 16 Plus",
+        "iPhone17,5": "iPhone 16e",
+
+        // iPad
+        "iPad1,1": "iPad",
+        "iPad2,1": "iPad 2 (WiFi)",
+        "iPad2,2": "iPad 2 (GSM)",
+        "iPad2,3": "iPad 2 (CDMA)",
+        "iPad2,4": "iPad 2 (WiFi Rev A)",
+        "iPad2,5": "iPad mini (WiFi)",
+        "iPad2,6": "iPad mini (GSM)",
+        "iPad2,7": "iPad mini (CDMA)",
+        "iPad3,1": "iPad (3rd generation) (WiFi)",
+        "iPad3,2": "iPad (3rd generation) (CDMA)",
+        "iPad3,3": "iPad (3rd generation) (GSM)",
+        "iPad3,4": "iPad (4th generation) (WiFi)",
+        "iPad3,5": "iPad (4th generation) (GSM)",
+        "iPad3,6": "iPad (4th generation) (CDMA)",
+        "iPad4,1": "iPad Air (WiFi)",
+        "iPad4,2": "iPad Air (Cellular)",
+        "iPad4,3": "iPad Air (China)",
+        "iPad4,4": "iPad mini 2 (WiFi)",
+        "iPad4,5": "iPad mini 2 (Cellular)",
+        "iPad4,6": "iPad mini 2 (China)",
+        "iPad4,7": "iPad mini 3 (WiFi)",
+        "iPad4,8": "iPad mini 3 (Cellular)",
+        "iPad4,9": "iPad mini 3 (China)",
+        "iPad5,1": "iPad mini 4 (WiFi)",
+        "iPad5,2": "iPad mini 4 (Cellular)",
+        "iPad5,3": "iPad Air 2 (WiFi)",
+        "iPad5,4": "iPad Air 2 (Cellular)",
+        "iPad6,3": "iPad Pro (9.7-inch) (WiFi)",
+        "iPad6,4": "iPad Pro (9.7-inch) (Cellular)",
+        "iPad6,7": "iPad Pro (12.9-inch) (WiFi)",
+        "iPad6,8": "iPad Pro (12.9-inch) (Cellular)",
+        "iPad6,11": "iPad (5th generation) (WiFi)",
+        "iPad6,12": "iPad (5th generation) (Cellular)",
+        "iPad7,1": "iPad Pro (12.9-inch) (2nd generation) (WiFi)",
+        "iPad7,2": "iPad Pro (12.9-inch) (2nd generation) (Cellular)",
+        "iPad7,3": "iPad Pro (10.5-inch) (WiFi)",
+        "iPad7,4": "iPad Pro (10.5-inch) (Cellular)",
+        "iPad7,5": "iPad (6th generation) (WiFi)",
+        "iPad7,6": "iPad (6th generation) (Cellular)",
+        "iPad7,11": "iPad (7th generation) (WiFi)",
+        "iPad7,12": "iPad (7th generation) (Cellular)",
+        "iPad8,1": "iPad Pro (11-inch) (WiFi)",
+        "iPad8,2": "iPad Pro (11-inch) (1TB, WiFi)",
+        "iPad8,3": "iPad Pro (11-inch) (Cellular)",
+        "iPad8,4": "iPad Pro (11-inch) (1TB, Cellular)",
+        "iPad8,5": "iPad Pro (12.9-inch) (3rd generation) (WiFi)",
+        "iPad8,6": "iPad Pro (12.9-inch) (3rd generation) (1TB, WiFi)",
+        "iPad8,7": "iPad Pro (12.9-inch) (3rd generation) (Cellular)",
+        "iPad8,8": "iPad Pro (12.9-inch) (3rd generation) (1TB, Cellular)",
+        "iPad8,9": "iPad Pro (11-inch) (2nd generation) (WiFi)",
+        "iPad8,10": "iPad Pro (11-inch) (2nd generation) (Cellular)",
+        "iPad8,11": "iPad Pro (12.9-inch) (4th generation) (WiFi)",
+        "iPad8,12": "iPad Pro (12.9-inch) (4th generation) (Cellular)",
+        "iPad11,1": "iPad mini (5th generation) (WiFi)",
+        "iPad11,2": "iPad mini (5th generation) (Cellular)",
+        "iPad11,3": "iPad Air (3rd generation) (WiFi)",
+        "iPad11,4": "iPad Air (3rd generation) (Cellular)",
+        "iPad11,6": "iPad (8th generation) (WiFi)",
+        "iPad11,7": "iPad (8th generation) (Cellular)",
+        "iPad12,1": "iPad (9th generation) (WiFi)",
+        "iPad12,2": "iPad (9th generation) (Cellular)",
+        "iPad13,1": "iPad Air (4th generation) (WiFi)",
+        "iPad13,2": "iPad Air (4th generation) (Cellular)",
+        "iPad13,4": "iPad Pro (11-inch) (3rd generation)",
+        "iPad13,5": "iPad Pro (11-inch) (3rd generation)",
+        "iPad13,6": "iPad Pro (11-inch) (3rd generation)",
+        "iPad13,7": "iPad Pro (11-inch) (3rd generation)",
+        "iPad13,8": "iPad Pro (12.9-inch) (5th generation)",
+        "iPad13,9": "iPad Pro (12.9-inch) (5th generation)",
+        "iPad13,10": "iPad Pro (12.9-inch) (5th generation)",
+        "iPad13,11": "iPad Pro (12.9-inch) (5th generation)",
+        "iPad13,16": "iPad Air (5th generation) (WiFi)",
+        "iPad13,17": "iPad Air (5th generation) (Cellular)",
+        "iPad13,18": "iPad (10th generation) (WiFi)",
+        "iPad13,19": "iPad (10th generation) (Cellular)",
+        "iPad14,1": "iPad mini (6th generation) (WiFi)",
+        "iPad14,2": "iPad mini (6th generation) (Cellular)",
+        "iPad14,3": "iPad Pro (11-inch) (4th generation)",
+        "iPad14,4": "iPad Pro (11-inch) (4th generation)",
+        "iPad14,5": "iPad Pro (12.9-inch) (6th generation)",
+        "iPad14,6": "iPad Pro (12.9-inch) (6th generation)",
+        "iPad16,1": "iPad mini (7th Gen) (WiFi)",
+        "iPad16,2": "iPad mini (7th Gen) (WiFi+Cellular)",
+        "iPad16,3": "iPad Pro (11-inch) (5th generation)",
+        "iPad16,4": "iPad Pro (11-inch) (5th generation)",
+        "iPad16,5": "iPad Pro (12.9-inch) (7th generation)",
+        "iPad16,6": "iPad Pro (12.9-inch) (7th generation)",
+
         // iPod
+        "iPod1,1": "iPod touch",
+        "iPod2,1": "iPod touch (2nd generation)",
         "iPod3,1": "iPod touch (3rd generation)",
         "iPod4,1": "iPod touch (4th generation)",
         "iPod5,1": "iPod touch (5th generation)",
         "iPod7,1": "iPod touch (6th generation)",
         "iPod9,1": "iPod touch (7th generation)",
 
-        // iPad
-        "iPad1,1": "iPad",
-        "iPad2,1": "iPad 2",
-        "iPad2,2": "iPad 2",
-        "iPad2,3": "iPad 2",
-        "iPad2,4": "iPad 2",
-        "iPad3,1": "iPad (3rd generation)",
-        "iPad3,2": "iPad (3rd generation)",
-        "iPad3,3": "iPad (3rd generation)",
-        "iPad3,4": "iPad (4th generation)",
-        "iPad3,5": "iPad (4th generation)",
-        "iPad3,6": "iPad (4th generation)",
-        "iPad6,11": "iPad (5th generation)",
-        "iPad6,12": "iPad (5th generation)",
-        "iPad7,5": "iPad (6th generation)",
-        "iPad7,6": "iPad (6th generation)",
-        "iPad7,11": "iPad (7th generation)",
-        "iPad7,12": "iPad (7th generation)",
-        // iPad Air
-        "iPad4,1": "iPad Air",
-        "iPad4,2": "iPad Air",
-        "iPad4,3": "iPad Air",
-        "iPad5,3": "iPad Air 2",
-        "iPad5,4": "iPad Air 2",
-        "iPad11,3": "iPad Air (3rd generation)",
-        "iPad11,4": "iPad Air (3rd generation)",
-        // iPad Pro
-        "iPad6,7": "iPad Pro (12.9-inch)",
-        "iPad6,8": "iPad Pro (12.9-inch)",
-        "iPad6,3": "iPad Pro (9.7-inch)",
-        "iPad6,4": "iPad Pro (9.7-inch)",
-        "iPad7,1": "iPad Pro (12.9-inch) (2nd generation)",
-        "iPad7,2": "iPad Pro (12.9-inch) (2nd generation)",
-        "iPad7,3": "iPad Pro (10.5-inch)",
-        "iPad7,4": "iPad Pro (10.5-inch)",
-        "iPad8,1": "iPad Pro (11-inch)",
-        "iPad8,2": "iPad Pro (11-inch)",
-        "iPad8,3": "iPad Pro (11-inch)",
-        "iPad8,4": "iPad Pro (11-inch)",
-        "iPad8,5": "iPad Pro (12.9-inch) (3rd generation)",
-        "iPad8,6": "iPad Pro (12.9-inch) (3rd generation)",
-        "iPad8,7": "iPad Pro (12.9-inch) (3rd generation)",
-        "iPad8,8": "iPad Pro (12.9-inch) (3rd generation)",
-        "iPad8,9": "iPad Pro (11-inch) (2nd generation)",
-        "iPad8,10": "iPad Pro (11-inch) (2nd generation)",
-        "iPad8,11": "iPad Pro (12.9-inch) (4th generation)",
-        "iPad8,12": "iPad Pro (12.9-inch) (4th generation)",
-
-        // iPad mini
-        "iPad2,5": "iPad mini",
-        "iPad2,6": "iPad mini",
-        "iPad2,7": "iPad mini",
-        "iPad4,4": "iPad mini 2",
-        "iPad4,5": "iPad mini 2",
-        "iPad4,6": "iPad mini 2",
-        "iPad4,7": "iPad mini 3",
-        "iPad4,8": "iPad mini 3",
-        "iPad4,9": "iPad mini 3",
-        "iPad5,1": "iPad mini 4",
-        "iPad5,2": "iPad mini 4",
-        "iPad11,1": "iPad mini (5th generation)",
-        "iPad11,2": "iPad mini (5th generation)",
-        // other
+        // Simulator
         "i386": "iPhone Simulator",
         "x86_64": "iPhone Simulator",
+        "arm64": "iPhone Simulator"
     ]
 
     public static func commercialName(for identifier: String) -> String {
@@ -509,24 +567,45 @@ public enum DeviceType {
         "iPhone14,8": "Apple A15 Bionic",
         "iPhone15,2": "Apple A16 Bionic",
         "iPhone15,3": "Apple A16 Bionic",
-
         "iPhone15,4": "Apple A16",
         "iPhone15,5": "Apple A16",
         "iPhone16,1": "Apple A17 Pro",
         "iPhone16,2": "Apple A17 Pro",
 
+        "iPhone17,1": "Apple A18 Pro",
+        "iPhone17,2": "Apple A18 Pro",
+        "iPhone17,3": "Apple A18",
+        "iPhone17,4": "Apple A18",
+        "iPhone17,5": "Apple A18",
+
         // iPad
         "iPad4,1": "Apple A7",
         "iPad4,2": "Apple A7",
         "iPad4,3": "Apple A7",
+        "iPad4,4": "Apple A7",
+        "iPad4,5": "Apple A7",
+        "iPad4,6": "Apple A7",
+        "iPad4,7": "Apple A7",
+        "iPad4,8": "Apple A7",
+        "iPad4,9": "Apple A7",
+        "iPad5,1": "Apple A8",
+        "iPad5,2": "Apple A8",
         "iPad5,3": "Apple A8X",
         "iPad5,4": "Apple A8X",
+        "iPad6,3": "Apple A9X",
+        "iPad6,4": "Apple A9X",
         "iPad6,7": "Apple A9X",
         "iPad6,8": "Apple A9X",
         "iPad6,11": "Apple A9",
         "iPad6,12": "Apple A9",
+        "iPad7,1": "Apple A10X Fusion",
+        "iPad7,2": "Apple A10X Fusion",
+        "iPad7,3": "Apple A10X Fusion",
+        "iPad7,4": "Apple A10X Fusion",
         "iPad7,5": "Apple A10 Fusion",
         "iPad7,6": "Apple A10 Fusion",
+        "iPad7,11": "Apple A10 Fusion",
+        "iPad7,12": "Apple A10 Fusion",
         "iPad8,1": "Apple A12X Bionic",
         "iPad8,2": "Apple A12X Bionic",
         "iPad8,3": "Apple A12X Bionic",
@@ -535,16 +614,57 @@ public enum DeviceType {
         "iPad8,6": "Apple A12X Bionic",
         "iPad8,7": "Apple A12X Bionic",
         "iPad8,8": "Apple A12X Bionic",
+        "iPad8,9": "Apple A12Z Bionic",
+        "iPad8,10": "Apple A12Z Bionic",
+        "iPad8,11": "Apple A12Z Bionic",
+        "iPad8,12": "Apple A12Z Bionic",
         "iPad11,1": "Apple A12 Bionic",
         "iPad11,2": "Apple A12 Bionic",
         "iPad11,3": "Apple A12 Bionic",
         "iPad11,4": "Apple A12 Bionic",
+        "iPad11,6": "Apple A12 Bionic",
+        "iPad11,7": "Apple A12 Bionic",
+        "iPad12,1": "Apple A13 Bionic",
+        "iPad12,2": "Apple A13 Bionic",
+        "iPad13,1": "Apple A14 Bionic",
+        "iPad13,2": "Apple A14 Bionic",
+        "iPad13,4": "Apple M1",
+        "iPad13,5": "Apple M1",
+        "iPad13,6": "Apple M1",
+        "iPad13,7": "Apple M1",
+        "iPad13,8": "Apple M1",
+        "iPad13,9": "Apple M1",
+        "iPad13,10": "Apple M1",
+        "iPad13,11": "Apple M1",
+        "iPad13,16": "Apple M1",
+        "iPad13,17": "Apple M1",
+        "iPad13,18": "Apple A14 Bionic",
+        "iPad13,19": "Apple A14 Bionic",
+        "iPad14,1": "Apple A15 Bionic",
+        "iPad14,2": "Apple A15 Bionic",
+        "iPad14,3": "Apple M2",
+        "iPad14,4": "Apple M2",
+        "iPad14,5": "Apple M2",
+        "iPad14,6": "Apple M2",
+        
+        "iPad16,1": "Apple A17 Pro",
+        "iPad16,2": "Apple A17 Pro",
+        "iPad16,3": "Apple M4",
+        "iPad16,4": "Apple M4",
+        "iPad16,5": "Apple M4",
+        "iPad16,6": "Apple M4",
+
         // iPod
-        "iPod2,1": "S5L8750",
-        "iPod3,1": "S5L8922",
+        "iPod2,1": "Samsung S5L8720",
+        "iPod3,1": "Samsung S5L8922",
         "iPod4,1": "Apple A4",
         "iPod5,1": "Apple A5",
         "iPod7,1": "Apple A8",
         "iPod9,1": "Apple A10 Fusion",
+
+        // Simulator
+        "i386": "x86",
+        "x86_64": "x86_64",
+        "arm64": "Apple Silicon"
     ]
 }
