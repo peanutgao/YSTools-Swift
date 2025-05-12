@@ -319,7 +319,9 @@ private extension DeviceInfo {
         let path = "/private/" + NSUUID().uuidString
         do {
             try "test".write(toFile: path, atomically: true, encoding: String.Encoding.utf8)
-            try FileManager.default.removeItem(atPath: path)
+            if FileManager.default.fileExists(atPath: path) {
+                 try FileManager.default.removeItem(atPath: path)
+             }
             return true
         } catch {
             return false
