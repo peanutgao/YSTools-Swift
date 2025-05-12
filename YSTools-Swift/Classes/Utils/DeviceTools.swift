@@ -320,8 +320,12 @@ private extension DeviceInfo {
         do {
             try "test".write(toFile: path, atomically: true, encoding: String.Encoding.utf8)
             if FileManager.default.fileExists(atPath: path) {
-                 try FileManager.default.removeItem(atPath: path)
-             }
+                do {
+                    try FileManager.default.removeItem(atPath: path)
+                } catch {
+                    print(error)
+                }
+            }
             return true
         } catch {
             return false
@@ -648,7 +652,7 @@ public enum DeviceType {
         "iPad14,4": "Apple M2",
         "iPad14,5": "Apple M2",
         "iPad14,6": "Apple M2",
-        
+
         "iPad16,1": "Apple A17 Pro",
         "iPad16,2": "Apple A17 Pro",
         "iPad16,3": "Apple M4",
