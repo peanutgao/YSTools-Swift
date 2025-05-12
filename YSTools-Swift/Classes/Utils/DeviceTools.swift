@@ -318,16 +318,17 @@ private extension DeviceInfo {
     func canWriteOutsideOfSandbox() -> Bool {
         let path = "/private/" + NSUUID().uuidString
         do {
-            try "test".write(toFile: path, atomically: true, encoding: String.Encoding.utf8)
+            try "test".write(toFile: path, atomically: true, encoding: .utf8)
             if FileManager.default.fileExists(atPath: path) {
                 do {
                     try FileManager.default.removeItem(atPath: path)
                 } catch {
-                    print(error)
+                    debugPrint("Remove failed:", error.localizedDescription)
                 }
             }
             return true
         } catch {
+            debugPrint("Write failed:", error.localizedDescription)
             return false
         }
     }
