@@ -38,7 +38,6 @@ public extension UITableViewCell {
         at indexPath: IndexPath,
         cellBackgroundColor: UIColor = UIColor.white
     ) {
-        let cornerRadius: CGFloat = 8.0
         self.backgroundColor = .clear
 
         let layer = CAShapeLayer()
