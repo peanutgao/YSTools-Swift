@@ -18,4 +18,15 @@ public extension UIViewController {
             navigationController?.setViewControllers(newStack, animated: false)
         }
     }
+    
+    func pushAndRemoveSelf(_ viewController: UIViewController, animated: Bool = true) {
+        guard let navigationController = self.navigationController else {
+            return
+        }
+        var viewControllers = navigationController.viewControllers
+        viewControllers.removeAll { $0 === self }
+        viewControllers.append(viewController)
+        navigationController.setViewControllers(viewControllers, animated: animated)
+    }
+
 }
