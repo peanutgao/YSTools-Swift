@@ -90,3 +90,38 @@ public extension Dictionary {
         self[key] as? T
     }
 }
+
+// MARK: - Array of Dictionary Extensions
+public extension Array where Element == [String: Any] {
+    enum StringFormat {
+        case json
+        case jsonPretty
+    }
+    
+    func toString(format: StringFormat = .json) -> String {
+        switch format {
+        case .json:
+            jsonToString()
+        case .jsonPretty:
+            jsonPrettyToString()
+        }
+    }
+    
+    private func jsonToString() -> String {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: self, options: [])
+            return String(data: jsonData, encoding: .utf8) ?? "[]"
+        } catch {
+            return "[]"
+        }
+    }
+    
+    private func jsonPrettyToString() -> String {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
+            return String(data: jsonData, encoding: .utf8) ?? "[]"
+        } catch {
+            return "[]"
+        }
+    }
+}
