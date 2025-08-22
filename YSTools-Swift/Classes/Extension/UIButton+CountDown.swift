@@ -6,58 +6,88 @@
 //  Copyright © 2019 Joseph Koh. All rights reserved.
 //
 
+import ObjectiveC
 import UIKit
 
-public extension UIButton {
-    func startCountDown(
-        limitTime: TimeInterval,
-        resendTitle: String?,
-        waitingEnable: Bool = false,
-        waitingTitleFormate: ((Int) -> String)?,
-        finishHandler: (() -> Void)? = nil
-    ) {
-        var timeOut = limitTime - 1
+private var timerAssociatedKey: UInt8 = 0
 
-        let queue = DispatchQueue.global()
-        let timer = DispatchSource.makeTimerSource(flags: [], queue: queue)
-
-        let completionHandler = { [weak self] in
-            timer.cancel()
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.setTitle(resendTitle, for: .normal)
-                self.isUserInteractionEnabled = true
-                self.isEnabled = true
-                finishHandler?()
-            }
-        }
-
-        timer.setEventHandler { [weak self] in
-            guard let self = self else { return }
-            guard timeOut >= 0 else {
-                DispatchQueue.main.async {
-                    self.setTitle(resendTitle, for: .disabled)
-                    completionHandler()
-                }
-                return
-            }
-
-            let seconds = Int(timeOut) % 60
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                let waitingTitle = waitingTitleFormate?(seconds + 1) ?? "\(seconds + 1)"
-                self.setTitle(" \(waitingTitle) ", for: .disabled)
-                self.isEnabled = false
-                self.isUserInteractionEnabled = waitingEnable
-            }
-
-            timeOut -= 1
-        }
-
-        timer.setCancelHandler {
-            completionHandler()
-        }
-        timer.schedule(deadline: .now(), repeating: 1, leeway: .microseconds(10))
-        timer.resume()
+extension UIButton {
+  private var countDownTimer: DispatchSourceTimer? {
+    get {
+      objc_getAssociatedObject(self, &timerAssociatedKey) as? DispatchSourceTimer
     }
+    set {
+      objc_setAssociatedObject(
+        self, &timerAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+  }
+
+  public func startCountDown(
+    limitTime: TimeInterval,
+    resendTitle: String?,
+    waitingEnable: Bool = false,
+    waitingTitleFormate: ((Int) -> String)?,
+    cancelHandler: (() -> Void)? = nil,
+    finishHandler: (() -> Void)? = nil
+  ) {
+    stopCountDown()
+
+    var timeOut = limitTime - 1
+
+    let queue = DispatchQueue.global()
+    let timer = DispatchSource.makeTimerSource(flags: [], queue: queue)
+    countDownTimer = timer
+
+    let completionHandler = { [weak self] in
+      timer.cancel()
+      DispatchQueue.main.async { [weak self] in
+        guard let self else {
+          return
+        }
+        setTitle(resendTitle, for: .normal)
+        isUserInteractionEnabled = true
+        isEnabled = true
+        countDownTimer = nil
+        finishHandler?()
+      }
+    }
+
+    timer.setEventHandler { [weak self] in
+      guard let self else {
+        return
+      }
+      guard timeOut >= 0 else {
+        completionHandler()
+        return
+      }
+
+      let seconds = Int(timeOut) % 60
+      DispatchQueue.main.async { [weak self] in
+        guard let self else {
+          return
+        }
+        let waitingTitle = waitingTitleFormate?(seconds + 1) ?? "\(seconds + 1)"
+        setTitle(" \(waitingTitle) ", for: .disabled)
+        isEnabled = false
+        isUserInteractionEnabled = waitingEnable
+      }
+
+      timeOut -= 1
+    }
+
+    timer.setCancelHandler {
+      cancelHandler?()
+    }
+    timer.schedule(deadline: .now(), repeating: 1, leeway: .microseconds(10))
+    timer.resume()
+  }
+
+  public func stopCountDown() {
+    if let timer = countDownTimer, !timer.isCancelled {
+      timer.cancel()
+      countDownTimer = nil
+      isEnabled = true
+      isUserInteractionEnabled = true
+    }
+  }
 }
