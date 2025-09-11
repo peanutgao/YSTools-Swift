@@ -8,11 +8,11 @@
 
 import Foundation
 
-public extension Dictionary {
+public extension Dictionary where Key == String {
     enum StringFormat {
         case `default`
-        case json
-        case jsonPretty
+        case json(keepNil: Bool = false)
+        case jsonPretty(keepNil: Bool = false)
         case keyValue
         case urlQuery
     }
@@ -20,15 +20,15 @@ public extension Dictionary {
     func toString(format: StringFormat = .default) -> String {
         switch format {
         case .default:
-            defaultToString()
-        case .json:
-            jsonToString()
-        case .jsonPretty:
-            jsonPrettyToString()
+            return defaultToString()
+        case .json(let keepNil):
+            return jsonToString(keepNil: keepNil)
+        case .jsonPretty(let keepNil):
+            return jsonPrettyToString(keepNil: keepNil)
         case .keyValue:
-            keyValueToString()
+            return keyValueToString()
         case .urlQuery:
-            urlQueryToString()
+            return urlQueryToString()
         }
     }
 
@@ -36,11 +36,8 @@ public extension Dictionary {
         String(describing: self)
     }
 
-    private func jsonToString() -> String {
-        guard let dict = self as? [String: Any] else {
-            return defaultToString()
-        }
-
+    private func jsonToString(keepNil: Bool) -> String {
+        let dict = self.cleanOptionals(keepNil: keepNil)
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: dict, options: [])
             return String(data: jsonData, encoding: .utf8) ?? defaultToString()
@@ -49,11 +46,8 @@ public extension Dictionary {
         }
     }
 
-    private func jsonPrettyToString() -> String {
-        guard let dict = self as? [String: Any] else {
-            return defaultToString()
-        }
-
+    private func jsonPrettyToString(keepNil: Bool) -> String {
+        let dict = self.cleanOptionals(keepNil: keepNil)
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
             return String(data: jsonData, encoding: .utf8) ?? defaultToString()
@@ -69,14 +63,11 @@ public extension Dictionary {
     }
 
     private func urlQueryToString() -> String {
-        guard let dict = self as? [String: Any] else {
-            return defaultToString()
-        }
-
+        let dict = self.cleanOptionals(keepNil: false) // urlQuery 不应该传 null
         return dict.compactMap { key, value in
             guard let encodedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
                   let encodedValue = String(describing: value)
-                  .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+                      .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             else {
                 return nil
             }
@@ -85,40 +76,36 @@ public extension Dictionary {
     }
 }
 
-public extension Dictionary {
-    func safeValue<T>(for key: Key) -> T? {
-        self[key] as? T
-    }
-}
-
 // MARK: - Array of Dictionary Extensions
 public extension Array where Element == [String: Any] {
     enum StringFormat {
-        case json
-        case jsonPretty
+        case json(keepNil: Bool = false)
+        case jsonPretty(keepNil: Bool = false)
     }
     
-    func toString(format: StringFormat = .json) -> String {
+    func toString(format: StringFormat = .json()) -> String {
         switch format {
-        case .json:
-            jsonToString()
-        case .jsonPretty:
-            jsonPrettyToString()
+        case .json(let keepNil):
+            return jsonToString(keepNil: keepNil)
+        case .jsonPretty(let keepNil):
+            return jsonPrettyToString(keepNil: keepNil)
         }
     }
     
-    private func jsonToString() -> String {
+    private func jsonToString(keepNil: Bool) -> String {
+        let cleaned = self.map { $0.cleanOptionals(keepNil: keepNil) }
         do {
-            let jsonData = try JSONSerialization.data(withJSONObject: self, options: [])
+            let jsonData = try JSONSerialization.data(withJSONObject: cleaned, options: [])
             return String(data: jsonData, encoding: .utf8) ?? "[]"
         } catch {
             return "[]"
         }
     }
     
-    private func jsonPrettyToString() -> String {
+    private func jsonPrettyToString(keepNil: Bool) -> String {
+        let cleaned = self.map { $0.cleanOptionals(keepNil: keepNil) }
         do {
-            let jsonData = try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
+            let jsonData = try JSONSerialization.data(withJSONObject: cleaned, options: .prettyPrinted)
             return String(data: jsonData, encoding: .utf8) ?? "[]"
         } catch {
             return "[]"
