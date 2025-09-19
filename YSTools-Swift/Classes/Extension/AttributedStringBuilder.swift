@@ -60,8 +60,6 @@ public final class AttributedStringBuilder {
         return self
     }
 
-    /// - Deprecated: 请使用 `append(_:attributes:)`。
-    @available(*, deprecated, message: "请使用 append(_:attributes:)。")
     @discardableResult
     public func append(_ text: String?) -> Self { append(text, attributes: nil) }
 
