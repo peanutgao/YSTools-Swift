@@ -13,4 +13,8 @@ public extension String {
     var isBlank: Bool {
         self.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
+
+    var isNotBlank: Bool { !isBlank }
+
+    var nilIfBlank: String? { isBlank ? nil : self }
 }
