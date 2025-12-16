@@ -21,15 +21,17 @@ public extension UIColor {
         set {}
     }
 
-    convenience init(hex: String, alpha: CGFloat = 1.0) {
-        var hexFormatted: String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+    convenience init?(hexString: String, alpha: CGFloat = 1.0) {
+        var hexFormatted: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             .uppercased()
 
         if hexFormatted.hasPrefix("#") {
             hexFormatted = String(hexFormatted.dropFirst())
         }
 
-        assert(hexFormatted.count == 6, "Invalid hex code used.")
+        guard hexFormatted.count == 6 else {
+            return nil
+        }
 
         var rgbValue: UInt64 = 0
         Scanner(string: hexFormatted).scanHexInt64(&rgbValue)
@@ -40,6 +42,15 @@ public extension UIColor {
             blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
             alpha: alpha
         )
+    }
+
+    convenience init(hex: String, alpha: CGFloat = 1.0) {
+        if let color = UIColor(hexString: hex, alpha: alpha) {
+            self.init(cgColor: color.cgColor)
+        } else {
+            // Fallback to clear color or handle gracefully instead of crashing
+            self.init(white: 0, alpha: 0)
+        }
     }
 
     convenience init(hex: UInt32, alpha: CGFloat = 1.0) {
