@@ -56,18 +56,15 @@ public enum MainScreen {
     }
 
     public static let saveArea = SaveArea()
-    public static let keyWindow = {
-        var window: UIWindow? = if #available(iOS 13.0, *) {
-            UIApplication.shared.connectedScenes
-                .filter { $0.activationState == .foregroundActive }
-                .compactMap { $0 as? UIWindowScene }
-                .first?.windows
-                .filter(\.isKeyWindow).first
-        } else {
-            UIApplication.shared.keyWindow!
-        }
-        return window
-    }()
+    public static let keyWindow = if #available(iOS 13.0, *) {
+        UIApplication.shared.connectedScenes
+            .filter { $0.activationState == .foregroundActive }
+            .compactMap { $0 as? UIWindowScene }
+            .first?.windows
+            .filter(\.isKeyWindow).first
+    } else {
+        UIApplication.shared.keyWindow!
+    }
 
     public static var statusBarHeight: CGFloat {
         get {
@@ -166,8 +163,7 @@ public class DeviceInfo {
         let fileManager = FileManager.default
         if let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).last,
            let attributes = try? fileManager.attributesOfFileSystem(forPath: documentDirectory.path),
-           let totalSpace = attributes[.systemSize] as? UInt64
-        {
+           let totalSpace = attributes[.systemSize] as? UInt64 {
             _ROM = totalSpace
             return _ROM
         }
@@ -185,12 +181,11 @@ public class DeviceInfo {
         }
 
         if kerr == KERN_SUCCESS {
-            let usedMemory = info.resident_size
+            return info.resident_size
 //            let totalMemory = ProcessInfo.processInfo.physicalMemory
 //            let usedMemoryMB = usedMemory / 1024 / 1024
 //            let totalMemoryMB = totalMemory / 1024 / 1024
 //            let memoryUsage = Double(usedMemory) / Double(totalMemory) * 100
-            return usedMemory
         } else {
             return nil
         }
@@ -213,14 +208,13 @@ public class DeviceInfo {
         var systemInfo = utsname()
         uname(&systemInfo)
         let machineMirror = Mirror(reflecting: systemInfo.machine)
-        let identifier = machineMirror.children.reduce("") { identifier, element in
+        return machineMirror.children.reduce("") { identifier, element in
             guard let value = element.value as? Int8, value != 0 else {
                 return identifier
             }
             _machineName = identifier + String(UnicodeScalar(UInt8(value)))
             return _machineName ?? identifier
         }
-        return identifier
     }
 
     private var _commercialName: String?
@@ -247,10 +241,10 @@ public class DeviceInfo {
             return true
         }
 
-//        if canWriteOutsideOfSandbox() {
-//            _isJailBroken = true
-//            return true
-//        }
+        if canWriteOutsideOfSandbox() {
+            _isJailBroken = true
+            return true
+        }
 
         let file = fopen("/bin/bash", "r")
         if file != nil {
@@ -316,16 +310,16 @@ private extension DeviceInfo {
     }
 
     func canWriteOutsideOfSandbox() -> Bool {
-        let path = "/private/" + NSUUID().uuidString
+        let path = "/private/" + UUID().uuidString
+
         do {
-            try "test".write(toFile: path, atomically: true, encoding: .utf8)
-            if FileManager.default.fileExists(atPath: path) {
-                do {
-                    try FileManager.default.removeItem(atPath: path)
-                } catch {
-                    debugPrint("Remove failed:", error.localizedDescription)
-                }
-            }
+            try "test".write(
+                toFile: path,
+                atomically: true,
+                encoding: .utf8
+            )
+            try? FileManager.default.removeItem(atPath: path)
+
             return true
         } catch {
             debugPrint("Write failed:", error.localizedDescription)

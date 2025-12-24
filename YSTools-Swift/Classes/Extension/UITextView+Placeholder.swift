@@ -52,7 +52,7 @@ public extension UITextView {
         
         init() {
             placeholderLabel.numberOfLines = 0
-            placeholderLabel.userInteractionEnabled = false
+            placeholderLabel.isUserInteractionEnabled = false
             placeholderLabel.textColor = UITextView.defaultPlaceholderColor
         }
     }

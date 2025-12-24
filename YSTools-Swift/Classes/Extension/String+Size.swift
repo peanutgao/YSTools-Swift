@@ -77,10 +77,4 @@ public extension String {
 
         return size
     }
-
-    func isValidEmail() -> Bool {
-        let emailRegex = "^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$"
-        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-        return emailPredicate.evaluate(with: self)
-    }
 }

@@ -57,29 +57,33 @@ extension Optional: JSONValueTransformable where Wrapped: JSONValueTransformable
 }
 
 public extension Dictionary where Key == String {
+    /// 清理字典中的 Optional 值
+    /// - Parameter keepNil: 是否保留 nil 值（转换为 NSNull），默认为 false
+    /// - Returns: 清理后的字典
     func cleanOptionals(keepNil: Bool = false) -> [String: Any] {
         var result: [String: Any] = [:]
 
         for (key, value) in self {
-//            if String(describing: type(of: value)).contains("Optional") {
-//                debugPrint("⚠️ Warning: Optional value detected for key '\(key)' with type '\(type(of: value))'")
-//            }
+            // if String(describing: type(of: value)).contains("Optional") {
+            //     debugPrint("⚠️ Warning: Optional value detected for key '\(key)' with type '\(type(of: value))'")
+            // }
 
             if let transformable = value as? JSONValueTransformable,
                let transformed = transformable.transformToJSONValue() {
                 result[key] = transformed
-            }
-            else if let dict = value as? [String: Any] {
+            } else if let dict = value as? [String: Any] {
                 result[key] = dict.cleanOptionals(keepNil: keepNil)
-            }
-            else if let array = value as? [Any] {
-                result[key] = array.map { element -> Any in
-//                    if String(describing: type(of: element)).contains("Optional") {
-//                        debugPrint(
-//                            "⚠️ Warning: Optional value detected in array for key '\(key)' with type '\(type(of: element))'"
-//                        )
-//                    }
+            } else if let array = value as? [Any] {
+                result[key] = array.compactMap { element -> Any? in
+                    // if String(describing: type(of: element)).contains("Optional") {
+                    //     debugPrint(
+                    //         "⚠️ Warning: Optional value detected in array for key '\(key)' with type '\(type(of: element))'"
+                    //     )
+                    // }
 
+                    if case Optional<Any>.none = element {
+                        return keepNil ? NSNull() : nil
+                    }
                     if let dict = element as? [String: Any] {
                         return dict.cleanOptionals(keepNil: keepNil)
                     }
@@ -89,17 +93,21 @@ public extension Dictionary where Key == String {
                     }
                     return element
                 }
-            }
-            else if case Optional<Any>.none = value {
+            } else if case Optional<Any>.none = value {
                 if keepNil {
                     result[key] = NSNull()
                 }
-            }
-            else {
+            } else {
                 result[key] = value
             }
         }
 
         return result
+    }
+
+    /// 移除字典中值为 nil 的键值对（支持递归处理嵌套字典和数组）
+    /// - Returns: 返回一个新字典，其中不包含值为 nil 的键值对
+    func removingNilValues() -> [String: Any] {
+        cleanOptionals(keepNil: false)
     }
 }
