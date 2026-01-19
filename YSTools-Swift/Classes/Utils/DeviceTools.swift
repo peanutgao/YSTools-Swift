@@ -416,6 +416,11 @@ public enum DeviceType {
         "iPhone17,3": "iPhone 16",
         "iPhone17,4": "iPhone 16 Plus",
         "iPhone17,5": "iPhone 16e",
+        
+        "iPhone18,1" : "iPhone 17 Pro",
+        "iPhone18,2" : "iPhone 17 Pro Max",
+        "iPhone18,3" : "iPhone 17",
+        "iPhone18,4" : "iPhone Air",
 
         // iPad
         "iPad1,1": "iPad",
@@ -578,6 +583,11 @@ public enum DeviceType {
         "iPhone17,3": "Apple A18",
         "iPhone17,4": "Apple A18",
         "iPhone17,5": "Apple A18",
+        
+        "iPhone18,1" : "Apple A19 Pro",
+        "iPhone18,2" : "Apple A19 Pro",
+        "iPhone18,3" : "Apple A19",
+        "iPhone18,4" : "Apple A19 Pro",
 
         // iPad
         "iPad4,1": "Apple A7",
