@@ -232,29 +232,117 @@ public class DeviceInfo {
     }
 
     private var _isJailBroken: Bool?
+    private var _detectionCache: [String: Bool] = [:]
+    private let detectionQueue = DispatchQueue(label: "com.ystools.jailbreak.detection", qos: .userInitiated)
+
+    private func detectionSync<T>(_ work: () -> T) -> T {
+        detectionQueue.sync(execute: work)
+    }
+
     public var isJailBroken: Bool {
-        if let _isJailBroken {
-            return _isJailBroken
+        if let cachedResult = detectionSync({ _isJailBroken }) {
+            return cachedResult
         }
-        if isContainsJailbrokenFiles() {
-            _isJailBroken = true
+
+        #if targetEnvironment(simulator)
+            detectionSync {
+                _isJailBroken = false
+            }
+            return false
+        #else
+        // Multi-layered jailbreak detection with early exit
+        // Layer 1: Check for jailbreak files and directories (fast)
+        if getCachedOrCompute("jailbreakFiles", compute: isContainsJailbrokenFiles) {
+            detectionSync {
+                _isJailBroken = true
+            }
             return true
         }
 
-        if canWriteOutsideOfSandbox() {
-            _isJailBroken = true
+        // Layer 2: Check for bash/sh access (fast)
+        if getCachedOrCompute("bashAccess", compute: checkBashAccess) {
+            detectionSync {
+                _isJailBroken = true
+            }
             return true
         }
 
-        let file = fopen("/bin/bash", "r")
-        if file != nil {
-            fclose(file)
-            _isJailBroken = true
+        // Layer 3: Check for dylib injection (fast)
+        if getCachedOrCompute("dylibInjection", compute: checkDylibInjection) {
+            detectionSync {
+                _isJailBroken = true
+            }
             return true
         }
 
-        _isJailBroken = false
+        // Layer 4: Check sandbox escape capability (medium)
+        if getCachedOrCompute("sandboxEscape", compute: canWriteOutsideOfSandbox) {
+            detectionSync {
+                _isJailBroken = true
+            }
+            return true
+        }
+
+        // Layer 5: Check fork ability (medium, potential side effects)
+        if getCachedOrCompute("forkAbility", compute: checkForkAbility) {
+            detectionSync {
+                _isJailBroken = true
+            }
+            return true
+        }
+
+        // Layer 6: Check for suspicious processes (slow, skip by default)
+        // Only run if explicitly requested via jailbreakDetectionDetails
+
+        detectionSync {
+            _isJailBroken = false
+        }
         return false
+        #endif
+    }
+
+    /// Helper to get cached result or compute and cache
+    private func getCachedOrCompute(_ key: String, compute: () -> Bool) -> Bool {
+        if let cached = detectionSync({ _detectionCache[key] }) {
+            return cached
+        }
+        let result = compute()
+        detectionSync {
+            _detectionCache[key] = result
+        }
+        return result
+    }
+
+    /// Detailed jailbreak detection result with individual check results
+    /// Note: This performs all checks including expensive ones (process scanning)
+    public var jailbreakDetectionDetails: [String: Bool] {
+        #if targetEnvironment(simulator)
+            return [
+                "jailbreakFiles": false,
+                "sandboxEscape": false,
+                "bashAccess": false,
+                "suspiciousProcesses": false,
+                "dylibInjection": false,
+                "forkAbility": false
+            ]
+        #else
+        return [
+            "jailbreakFiles": getCachedOrCompute("jailbreakFiles", compute: isContainsJailbrokenFiles),
+            "sandboxEscape": getCachedOrCompute("sandboxEscape", compute: canWriteOutsideOfSandbox),
+            "bashAccess": getCachedOrCompute("bashAccess", compute: checkBashAccess),
+            "suspiciousProcesses": getCachedOrCompute("suspiciousProcesses", compute: checkSuspiciousProcesses),
+            "dylibInjection": getCachedOrCompute("dylibInjection", compute: checkDylibInjection),
+            "forkAbility": getCachedOrCompute("forkAbility", compute: checkForkAbility)
+        ]
+        #endif
+    }
+
+    /// Clear detection cache to force re-evaluation
+    public func clearJailbreakCache() {
+        detectionSync {
+            _detectionCache.removeAll()
+            _isJailBroken = nil
+        }
     }
 
     private var _buildTime: String?
@@ -279,52 +367,353 @@ public class DeviceInfo {
 }
 
 private extension DeviceInfo {
+    // MARK: - Enhanced Jailbreak Detection
+
+    /// Check if bash is accessible
+    func checkBashAccess() -> Bool {
+        #if targetEnvironment(simulator)
+            return false
+        #else
+        guard let file = fopen("/bin/bash", "r") else {
+            return false
+        }
+        fclose(file)
+        return true
+        #endif
+    }
+
     func isContainsJailbrokenFiles() -> Bool {
         #if targetEnvironment(simulator)
             return false
         #else
-            let filePaths = [
-                "/private/var/lib/apt/",
-                "/Applications/Cydia.app",
-                "/Applications/RockApp.app",
-                "/Applications/Icy.app",
-                "/Applications/WinterBoard.app",
-                "/Applications/SBSetttings.app",
-                "/Applications/blackra1n.app",
-                "/Applications/IntelliScreen.app",
-                "/Applications/Snoop-itConfig.app",
-                "/usr/libexec/sftp-server",
-                "/bin/sh",
-                "/bin/bash",
-                "/usr/sbin/sshd",
-                "/etc/apt",
-                "/etc/apt/System/Library/LaunchDaemons/com.saurik.Cydia.Startup.plist",
-                "/System/Library/LaunchDaemons/com.ikey.bbot.plist",
-                "/Library/MobileSubstrate/MobileSubstrate.dylib",
-                "cydia://package/com.example.package"
-            ]
-            return filePaths.contains(where: {
-                FileManager.default.fileExists(atPath: $0)
-            })
+        let fileManager = FileManager.default
+
+        // Ordered by likelihood - check most common paths first for early exit
+        let jailbreakPaths = [
+            // Most common package managers
+            "/Applications/Cydia.app",
+            "/Applications/Sileo.app",
+            "/Library/MobileSubstrate/MobileSubstrate.dylib",
+            "/usr/lib/substrate/",
+
+            // Modern jailbreak tools (2020+)
+            "/Applications/unc0ver.app",
+            "/Applications/checkra1n.app",
+            "/Applications/Dopamine.app",
+            "/Applications/Palera1n.app",
+            "/Applications/TrollStore.app",
+            "/Applications/taurine.app",
+            "/Applications/odyssey.app",
+
+            // APT/Cydia directories
+            "/private/var/lib/apt/",
+            "/private/var/lib/cydia/",
+            "/var/lib/apt/",
+            "/etc/apt/",
+
+            // System binaries
+            "/bin/bash",
+            "/bin/sh",
+            "/usr/sbin/sshd",
+            "/usr/bin/ssh",
+
+            // Jailbreak indicators
+            "/.installed_unc0ver",
+            "/.bootstrapped_electra",
+            "/jb/",
+
+            // Older tools (less common)
+            "/Applications/Zebra.app",
+            "/Applications/Installer.app",
+            "/Applications/chimera.app",
+            "/Applications/electra.app",
+            "/Applications/RockApp.app",
+            "/Applications/Icy.app",
+            "/Applications/WinterBoard.app",
+            "/Applications/SBSettings.app",
+            "/Applications/IntelliScreen.app",
+            "/Applications/Snoop-itConfig.app",
+            "/Applications/blackra1n.app",
+
+            // Additional directories
+            "/private/var/stash/",
+            "/private/var/cache/apt/",
+            "/private/var/log/apt/",
+            "/var/lib/cydia/",
+            "/etc/apt/sources.list.d/",
+            "/etc/apt/undecimus/",
+            "/bin/su",
+            "/bin/ps",
+            "/bin/killall",
+            "/usr/bin/scp",
+            "/usr/libexec/sftp-server",
+            "/usr/libexec/ssh-keysign/",
+
+            // LaunchDaemons
+            "/System/Library/LaunchDaemons/com.saurik.Cydia.Startup.plist",
+            "/System/Library/LaunchDaemons/com.ikey.bbot.plist",
+            "/Library/LaunchDaemons/com.openssh.sshd.plist",
+            "/Library/LaunchDaemons/com.apple.tcpdump.plist",
+            "/Library/LaunchDaemons/com.rpetri.rocketbootstrapd.plist",
+
+            // Tweak injection
+            "/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate",
+            "/Library/Frameworks/SBSettings.framework/",
+            "/usr/lib/TweakInject/",
+            "/usr/lib/TweakInject.dylib",
+            "/usr/lib/libhooker.dylib",
+            "/usr/lib/libsubstitute.dylib",
+            "/usr/lib/PreferenceLoader/",
+            "/usr/lib/Cephei/",
+
+            // Additional indicators
+            "/.cydia_no_stash",
+            "/jb/jailbreakd",
+            "/jb/lzma",
+            "/jb/offsets",
+            "/cores/binpack/",
+            "/private/jailbreakd",
+            "/etc/clutch.conf",
+            "/etc/clutch2.conf",
+            "/etc/alternatives/",
+            "/etc/ssh/"
+        ]
+
+        // Check file existence with early exit
+        for path in jailbreakPaths {
+            if fileManager.fileExists(atPath: path) {
+                return true
+            }
+
+            // For directories, also check accessibility
+            if path.hasSuffix("/") {
+                if fileManager.isReadableFile(atPath: path) ||
+                   fileManager.isExecutableFile(atPath: path) {
+                    return true
+                }
+            }
+        }
+
+        // Check URL schemes (lightweight check)
+        return checkJailbreakURLSchemes()
         #endif
     }
 
+    func checkJailbreakURLSchemes() -> Bool {
+        #if targetEnvironment(simulator)
+            return false
+        #else
+        let jailbreakSchemes = [
+            "cydia://package/com.example.package",
+            "sileo://package/com.example.package",
+            "zbra://packages/com.example.package"
+        ]
+
+        for scheme in jailbreakSchemes {
+            guard let url = URL(string: scheme) else { continue }
+            if canOpenURLSafely(url) {
+                return true
+            }
+        }
+        return false
+        #endif
+    }
+
+    func canOpenURLSafely(_ url: URL) -> Bool {
+        if Thread.isMainThread {
+            return UIApplication.shared.canOpenURL(url)
+        }
+        return DispatchQueue.main.sync {
+            UIApplication.shared.canOpenURL(url)
+        }
+    }
+
     func canWriteOutsideOfSandbox() -> Bool {
-        let path = "/private/" + UUID().uuidString
+        #if targetEnvironment(simulator)
+            return false
+        #else
+        let fileManager = FileManager.default
+
+        // First check: Try to read restricted directories (non-destructive)
+        let restrictedDirs = [
+            "/var/root",
+            "/private/var/root",
+            "/var/mobile/Library/AddressBook"
+        ]
+
+        for dir in restrictedDirs {
+            if fileManager.isReadableFile(atPath: dir) {
+                do {
+                    let contents = try fileManager.contentsOfDirectory(atPath: dir)
+                    if !contents.isEmpty {
+                        return true
+                    }
+                } catch {
+                    // Expected to fail on non-jailbroken devices
+                }
+            }
+        }
+
+        // Second check: Try minimal write test (only if read check failed)
+        // Use a single, less suspicious path to avoid detection
+        let testPath = "/private/.jb_\(UUID().uuidString.prefix(8))"
 
         do {
-            try "test".write(
-                toFile: path,
-                atomically: true,
-                encoding: .utf8
-            )
-            try? FileManager.default.removeItem(atPath: path)
-
+            try "t".write(toFile: testPath, atomically: false, encoding: .utf8)
+            // Clean up immediately
+            try? fileManager.removeItem(atPath: testPath)
             return true
         } catch {
-            debugPrint("Write failed:", error.localizedDescription)
+            // Expected to fail on non-jailbroken devices
+        }
+
+        return false
+        #endif
+    }
+
+    // MARK: - Additional Detection Methods
+
+    func checkSuspiciousProcesses() -> Bool {
+        #if targetEnvironment(simulator)
+            return false
+        #else
+        // Optimized process check with early exit
+        let suspiciousProcesses = [
+            "Cydia", "Sileo", "Zebra", "Installer",
+            "unc0ver", "checkra1n", "chimera", "electra",
+            "odyssey", "taurine", "TrollStore", "Dopamine", "Palera1n",
+            "frida-server", "frida",
+            "clutch", "clutch2", "dumpdecrypted"
+        ]
+
+        var mib: [Int32] = [CTL_KERN, KERN_PROC, KERN_PROC_ALL]
+        var size: Int = 0
+
+        // Get required buffer size
+        guard sysctl(&mib, u_int(mib.count), nil, &size, nil, 0) == 0, size > 0 else {
             return false
         }
+
+        let processCount = size / MemoryLayout<kinfo_proc>.stride
+
+        // Limit process count to prevent excessive memory allocation
+        guard processCount < 10000 else {
+            return false
+        }
+
+        var processes = [kinfo_proc](repeating: kinfo_proc(), count: processCount)
+
+        // Get process list
+        let sysctlSucceeded: Bool = processes.withUnsafeMutableBytes { rawBuffer in
+            guard let baseAddress = rawBuffer.baseAddress else {
+                return false
+            }
+            return sysctl(&mib, u_int(mib.count), baseAddress, &size, nil, 0) == 0
+        }
+
+        guard sysctlSucceeded else {
+            return false
+        }
+
+        let actualProcessCount = min(processCount, size / MemoryLayout<kinfo_proc>.stride)
+        guard actualProcessCount > 0 else {
+            return false
+        }
+
+        // Check each process with early exit
+        for process in processes.prefix(actualProcessCount) {
+            let processName = withUnsafeBytes(of: process.kp_proc.p_comm) { rawBytes -> String in
+                let bytes = rawBytes.bindMemory(to: UInt8.self)
+                let endIndex = bytes.firstIndex(of: 0) ?? bytes.endIndex
+                return String(decoding: bytes[..<endIndex], as: UTF8.self)
+            }
+
+            // Early exit on first match
+            let lowerName = processName.lowercased()
+            for suspicious in suspiciousProcesses {
+                if lowerName.contains(suspicious.lowercased()) {
+                    return true
+                }
+            }
+        }
+
+        return false
+        #endif
+    }
+
+    func checkDylibInjection() -> Bool {
+        #if targetEnvironment(simulator)
+            return false
+        #else
+        let fileManager = FileManager.default
+
+        // Check for injected dynamic libraries (ordered by likelihood)
+        let injectionIndicators = [
+            // Most common injection paths
+            "/Library/MobileSubstrate/MobileSubstrate.dylib",
+            "/usr/lib/substrate/",
+            "/usr/lib/TweakInject/",
+
+            // Modern injection frameworks
+            "/usr/lib/libhooker.dylib",
+            "/usr/lib/libsubstitute.dylib",
+            "/Library/MobileSubstrate",
+
+            // Supporting libraries
+            "/usr/lib/PreferenceLoader/",
+            "/usr/lib/Cephei/",
+            "/usr/lib/libsparkapplist",
+            "/usr/lib/PreferenceBundles",
+            "/usr/lib/TweakInject.dylib",
+
+            // Anti-detection tweaks (ironically help us detect)
+            "/Library/MobileSubstrate/DynamicLibraries/Liberty.dylib",
+            "/Library/MobileSubstrate/DynamicLibraries/AntiJBDetect.dylib",
+            "/Library/MobileSubstrate/DynamicLibraries/Choicy.dylib",
+            "/usr/lib/TweakInject/AntiJBDetect.dylib",
+
+            // Framework paths
+            "/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate",
+            "/Library/Frameworks/SBSettings.framework/"
+        ]
+
+        // Check file existence with early exit
+        for path in injectionIndicators {
+            if fileManager.fileExists(atPath: path) {
+                return true
+            }
+        }
+
+        // Check if MobileSubstrate is already loaded in memory
+        if dlopen("/Library/MobileSubstrate/MobileSubstrate.dylib", RTLD_NOLOAD) != nil {
+            return true
+        }
+
+        return false
+        #endif
+    }
+
+    func checkForkAbility() -> Bool {
+        #if targetEnvironment(simulator)
+            return false
+        #else
+        // fork() should fail on non-jailbroken devices
+        let pid = fork()
+
+        if pid == -1 {
+            // Fork failed (expected on non-jailbroken devices)
+            return false
+        } else if pid == 0 {
+            // Child process - exit immediately to prevent process leak
+            _exit(0)
+        } else {
+            // Parent process - wait for child to prevent zombie process
+            var status: Int32 = 0
+            while waitpid(pid, &status, 0) == -1, errno == EINTR {}
+            // Fork succeeded - device is jailbroken
+            return true
+        }
+        #endif
     }
 
     func getSystemBuildTime() -> Int64 {
