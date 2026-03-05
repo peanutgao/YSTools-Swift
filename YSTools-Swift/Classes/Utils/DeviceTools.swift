@@ -56,14 +56,17 @@ public enum MainScreen {
     }
 
     public static let saveArea = SaveArea()
-    public static let keyWindow = if #available(iOS 13.0, *) {
-        UIApplication.shared.connectedScenes
-            .filter { $0.activationState == .foregroundActive }
-            .compactMap { $0 as? UIWindowScene }
-            .first?.windows
-            .filter(\.isKeyWindow).first
-    } else {
-        UIApplication.shared.keyWindow!
+
+    public static var keyWindow: UIWindow? {
+        if #available(iOS 13.0, *) {
+            return UIApplication.shared.connectedScenes
+                .filter { $0.activationState == .foregroundActive }
+                .compactMap { $0 as? UIWindowScene }
+                .first?.windows
+                .filter(\.isKeyWindow).first
+        } else {
+            return UIApplication.shared.keyWindow
+        }
     }
 
     public static var statusBarHeight: CGFloat {
@@ -146,26 +149,27 @@ public class DeviceInfo {
 
     private var _CPU: String?
     public var CPU: String {
-        if _CPU != nil {
-            return _CPU!
+        if let cached = _CPU {
+            return cached
         }
-        _CPU = DeviceType.deviceCPUList[machineName] ?? "Unknown"
-        return _CPU!
+        let result = DeviceType.deviceCPUList[machineName] ?? "Unknown"
+        _CPU = result
+        return result
     }
 
     public let RAM: UInt64 = ProcessInfo.processInfo.physicalMemory
 
     private var _ROM: UInt64?
     public var ROM: UInt64? {
-        if _ROM != nil {
-            return _ROM!
+        if let cached = _ROM {
+            return cached
         }
         let fileManager = FileManager.default
         if let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).last,
            let attributes = try? fileManager.attributesOfFileSystem(forPath: documentDirectory.path),
            let totalSpace = attributes[.systemSize] as? UInt64 {
             _ROM = totalSpace
-            return _ROM
+            return totalSpace
         }
         return nil
     }
@@ -201,29 +205,31 @@ public class DeviceInfo {
 
     private var _machineName: String?
     public var machineName: String {
-        if _machineName != nil {
-            return _machineName!
+        if let cached = _machineName {
+            return cached
         }
 
         var systemInfo = utsname()
         uname(&systemInfo)
         let machineMirror = Mirror(reflecting: systemInfo.machine)
-        return machineMirror.children.reduce("") { identifier, element in
+        let result = machineMirror.children.reduce("") { identifier, element in
             guard let value = element.value as? Int8, value != 0 else {
                 return identifier
             }
-            _machineName = identifier + String(UnicodeScalar(UInt8(value)))
-            return _machineName ?? identifier
+            return identifier + String(UnicodeScalar(UInt8(value)))
         }
+        _machineName = result
+        return result
     }
 
     private var _commercialName: String?
     public var commercialName: String {
-        if _commercialName != nil {
-            return _commercialName!
+        if let cached = _commercialName {
+            return cached
         }
-        _commercialName = DeviceType.commercialName(for: machineName)
-        return _commercialName!
+        let result = DeviceType.commercialName(for: machineName)
+        _commercialName = result
+        return result
     }
 
     public var resolution: String? {
@@ -250,50 +256,30 @@ public class DeviceInfo {
             }
             return false
         #else
-        // Multi-layered jailbreak detection with early exit
-        // Layer 1: Check for jailbreak files and directories (fast)
         if getCachedOrCompute("jailbreakFiles", compute: isContainsJailbrokenFiles) {
             detectionSync {
                 _isJailBroken = true
             }
             return true
         }
-
-        // Layer 2: Check for bash/sh access (fast)
         if getCachedOrCompute("bashAccess", compute: checkBashAccess) {
             detectionSync {
                 _isJailBroken = true
             }
             return true
         }
-
-        // Layer 3: Check for dylib injection (fast)
         if getCachedOrCompute("dylibInjection", compute: checkDylibInjection) {
             detectionSync {
                 _isJailBroken = true
             }
             return true
         }
-
-        // Layer 4: Check sandbox escape capability (medium)
         if getCachedOrCompute("sandboxEscape", compute: canWriteOutsideOfSandbox) {
             detectionSync {
                 _isJailBroken = true
             }
             return true
         }
-
-        // Layer 5: Check fork ability (medium, potential side effects)
-        if getCachedOrCompute("forkAbility", compute: checkForkAbility) {
-            detectionSync {
-                _isJailBroken = true
-            }
-            return true
-        }
-
-        // Layer 6: Check for suspicious processes (slow, skip by default)
-        // Only run if explicitly requested via jailbreakDetectionDetails
-
         detectionSync {
             _isJailBroken = false
         }
@@ -322,8 +308,7 @@ public class DeviceInfo {
                 "sandboxEscape": false,
                 "bashAccess": false,
                 "suspiciousProcesses": false,
-                "dylibInjection": false,
-                "forkAbility": false
+                "dylibInjection": false
             ]
         #else
         return [
@@ -331,8 +316,7 @@ public class DeviceInfo {
             "sandboxEscape": getCachedOrCompute("sandboxEscape", compute: canWriteOutsideOfSandbox),
             "bashAccess": getCachedOrCompute("bashAccess", compute: checkBashAccess),
             "suspiciousProcesses": getCachedOrCompute("suspiciousProcesses", compute: checkSuspiciousProcesses),
-            "dylibInjection": getCachedOrCompute("dylibInjection", compute: checkDylibInjection),
-            "forkAbility": getCachedOrCompute("forkAbility", compute: checkForkAbility)
+            "dylibInjection": getCachedOrCompute("dylibInjection", compute: checkDylibInjection)
         ]
         #endif
     }
@@ -347,20 +331,22 @@ public class DeviceInfo {
 
     private var _buildTime: String?
     public var buildTime: String {
-        if let _buildTime {
-            return _buildTime
+        if let cached = _buildTime {
+            return cached
         }
-        _buildTime = "\(getSystemBuildTime())"
-        return _buildTime!
+        let result = "\(getSystemBuildTime())"
+        _buildTime = result
+        return result
     }
 
     private var _bootTimeInterval: String?
     public var bootTimeInterval: String {
-        if let _bootTimeInterval {
-            return _bootTimeInterval
+        if let cached = _bootTimeInterval {
+            return cached
         }
-        _bootTimeInterval = getDeviceBootTime()
-        return _bootTimeInterval!
+        let result = getDeviceBootTime()
+        _bootTimeInterval = result
+        return result
     }
 
     private init() {}
@@ -690,29 +676,6 @@ private extension DeviceInfo {
         }
 
         return false
-        #endif
-    }
-
-    func checkForkAbility() -> Bool {
-        #if targetEnvironment(simulator)
-            return false
-        #else
-        // fork() should fail on non-jailbroken devices
-        let pid = fork()
-
-        if pid == -1 {
-            // Fork failed (expected on non-jailbroken devices)
-            return false
-        } else if pid == 0 {
-            // Child process - exit immediately to prevent process leak
-            _exit(0)
-        } else {
-            // Parent process - wait for child to prevent zombie process
-            var status: Int32 = 0
-            while waitpid(pid, &status, 0) == -1, errno == EINTR {}
-            // Fork succeeded - device is jailbroken
-            return true
-        }
         #endif
     }
 
