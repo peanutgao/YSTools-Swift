@@ -2,7 +2,7 @@
 //  Collection+Extras.swift
 //  YSTools-Swift
 //
-//  Created by Codex CLI on 2025/10/17.
+//  Created by Joseph 2025/10/17.
 //
 
 import Foundation
