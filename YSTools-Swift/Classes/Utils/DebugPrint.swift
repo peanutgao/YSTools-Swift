@@ -26,12 +26,13 @@ public func println(
     #endif
 }
 
-public func printLog(_ items: Any..., separator _: String = " ", file: String = #file, line: Int = #line) {
+public func printLog(_ items: Any..., separator: String = " ", file: String = #file, line: Int = #line) {
     if #available(iOS 15.0, *) {
         #if DEBUG
             let fileName = (file as NSString).lastPathComponent
             let timestamp = Date().formatted(date: .numeric, time: .standard)
-            print("[\(timestamp)] [\(fileName):\(line)] \(items[0])")
+            let body = items.map { "\($0)" }.joined(separator: separator)
+            print("[\(timestamp)] [\(fileName):\(line)] \(body)")
         #endif
     } else {
         // Fallback on earlier versions

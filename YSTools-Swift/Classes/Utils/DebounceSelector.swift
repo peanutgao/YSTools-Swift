@@ -9,20 +9,29 @@ import Foundation
 
 public class DebounceSelector {
     private var isExecuting = false
+    private let lock = NSLock()
     private let debounceInterval: TimeInterval
-    
+
     public init(debounceInterval: TimeInterval = 0.6) {
         self.debounceInterval = debounceInterval
     }
-    
+
     public func execute(_ action: @escaping () -> Void) {
-        guard !isExecuting else { return }
-        
+        lock.lock()
+        if isExecuting {
+            lock.unlock()
+            return
+        }
         isExecuting = true
+        lock.unlock()
+
         action()
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + debounceInterval) { [weak self] in
-            self?.isExecuting = false
+            guard let self else { return }
+            self.lock.lock()
+            self.isExecuting = false
+            self.lock.unlock()
         }
     }
 }

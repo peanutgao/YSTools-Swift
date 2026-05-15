@@ -31,9 +31,9 @@ public extension String {
         let attritube = NSMutableAttributedString(string: self)
         let range = NSRange(location: 0, length: attritube.length)
         attritube.addAttributes([.font: font], range: range)
-        if lineSpacing != nil {
+        if let lineSpacing {
             let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = lineSpacing!
+            paragraphStyle.lineSpacing = lineSpacing
             attritube.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
         }
 
@@ -69,7 +69,7 @@ public extension String {
             return size
         }
 
-        let currentLineSpacing = (lineSpacing == nil) ? (font.lineHeight - font.pointSize) : lineSpacing!
+        let currentLineSpacing = lineSpacing ?? (font.lineHeight - font.pointSize)
         let maximumHeight = font.lineHeight * CGFloat(lines) + currentLineSpacing * CGFloat(lines - 1)
         if size.height >= maximumHeight {
             return CGSize(width: size.width, height: maximumHeight)

@@ -30,6 +30,30 @@ public extension UIControlCreateProtocol where Self: UIControl {
         self.addTarget(target, action: action, for: controlEvents)
         return self
     }
+
+    @discardableResult
+    func ys_removeTarget(_ target: Any?, action: Selector?, for controlEvents: UIControl.Event) -> Self {
+        self.removeTarget(target, action: action, for: controlEvents)
+        return self
+    }
+
+    @discardableResult
+    func ys_isHighlighted(_ b: Bool) -> Self {
+        self.isHighlighted = b
+        return self
+    }
+
+    @discardableResult
+    func ys_contentVerticalAlignment(_ alignment: UIControl.ContentVerticalAlignment) -> Self {
+        self.contentVerticalAlignment = alignment
+        return self
+    }
+
+    @discardableResult
+    func ys_contentHorizontalAlignment(_ alignment: UIControl.ContentHorizontalAlignment) -> Self {
+        self.contentHorizontalAlignment = alignment
+        return self
+    }
 }
 
 // MARK: - UIButton + UIControlCreateProtocol

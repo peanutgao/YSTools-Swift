@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Pod Lib Lint + SwiftLint
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer
+
+      - name: Install SwiftLint
+        run: brew install swiftlint
+
+      - name: SwiftLint
+        run: swiftlint lint --strict --quiet YSTools-Swift
+
+      - name: Pod Lib Lint
+        run: pod lib lint YSTools-Swift.podspec --no-clean
+
+  test:
+    name: Build & Test Example
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer
+
+      - name: Install Pods
+        working-directory: Example
+        run: pod install --repo-update
+
+      - name: Build Example
+        working-directory: Example
+        run: |
+          xcodebuild \
+            -workspace YSTools-Swift.xcworkspace \
+            -scheme YSTools-Swift-Example \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -configuration Debug \
+            build | xcpretty
+
+      - name: Prepare Simulator
+        run: |
+          DEVICE_TYPE=$(ruby -rjson -e 'types = JSON.parse(`xcrun simctl list devicetypes -j`)["devicetypes"]; puts types.select { |d| d["name"].start_with?("iPhone") }.last.fetch("identifier")')
+          RUNTIME=$(ruby -rjson -e 'runtimes = JSON.parse(`xcrun simctl list runtimes -j`)["runtimes"]; puts runtimes.select { |r| r["isAvailable"] && r["identifier"].include?(".iOS-") }.last.fetch("identifier")')
+          UDID=$(xcrun simctl create "YSTools CI" "$DEVICE_TYPE" "$RUNTIME")
+          echo "SIMULATOR_UDID=$UDID" >> "$GITHUB_ENV"
+
+      - name: Run Tests
+        working-directory: Example
+        run: |
+          xcodebuild test \
+            -workspace YSTools-Swift.xcworkspace \
+            -scheme YSTools-Swift-Example \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" \
+            -configuration Debug | xcpretty

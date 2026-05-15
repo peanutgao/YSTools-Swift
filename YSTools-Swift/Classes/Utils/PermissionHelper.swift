@@ -42,7 +42,11 @@ public class PermissionHelper: NSObject {
             convertAVStatus(AVCaptureDevice.authorizationStatus(for: .audio))
         case .locationWhenInUse,
              .locationAlways:
-            convertLocationStatus(CLLocationManager.authorizationStatus())
+            if #available(iOS 14.0, *) {
+                convertLocationStatus(CLLocationManager().authorizationStatus)
+            } else {
+                convertLocationStatus(CLLocationManager.authorizationStatus())
+            }
         case .notification:
             // Notification status is async, so we return unknown here or handle differently.
             // For synchronous check, it's not possible.
@@ -77,15 +81,15 @@ public class PermissionHelper: NSObject {
                 DispatchQueue.main.async { completion(granted) }
             }
 
-        case .locationWhenInUse:
-            // Location request requires an instance delegate, which is complex for a static helper.
-            // This is a simplified placeholder. In real apps, use a CLLocationManager instance.
-            print("Location permission request requires CLLocationManager instance handling.")
-            completion(false)
-
-        case .locationAlways:
-            print("Location permission request requires CLLocationManager instance handling.")
-            completion(false)
+        case .locationWhenInUse, .locationAlways:
+            // Location requires CLLocationManager instance + delegate. Use
+            // `requestLocation(_:type:)` with a managed instance instead.
+            // Reported as failure on the main thread to keep callback contract
+            // consistent with the other branches.
+            #if DEBUG
+            debugPrint("[YSTools] Use PermissionHelper.requestLocation(_:type:) with a caller-owned CLLocationManager for location permission requests.")
+            #endif
+            DispatchQueue.main.async { completion(false) }
 
         case .notification:
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
@@ -125,6 +129,26 @@ public class PermissionHelper: NSObject {
         case .notDetermined: return .notDetermined
         case .restricted: return .restricted
         @unknown default: return .unknown
+        }
+    }
+}
+
+// MARK: - Location with explicit manager
+
+public extension PermissionHelper {
+    /// Request location authorization through a caller-provided CLLocationManager.
+    /// Caller owns the manager (it must outlive the request) and the delegate
+    /// already wired to capture the response.
+    static func requestLocation(_ manager: CLLocationManager, type: PermissionType) {
+        switch type {
+        case .locationWhenInUse:
+            manager.requestWhenInUseAuthorization()
+        case .locationAlways:
+            manager.requestAlwaysAuthorization()
+        default:
+            #if DEBUG
+            debugPrint("[YSTools] PermissionHelper.requestLocation called with non-location type: \(type)")
+            #endif
         }
     }
 }

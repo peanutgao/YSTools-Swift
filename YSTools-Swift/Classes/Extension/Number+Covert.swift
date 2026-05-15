@@ -13,8 +13,9 @@ public extension String {
         if let intValue = Int(self) {
             return intValue
         }
-        if let doubleValue = Double(self) {
-            return Int(doubleValue)
+        if let doubleValue = Double(self),
+           doubleValue.canConvertToInt {
+            return Int(exactly: doubleValue.rounded(.towardZero))
         }
         return nil
     }
@@ -31,8 +32,9 @@ public extension String {
         if let int64Value = Int64(self) {
             return int64Value
         }
-        if let doubleValue = Double(self) {
-            return Int64(doubleValue)
+        if let doubleValue = Double(self),
+           doubleValue.canConvertToInt64 {
+            return Int64(exactly: doubleValue.rounded(.towardZero))
         }
         return nil
     }
@@ -62,11 +64,7 @@ public extension Float {
     }
 
     func toInt() -> Int {
-        let result = Int(self)
-        if self > Float(Int.max) || self < Float(Int.min) {
-            assertionFailure("Float value \(self) is out of Int range [\(Int.min), \(Int.max)]")
-        }
-        return result
+        Double(self).clampedInt()
     }
 
     func toDouble() -> Double {
@@ -74,11 +72,7 @@ public extension Float {
     }
 
     func toInt64() -> Int64 {
-        let result = Int64(self)
-        if self > Float(Int64.max) || self < Float(Int64.min) {
-            assertionFailure("Float value \(self) is out of Int64 range [\(Int64.min), \(Int64.max)]")
-        }
-        return result
+        Double(self).clampedInt64()
     }
 }
 
@@ -88,11 +82,7 @@ public extension Double {
     }
 
     func toInt() -> Int {
-        let result = Int(self)
-        if self > Double(Int.max) || self < Double(Int.min) {
-            assertionFailure("Double value \(self) is out of Int range [\(Int.min), \(Int.max)]")
-        }
-        return result
+        clampedInt()
     }
 
     func toFloat() -> Float {
@@ -100,11 +90,7 @@ public extension Double {
     }
 
     func toInt64() -> Int64 {
-        let result = Int64(self)
-        if self > Double(Int64.max) || self < Double(Int64.min) {
-            assertionFailure("Double value \(self) is out of Int64 range [\(Int64.min), \(Int64.max)]")
-        }
-        return result
+        clampedInt64()
     }
 }
 
@@ -117,7 +103,6 @@ public extension Int64 {
         if self >= Int.min, self <= Int.max {
             return Int(self)
         }
-        assertionFailure("Int64 value \(self) is out of Int range [\(Int.min), \(Int.max)]")
         return nil
     }
 
@@ -127,5 +112,41 @@ public extension Int64 {
 
     func toDouble() -> Double {
         Double(self)
+    }
+}
+
+private extension Double {
+    var canConvertToInt: Bool {
+        isFinite && self >= Double(Int.min) && self <= Double(Int.max)
+    }
+
+    var canConvertToInt64: Bool {
+        isFinite && self >= Double(Int64.min) && self <= Double(Int64.max)
+    }
+
+    func clampedInt() -> Int {
+        guard isFinite else {
+            return 0
+        }
+        if self >= Double(Int.max) {
+            return Int.max
+        }
+        if self <= Double(Int.min) {
+            return Int.min
+        }
+        return Int(self)
+    }
+
+    func clampedInt64() -> Int64 {
+        guard isFinite else {
+            return 0
+        }
+        if self >= Double(Int64.max) {
+            return Int64.max
+        }
+        if self <= Double(Int64.min) {
+            return Int64.min
+        }
+        return Int64(self)
     }
 }

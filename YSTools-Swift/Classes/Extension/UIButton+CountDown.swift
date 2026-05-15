@@ -9,16 +9,41 @@
 import ObjectiveC
 import UIKit
 
-private var timerAssociatedKey: UInt8 = 0
+private var timerHolderAssociatedKey: UInt8 = 0
+
+// Holder cancels timer in deinit so button being released mid-countdown
+// (without a manual stopCountDown call) cannot trigger libdispatch's
+// "Release of a resumed timer" crash.
+private final class CountDownTimerHolder {
+  let timer: DispatchSourceTimer
+  private var isCancelled = false
+  private let lock = NSLock()
+
+  init(timer: DispatchSourceTimer) {
+    self.timer = timer
+  }
+
+  func cancel() {
+    lock.lock()
+    defer { lock.unlock() }
+    guard !isCancelled else { return }
+    isCancelled = true
+    timer.cancel()
+  }
+
+  deinit {
+    cancel()
+  }
+}
 
 extension UIButton {
-  private var countDownTimer: DispatchSourceTimer? {
+  private var countDownTimerHolder: CountDownTimerHolder? {
     get {
-      objc_getAssociatedObject(self, &timerAssociatedKey) as? DispatchSourceTimer
+      objc_getAssociatedObject(self, &timerHolderAssociatedKey) as? CountDownTimerHolder
     }
     set {
       objc_setAssociatedObject(
-        self, &timerAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        self, &timerHolderAssociatedKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
   }
 
@@ -36,10 +61,11 @@ extension UIButton {
 
     let queue = DispatchQueue.global()
     let timer = DispatchSource.makeTimerSource(flags: [], queue: queue)
-    countDownTimer = timer
+    let holder = CountDownTimerHolder(timer: timer)
+    countDownTimerHolder = holder
 
-    let completionHandler = { [weak self] in
-      timer.cancel()
+    let completionHandler = { [weak self, weak holder] in
+      holder?.cancel()
       DispatchQueue.main.async { [weak self] in
         guard let self else {
           return
@@ -47,7 +73,7 @@ extension UIButton {
         setTitle(resendTitle, for: .normal)
         isUserInteractionEnabled = true
         isEnabled = true
-        countDownTimer = nil
+        countDownTimerHolder = nil
         finishHandler?()
       }
     }
@@ -83,11 +109,10 @@ extension UIButton {
   }
 
   public func stopCountDown() {
-    if let timer = countDownTimer, !timer.isCancelled {
-      timer.cancel()
-      countDownTimer = nil
-      isEnabled = true
-      isUserInteractionEnabled = true
-    }
+    guard let holder = countDownTimerHolder else { return }
+    holder.cancel()
+    countDownTimerHolder = nil
+    isEnabled = true
+    isUserInteractionEnabled = true
   }
 }

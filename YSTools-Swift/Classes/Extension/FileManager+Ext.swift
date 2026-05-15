@@ -11,12 +11,18 @@ public extension FileManager {
     
     /// Returns the URL for the Documents directory.
     static var documentsDirectory: URL {
-        return `default`.urls(for: .documentDirectory, in: .userDomainMask).first!
+        if let url = `default`.urls(for: .documentDirectory, in: .userDomainMask).first {
+            return url
+        }
+        return URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents")
     }
-    
+
     /// Returns the URL for the Caches directory.
     static var cachesDirectory: URL {
-        return `default`.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        if let url = `default`.urls(for: .cachesDirectory, in: .userDomainMask).first {
+            return url
+        }
+        return URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Caches")
     }
     
     /// Returns the URL for the Temporary directory.

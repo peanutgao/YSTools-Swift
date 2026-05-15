@@ -22,10 +22,15 @@ public extension String {
     /// print(grouped) // 输出："123-45-6789"
     /// ```
     func grouped(by groupSizes: [Int], separator: String = " ") -> String {
+        let groupSizes = groupSizes.filter { $0 > 0 }
+        guard !groupSizes.isEmpty else {
+            return self
+        }
+
         var result = ""
         var currentIndex = startIndex
 
-        for (index, size) in groupSizes.enumerated() {
+        for size in groupSizes {
             guard currentIndex < self.endIndex else {
                 break
             }
@@ -96,6 +101,11 @@ public extension String {
     /// print(grouped) // 输出："123-456-78-9"
     /// ```
     func groupedByPattern(_ pattern: [(size: Int, repeat: Int)], separator: String = " ") -> String {
+        let pattern = pattern.filter { $0.size > 0 && $0.repeat > 0 }
+        guard !pattern.isEmpty else {
+            return self
+        }
+
         var result = ""
         var currentIndex = startIndex
 

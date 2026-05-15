@@ -6,18 +6,26 @@
 //  Copyright © 2019 Joseph Koh. All rights reserved.
 //
 
-import CommonCrypto
-import UIKit
+import CryptoKit
+import Foundation
 
-extension String {
+public extension String {
     func encrypted(keepingPrefix prefixLength: Int, andSuffix suffixLength: Int) -> String {
-        guard count > prefixLength + suffixLength, prefixLength >= 0, suffixLength >= 0 else {
-            return self
+        guard !isEmpty else {
+            return ""
+        }
+
+        guard prefixLength >= 0, suffixLength >= 0, count > prefixLength + suffixLength else {
+            return String(repeating: "*", count: count)
         }
 
         let startIndex = startIndex
-        let endIndex = index(endIndex, offsetBy: -suffixLength)
-        let range = index(startIndex, offsetBy: prefixLength) ..< endIndex
+        guard let suffixStart = index(endIndex, offsetBy: -suffixLength, limitedBy: startIndex),
+              let prefixEnd = index(startIndex, offsetBy: prefixLength, limitedBy: endIndex),
+              prefixEnd < suffixStart else {
+            return String(repeating: "*", count: count)
+        }
+        let range = prefixEnd ..< suffixStart
 
         let encryptedString = replacingCharacters(
             in: range,
@@ -28,17 +36,7 @@ extension String {
     }
 
     func md5() -> String {
-        let str = self.cString(using: String.Encoding.utf8)
-        let strLen = CUnsignedInt(self.lengthOfBytes(using: String.Encoding.utf8))
-        let digestLen = Int(CC_MD5_DIGEST_LENGTH)
-        let result = UnsafeMutablePointer<UInt8>.allocate(capacity: 16)
-        CC_MD5(str!, strLen, result)
-        let hash = NSMutableString()
-        for i in 0 ..< digestLen {
-            hash.appendFormat("%02x", result[i])
-        }
-
-        free(result)
-        return String(format: hash as String)
+        let digest = Insecure.MD5.hash(data: Data(utf8))
+        return digest.map { String(format: "%02x", $0) }.joined()
     }
 }

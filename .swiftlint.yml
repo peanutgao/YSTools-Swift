@@ -1,0 +1,42 @@
+disabled_rules:
+  - trailing_whitespace
+  - line_length
+  - identifier_name
+  - type_name
+  - large_tuple
+  - function_parameter_count
+  - function_body_length
+  - file_length
+  - type_body_length
+  - cyclomatic_complexity
+  - nesting
+
+opt_in_rules:
+  - force_unwrapping
+  - force_cast
+  - force_try
+  - implicitly_unwrapped_optional
+  - empty_count
+  - first_where
+  - last_where
+  - contains_over_first_not_nil
+  - redundant_nil_coalescing
+  - closure_spacing
+  - operator_usage_whitespace
+  - prefer_self_type_over_type_of_self
+  - sorted_imports
+  - toggle_bool
+
+excluded:
+  - Pods
+  - Example/Pods
+  - Example/Tests
+  - .build
+
+force_unwrapping:
+  severity: warning
+
+force_cast:
+  severity: warning
+
+reporter: "xcode"

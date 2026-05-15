@@ -73,7 +73,7 @@ public extension UITextFieldCreateProtocol where Self: UITextField {
     }
 
     @discardableResult
-    func ys_delegate(_ delegate: UITextFieldDelegate) -> Self {
+    func ys_delegate(_ delegate: UITextFieldDelegate?) -> Self {
         self.delegate = delegate
         return self
     }
@@ -91,7 +91,7 @@ public extension UITextFieldCreateProtocol where Self: UITextField {
     }
     
     @discardableResult
-    func ys_leftView(_ leftView: UIView) -> Self {
+    func ys_leftView(_ leftView: UIView?) -> Self {
         self.leftView = leftView
         return self
     }
@@ -99,6 +99,96 @@ public extension UITextFieldCreateProtocol where Self: UITextField {
     @discardableResult
     func ys_leftViewMode(_ leftViewMode: UITextField.ViewMode) -> Self {
         self.leftViewMode = leftViewMode
+        return self
+    }
+
+    @discardableResult
+    func ys_rightView(_ rightView: UIView?) -> Self {
+        self.rightView = rightView
+        return self
+    }
+
+    @discardableResult
+    func ys_rightViewMode(_ rightViewMode: UITextField.ViewMode) -> Self {
+        self.rightViewMode = rightViewMode
+        return self
+    }
+
+    @discardableResult
+    func ys_returnKeyType(_ type: UIReturnKeyType) -> Self {
+        self.returnKeyType = type
+        return self
+    }
+
+    @discardableResult
+    func ys_isSecureTextEntry(_ b: Bool) -> Self {
+        self.isSecureTextEntry = b
+        return self
+    }
+
+    @discardableResult
+    func ys_autocapitalizationType(_ type: UITextAutocapitalizationType) -> Self {
+        self.autocapitalizationType = type
+        return self
+    }
+
+    @discardableResult
+    func ys_autocorrectionType(_ type: UITextAutocorrectionType) -> Self {
+        self.autocorrectionType = type
+        return self
+    }
+
+    @discardableResult
+    func ys_spellCheckingType(_ type: UITextSpellCheckingType) -> Self {
+        self.spellCheckingType = type
+        return self
+    }
+
+    @discardableResult
+    func ys_textContentType(_ type: UITextContentType?) -> Self {
+        self.textContentType = type
+        return self
+    }
+
+    @discardableResult
+    func ys_tintColor(_ color: UIColor) -> Self {
+        self.tintColor = color
+        return self
+    }
+
+    @discardableResult
+    func ys_minimumFontSize(_ size: CGFloat) -> Self {
+        self.minimumFontSize = size
+        return self
+    }
+
+    @discardableResult
+    func ys_clearsOnBeginEditing(_ b: Bool) -> Self {
+        self.clearsOnBeginEditing = b
+        return self
+    }
+
+    @discardableResult
+    func ys_clearsOnInsertion(_ b: Bool) -> Self {
+        self.clearsOnInsertion = b
+        return self
+    }
+
+    @discardableResult
+    func ys_inputView(_ view: UIView?) -> Self {
+        self.inputView = view
+        return self
+    }
+
+    @discardableResult
+    func ys_inputAccessoryView(_ view: UIView?) -> Self {
+        self.inputAccessoryView = view
+        return self
+    }
+
+    @discardableResult
+    func ys_addEditingChangedAction(_ target: Any, action: Selector) -> Self {
+        self.addTarget(target, action: action, for: .editingChanged)
         return self
     }
 }

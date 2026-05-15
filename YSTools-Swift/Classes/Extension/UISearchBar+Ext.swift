@@ -7,7 +7,10 @@
 //
 
 public extension UISearchBar {
-    func getTextField() -> UITextField? { value(forKey: "searchField") as? UITextField }
+    func getTextField() -> UITextField? {
+        guard responds(to: NSSelectorFromString("searchField")) else { return nil }
+        return value(forKey: "searchField") as? UITextField
+    }
 
     func setClearButton(color: UIColor) {
         getTextField()?.setClearButton(color: color)

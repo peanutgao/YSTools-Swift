@@ -1,7 +1,7 @@
 {
   "name": "YSTools-Swift",
-  "version": "0.2.7",
-  "summary": "Commom tools used in Swift projects.",
+  "version": "1.0.0",
+  "summary": "Common tools used in Swift projects.",
   "description": "Tools commonly used in Swift projects can facilitate rapid project development",
   "homepage": "https://github.com/peanutgao/YSTools-Swift",
   "license": {
@@ -13,13 +13,18 @@
   },
   "source": {
     "git": "https://github.com/peanutgao/YSTools-Swift.git",
-    "tag": "0.2.7"
+    "tag": "1.0.0"
   },
   "platforms": {
-    "ios": "11.0"
+    "ios": "13.0"
   },
   "swift_versions": [
-    "5.0"
+    "5.9"
+  ],
+  "default_subspecs": [
+    "Extension",
+    "Create",
+    "Utils"
   ],
   "resource_bundles": {
     "YSTools-Swift": [
@@ -30,11 +35,6 @@
     "UIKit",
     "Foundation"
   ],
-  "dependencies": {
-    "SDWebImage": [
-      ">= 5.0.0"
-    ]
-  },
   "subspecs": [
     {
       "name": "Extension",
@@ -44,15 +44,24 @@
       "name": "Create",
       "source_files": "YSTools-Swift/Classes/Create/**/*",
       "dependencies": {
-        "YSTools-Swift/Extension": [
-
-        ]
+        "YSTools-Swift/Extension": []
       }
     },
     {
       "name": "Utils",
       "source_files": "YSTools-Swift/Classes/Utils/**/*"
+    },
+    {
+      "name": "WebImage",
+      "source_files": "YSTools-Swift/Classes/WebImage/**/*",
+      "dependencies": {
+        "YSTools-Swift/Extension": [],
+        "YSTools-Swift/Create": [],
+        "SDWebImage": [
+          ">= 5.0.0"
+        ]
+      }
     }
   ],
-  "swift_version": "5.0"
+  "swift_version": "5.9"
 }

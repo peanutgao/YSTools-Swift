@@ -36,46 +36,53 @@ public struct GCD {
         queue.asyncAfter(deadline: .now() + seconds, execute: block)
     }
     
-    /// Throttles execution of a block.
+    /// True throttle: fires immediately, then ignores subsequent calls within `interval`.
     /// - Parameters:
-    ///   - delay: The time interval to wait before execution.
-    ///   - queue: The queue to execute on.
-    ///   - action: The block to execute.
-    /// - Returns: A closure that can be called to trigger the throttled action.
-    public static func throttle(delay: TimeInterval, queue: DispatchQueue = .main, action: @escaping (() -> Void)) -> () -> Void {
-        var workItem: DispatchWorkItem?
-        var lastRun: Date = Date.distantPast
-        
+    ///   - interval: Minimum interval between invocations.
+    ///   - queue: Queue to execute on.
+    ///   - action: Block to execute.
+    /// - Returns: Closure to call when triggering the throttled action.
+    /// - Important: **The returned closure holds the throttle's state**. You must
+    ///   store it (e.g. as a property) and reuse the same instance for each
+    ///   call site. Calling `throttle(...)` inside a hot path (e.g. a scroll
+    ///   callback) creates a new closure each time and disables rate limiting.
+    public static func throttle(interval: TimeInterval, queue: DispatchQueue = .main, action: @escaping () -> Void) -> () -> Void {
+        let lock = NSLock()
+        var lastRun: Date = .distantPast
+
         return {
-            workItem?.cancel()
-            workItem = DispatchWorkItem(block: {
-                let now = Date()
-                if now.timeIntervalSince(lastRun) > delay {
-                    action()
-                    lastRun = now
-                }
-            })
-            if let workItem = workItem {
-                queue.asyncAfter(deadline: .now() + delay, execute: workItem)
+            lock.lock()
+            let now = Date()
+            let shouldRun = now.timeIntervalSince(lastRun) >= interval
+            if shouldRun {
+                lastRun = now
+                queue.async(execute: action)
             }
+            lock.unlock()
         }
     }
-    
-    /// Debounces execution of a block.
+
+    /// Debounces execution: fires only after `delay` of silence since last call.
     /// - Parameters:
-    ///   - delay: The time interval to wait before execution.
-    ///   - queue: The queue to execute on.
-    ///   - action: The block to execute.
-    /// - Returns: A closure that can be called to trigger the debounced action.
-    public static func debounce(delay: TimeInterval, queue: DispatchQueue = .main, action: @escaping (() -> Void)) -> () -> Void {
+    ///   - delay: Quiet period required before firing.
+    ///   - queue: Queue to execute on.
+    ///   - action: Block to execute.
+    /// - Returns: Closure to call when triggering the debounced action.
+    /// - Important: **The returned closure holds the debounce's state**. You must
+    ///   store it (e.g. as a property) and reuse the same instance for each
+    ///   call site. Calling `debounce(...)` per invocation produces a fresh
+    ///   work item each time and silently breaks the contract.
+    public static func debounce(delay: TimeInterval, queue: DispatchQueue = .main, action: @escaping () -> Void) -> () -> Void {
+        let lock = NSLock()
         var workItem: DispatchWorkItem?
-        
+
         return {
+            lock.lock()
             workItem?.cancel()
-            workItem = DispatchWorkItem(block: action)
-            if let workItem = workItem {
-                queue.asyncAfter(deadline: .now() + delay, execute: workItem)
-            }
+            let item = DispatchWorkItem(block: action)
+            workItem = item
+            lock.unlock()
+            queue.asyncAfter(deadline: .now() + delay, execute: item)
         }
     }
 }

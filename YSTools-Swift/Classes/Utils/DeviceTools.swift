@@ -239,10 +239,20 @@ public class DeviceInfo {
 
     private var _isJailBroken: Bool?
     private var _detectionCache: [String: Bool] = [:]
-    private let detectionQueue = DispatchQueue(label: "com.ystools.jailbreak.detection", qos: .userInitiated)
+    private static let detectionQueueKey = DispatchSpecificKey<Void>()
+    private let detectionQueue: DispatchQueue = {
+        let q = DispatchQueue(label: "com.ystools.jailbreak.detection", qos: .userInitiated)
+        q.setSpecific(key: DeviceInfo.detectionQueueKey, value: ())
+        return q
+    }()
 
     private func detectionSync<T>(_ work: () -> T) -> T {
-        detectionQueue.sync(execute: work)
+        // Re-entrant guard: if we're already on the queue, run inline to
+        // avoid a serial-queue deadlock.
+        if DispatchQueue.getSpecific(key: DeviceInfo.detectionQueueKey) != nil {
+            return work()
+        }
+        return detectionQueue.sync(execute: work)
     }
 
     public var isJailBroken: Bool {
@@ -506,12 +516,10 @@ private extension DeviceInfo {
     }
 
     func canOpenURLSafely(_ url: URL) -> Bool {
-        if Thread.isMainThread {
-            return UIApplication.shared.canOpenURL(url)
-        }
-        return DispatchQueue.main.sync {
-            UIApplication.shared.canOpenURL(url)
-        }
+        // canOpenURL has been thread-safe since iOS 10. Avoid main.sync,
+        // which deadlocks when the caller already holds the main thread
+        // (e.g. main is blocked on someQueue.sync that lands here).
+        return UIApplication.shared.canOpenURL(url)
     }
 
     func canWriteOutsideOfSandbox() -> Bool {

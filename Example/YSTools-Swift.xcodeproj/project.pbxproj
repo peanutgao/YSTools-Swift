@@ -7,15 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1EF81A4119DA7BFBF4438258 /* URLCompareTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46933A4A9E3E3CC25E6E18F6 /* URLCompareTests.swift */; };
+		4F053B8C58546D529DDF7AE8 /* StringExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60352F6BAED3B90D27C93EE3 /* StringExtensionsTests.swift */; };
+		55B1F69D73C94E9B8C327A10 /* UserDefaultWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C8E5D1F9B0476A8E341D23 /* UserDefaultWrapperTests.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		6B2E7290800D8DE14797B719 /* GCDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0402D7EEA8B99B0870CB44C6 /* GCDTests.swift */; };
 		7CEBDC772988B35500D07230 /* PrefixHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEBDC762988B35500D07230 /* PrefixHeader.swift */; };
 		7CEBDC782988B35500D07230 /* PrefixHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEBDC762988B35500D07230 /* PrefixHeader.swift */; };
 		86335C921D4B409F5D1BA240 /* Pods_YSTools_Swift_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AF7DD803C161854F9BA4B6D /* Pods_YSTools_Swift_Tests.framework */; };
 		BD2664F3F2BF8F838F4B7579 /* Pods_YSTools_Swift_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93EA2BBDC183A27B916877F6 /* Pods_YSTools_Swift_Example.framework */; };
+		D3E234888C2EE47D1C7E21EC /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2F72A2E26A7B35745A4C67 /* DateExtensionsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,9 +35,13 @@
 
 /* Begin PBXFileReference section */
 		0172552BC298410344D0D972 /* Pods-YSTools-Swift_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YSTools-Swift_Tests.release.xcconfig"; path = "Target Support Files/Pods-YSTools-Swift_Tests/Pods-YSTools-Swift_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		0402D7EEA8B99B0870CB44C6 /* GCDTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GCDTests.swift; sourceTree = "<group>"; };
 		0692D60C739DDF4DFB2A9491 /* Pods-YSTools-Swift_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YSTools-Swift_Example.debug.xcconfig"; path = "Target Support Files/Pods-YSTools-Swift_Example/Pods-YSTools-Swift_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		2AF7DD803C161854F9BA4B6D /* Pods_YSTools_Swift_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YSTools_Swift_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		32B483131AF54CA899A58CF5 /* Pods-YSTools-Swift_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YSTools-Swift_Example.release.xcconfig"; path = "Target Support Files/Pods-YSTools-Swift_Example/Pods-YSTools-Swift_Example.release.xcconfig"; sourceTree = "<group>"; };
+		46933A4A9E3E3CC25E6E18F6 /* URLCompareTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = URLCompareTests.swift; sourceTree = "<group>"; };
+		5E2F72A2E26A7B35745A4C67 /* DateExtensionsTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DateExtensionsTests.swift; sourceTree = "<group>"; };
+		60352F6BAED3B90D27C93EE3 /* StringExtensionsTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StringExtensionsTests.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* YSTools-Swift_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YSTools-Swift_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -46,6 +55,7 @@
 		7CEBDC762988B35500D07230 /* PrefixHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefixHeader.swift; sourceTree = "<group>"; };
 		7F11AB3E6DFA90B510EFC3E3 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		93EA2BBDC183A27B916877F6 /* Pods_YSTools_Swift_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YSTools_Swift_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2C8E5D1F9B0476A8E341D23 /* UserDefaultWrapperTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserDefaultWrapperTests.swift; sourceTree = "<group>"; };
 		C5A3C5497F80E88038906B03 /* Pods-YSTools-Swift_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YSTools-Swift_Tests.debug.xcconfig"; path = "Target Support Files/Pods-YSTools-Swift_Tests/Pods-YSTools-Swift_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		CDCE166FDAC565537869B682 /* YSTools-Swift.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "YSTools-Swift.podspec"; path = "../YSTools-Swift.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
@@ -129,6 +139,11 @@
 			isa = PBXGroup;
 			children = (
 				607FACE91AFB9204008FA782 /* Supporting Files */,
+					60352F6BAED3B90D27C93EE3 /* StringExtensionsTests.swift */,
+					5E2F72A2E26A7B35745A4C67 /* DateExtensionsTests.swift */,
+					A2C8E5D1F9B0476A8E341D23 /* UserDefaultWrapperTests.swift */,
+					46933A4A9E3E3CC25E6E18F6 /* URLCompareTests.swift */,
+					0402D7EEA8B99B0870CB44C6 /* GCDTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -346,6 +361,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CEBDC782988B35500D07230 /* PrefixHeader.swift in Sources */,
+					4F053B8C58546D529DDF7AE8 /* StringExtensionsTests.swift in Sources */,
+					D3E234888C2EE47D1C7E21EC /* DateExtensionsTests.swift in Sources */,
+					55B1F69D73C94E9B8C327A10 /* UserDefaultWrapperTests.swift in Sources */,
+					1EF81A4119DA7BFBF4438258 /* URLCompareTests.swift in Sources */,
+				6B2E7290800D8DE14797B719 /* GCDTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,6 +448,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -477,6 +498,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -493,7 +515,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 38F93BBR74;
 				INFOPLIST_FILE = "YSTools-Swift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -514,7 +536,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 38F93BBR74;
 				INFOPLIST_FILE = "YSTools-Swift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -539,7 +561,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -575,7 +597,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

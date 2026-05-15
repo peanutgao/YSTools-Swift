@@ -13,7 +13,7 @@ public protocol Then {}
 
 public extension Then where Self: AnyObject {
     @discardableResult
-    public func then(_ block: (Self) -> Void) -> Self {
+    func then(_ block: (Self) -> Void) -> Self {
         block(self)
         return self
     }

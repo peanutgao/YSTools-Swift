@@ -97,7 +97,7 @@ public final class AttributedStringBuilder {
         referenceFont: UIFont = .systemFont(ofSize: 14),
         yOffset: CGFloat = 0
     ) -> Self {
-        guard let image else {
+        guard let image, size.width > 0, size.height > 0, size.width.isFinite, size.height.isFinite else {
             return self
         }
         let attachment = NSTextAttachment()
@@ -129,6 +129,9 @@ public final class AttributedStringBuilder {
     /// 对整段添加 / 合并属性（不会清除已有局部属性）。
     @discardableResult
     public func addAttributesAll(_ attributes: [NSAttributedString.Key: Any]) -> Self {
+        guard buffer.length > 0 else {
+            return self
+        }
         let range = NSRange(location: 0, length: buffer.length)
         buffer.addAttributes(attributes, range: range)
         return self
@@ -137,6 +140,9 @@ public final class AttributedStringBuilder {
     /// 覆盖整段属性（会移除已有属性再重新设置）。
     @discardableResult
     public func setAttributesAll(_ attributes: [NSAttributedString.Key: Any]) -> Self {
+        guard buffer.length > 0 else {
+            return self
+        }
         let full = NSRange(location: 0, length: buffer.length)
         buffer.setAttributes(attributes, range: full)
         return self
@@ -232,6 +238,10 @@ public final class AttributedStringBuilder {
     /// 快捷设置行距
     @discardableResult
     public func lineSpacing(_ spacing: CGFloat, scopeAll: Bool = false) -> Self {
+        guard buffer.length > 0 else {
+            return self
+        }
+
         let style: NSMutableParagraphStyle = if scopeAll,
                                                 let existing = buffer.attribute(
                                                     .paragraphStyle,
@@ -282,6 +292,9 @@ public final class AttributedStringBuilder {
     @discardableResult
     private func apply(_ attrs: [NSAttributedString.Key: Any], scopeAll: Bool) -> Self {
         if scopeAll {
+            guard buffer.length > 0 else {
+                return self
+            }
             let full = NSRange(location: 0, length: buffer.length)
             buffer.addAttributes(attrs, range: full)
         }

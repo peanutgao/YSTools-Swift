@@ -96,6 +96,85 @@ public extension UITableViewCreateProtocol where Self: UITableView {
         self.keyboardDismissMode = mode
         return self
     }
+
+    @discardableResult
+    func ys_register(_ nib: UINib?, forCellReuseIdentifier identifier: String) -> Self {
+        self.register(nib, forCellReuseIdentifier: identifier)
+        return self
+    }
+
+    @discardableResult
+    func ys_register(_ aClass: AnyClass?, forHeaderFooterViewReuseIdentifier identifier: String) -> Self {
+        self.register(aClass, forHeaderFooterViewReuseIdentifier: identifier)
+        return self
+    }
+
+    @discardableResult
+    func ys_register(_ nib: UINib?, forHeaderFooterViewReuseIdentifier identifier: String) -> Self {
+        self.register(nib, forHeaderFooterViewReuseIdentifier: identifier)
+        return self
+    }
+
+    @discardableResult
+    func ys_separatorColor(_ color: UIColor?) -> Self {
+        self.separatorColor = color
+        return self
+    }
+
+    @discardableResult
+    func ys_separatorInset(_ inset: UIEdgeInsets) -> Self {
+        self.separatorInset = inset
+        return self
+    }
+
+    @discardableResult
+    func ys_backgroundView(_ view: UIView?) -> Self {
+        self.backgroundView = view
+        return self
+    }
+
+    @discardableResult
+    func ys_allowsSelection(_ b: Bool) -> Self {
+        self.allowsSelection = b
+        return self
+    }
+
+    @discardableResult
+    func ys_allowsMultipleSelection(_ b: Bool) -> Self {
+        self.allowsMultipleSelection = b
+        return self
+    }
+
+    @discardableResult
+    func ys_allowsSelectionDuringEditing(_ b: Bool) -> Self {
+        self.allowsSelectionDuringEditing = b
+        return self
+    }
+
+    @discardableResult
+    func ys_isEditing(_ b: Bool) -> Self {
+        self.isEditing = b
+        return self
+    }
+
+    @discardableResult
+    func ys_sectionHeaderHeight(_ height: CGFloat) -> Self {
+        self.sectionHeaderHeight = height
+        return self
+    }
+
+    @discardableResult
+    func ys_estimatedSectionFooterHeight(_ height: CGFloat) -> Self {
+        self.estimatedSectionFooterHeight = height
+        return self
+    }
+
+    @available(iOS 15.0, *)
+    @discardableResult
+    func ys_sectionHeaderTopPadding(_ padding: CGFloat) -> Self {
+        self.sectionHeaderTopPadding = padding
+        return self
+    }
 }
 
 // MARK: - UITableView + UITableViewCreateProtocol

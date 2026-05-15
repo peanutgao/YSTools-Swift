@@ -7,8 +7,9 @@
 
 import UIKit
 
+@MainActor
 public extension UIViewController {
-    
+
     /// Shows a simple alert with a title, message, and an OK button.
     /// - Parameters:
     ///   - title: The title of the alert.

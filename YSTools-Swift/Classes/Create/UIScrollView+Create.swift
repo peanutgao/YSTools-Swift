@@ -48,6 +48,108 @@ public extension UIScrollViewCreateProtocol where Self: UIScrollView {
         self.contentSize = size
         return self
     }
+
+    @discardableResult
+    func ys_contentOffset(_ offset: CGPoint) -> Self {
+        self.contentOffset = offset
+        return self
+    }
+
+    @discardableResult
+    func ys_contentInset(_ inset: UIEdgeInsets) -> Self {
+        self.contentInset = inset
+        return self
+    }
+
+    @discardableResult
+    func ys_alwaysBounceVertical(_ b: Bool) -> Self {
+        self.alwaysBounceVertical = b
+        return self
+    }
+
+    @discardableResult
+    func ys_alwaysBounceHorizontal(_ b: Bool) -> Self {
+        self.alwaysBounceHorizontal = b
+        return self
+    }
+
+    @discardableResult
+    func ys_isPagingEnabled(_ b: Bool) -> Self {
+        self.isPagingEnabled = b
+        return self
+    }
+
+    @discardableResult
+    func ys_isScrollEnabled(_ b: Bool) -> Self {
+        self.isScrollEnabled = b
+        return self
+    }
+
+    @discardableResult
+    func ys_decelerationRate(_ rate: UIScrollView.DecelerationRate) -> Self {
+        self.decelerationRate = rate
+        return self
+    }
+
+    @discardableResult
+    func ys_scrollIndicatorInsets(_ insets: UIEdgeInsets) -> Self {
+        self.verticalScrollIndicatorInsets = insets
+        self.horizontalScrollIndicatorInsets = insets
+        return self
+    }
+
+    @discardableResult
+    func ys_scrollsToTop(_ b: Bool) -> Self {
+        self.scrollsToTop = b
+        return self
+    }
+
+    @discardableResult
+    func ys_minimumZoomScale(_ scale: CGFloat) -> Self {
+        if scale > 0 {
+            self.minimumZoomScale = scale
+            if maximumZoomScale < minimumZoomScale { maximumZoomScale = scale }
+        }
+        return self
+    }
+
+    @discardableResult
+    func ys_maximumZoomScale(_ scale: CGFloat) -> Self {
+        if scale > 0 {
+            self.maximumZoomScale = scale
+            if minimumZoomScale > maximumZoomScale { minimumZoomScale = scale }
+        }
+        return self
+    }
+
+    @discardableResult
+    func ys_zoomScale(_ scale: CGFloat) -> Self {
+        if scale > 0 {
+            minimumZoomScale = min(minimumZoomScale, scale)
+            maximumZoomScale = max(maximumZoomScale, scale)
+            self.zoomScale = scale
+        }
+        return self
+    }
+
+    @discardableResult
+    func ys_keyboardDismissMode(_ mode: UIScrollView.KeyboardDismissMode) -> Self {
+        self.keyboardDismissMode = mode
+        return self
+    }
+
+    @discardableResult
+    func ys_refreshControl(_ control: UIRefreshControl?) -> Self {
+        self.refreshControl = control
+        return self
+    }
+
+    @available(iOS 11.0, *)
+    @discardableResult
+    func ys_contentInsetAdjustmentBehavior(_ behavior: UIScrollView.ContentInsetAdjustmentBehavior) -> Self {
+        self.contentInsetAdjustmentBehavior = behavior
+        return self
+    }
 }
 
 // MARK: - UIScrollView + UIScrollViewCreateProtocol

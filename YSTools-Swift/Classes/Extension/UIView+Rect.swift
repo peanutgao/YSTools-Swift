@@ -81,7 +81,7 @@ public extension UIView {
         }
         set {
             var origin = frame.origin
-            origin.y = newValue - frame.origin.y
+            origin.y = newValue - frame.size.height
             frame.origin = origin
         }
     }
@@ -92,7 +92,7 @@ public extension UIView {
         }
         set {
             var origin = frame.origin
-            origin.x = newValue - frame.origin.x
+            origin.x = newValue - frame.size.width
             frame.origin = origin
         }
     }

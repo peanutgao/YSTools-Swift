@@ -38,6 +38,11 @@ public extension Dictionary where Key == String {
 
     private func jsonToString(keepNil: Bool) -> String {
         let dict = self.cleanOptionals(keepNil: keepNil)
+        // JSONSerialization raises NSException (not NSError) for non-JSON
+        // types like Date / UIColor. Swift do/catch will not catch it. Pre-check.
+        guard JSONSerialization.isValidJSONObject(dict) else {
+            return defaultToString()
+        }
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: dict, options: [])
             return String(data: jsonData, encoding: .utf8) ?? defaultToString()
@@ -48,6 +53,9 @@ public extension Dictionary where Key == String {
 
     private func jsonPrettyToString(keepNil: Bool) -> String {
         let dict = self.cleanOptionals(keepNil: keepNil)
+        guard JSONSerialization.isValidJSONObject(dict) else {
+            return defaultToString()
+        }
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
             return String(data: jsonData, encoding: .utf8) ?? defaultToString()
@@ -94,6 +102,7 @@ public extension Array where Element == [String: Any] {
     
     private func jsonToString(keepNil: Bool) -> String {
         let cleaned = self.map { $0.cleanOptionals(keepNil: keepNil) }
+        guard JSONSerialization.isValidJSONObject(cleaned) else { return "[]" }
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: cleaned, options: [])
             return String(data: jsonData, encoding: .utf8) ?? "[]"
@@ -101,9 +110,10 @@ public extension Array where Element == [String: Any] {
             return "[]"
         }
     }
-    
+
     private func jsonPrettyToString(keepNil: Bool) -> String {
         let cleaned = self.map { $0.cleanOptionals(keepNil: keepNil) }
+        guard JSONSerialization.isValidJSONObject(cleaned) else { return "[]" }
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: cleaned, options: .prettyPrinted)
             return String(data: jsonData, encoding: .utf8) ?? "[]"

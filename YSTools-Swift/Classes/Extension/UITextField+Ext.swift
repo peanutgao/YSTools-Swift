@@ -39,7 +39,8 @@ private enum ClearButtonImage {
 
 public extension UITextField {
     var clearButton: UIButton? {
-        value(forKey: "clearButton") as? UIButton
+        guard responds(to: NSSelectorFromString("clearButton")) else { return nil }
+        return value(forKey: "clearButton") as? UIButton
     }
 
     var clearButtonTintColor: UIColor? {
@@ -63,7 +64,8 @@ public extension UITextField {
     }
 
     func getClearButton() -> UIButton? {
-        value(forKey: "clearButton") as? UIButton
+        guard responds(to: NSSelectorFromString("clearButton")) else { return nil }
+        return value(forKey: "clearButton") as? UIButton
     }
 
     func setLeftView(_ view: UIView, padding: CGFloat) {

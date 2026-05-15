@@ -93,6 +93,117 @@ public extension UIViewCreateProtocol where Self: UIView {
         self.addGestureRecognizer(gesture)
         return self
     }
+
+    @discardableResult
+    func ys_tintColor(_ color: UIColor) -> Self {
+        self.tintColor = color
+        return self
+    }
+
+    @discardableResult
+    func ys_transform(_ transform: CGAffineTransform) -> Self {
+        self.transform = transform
+        return self
+    }
+
+    @discardableResult
+    func ys_mask(_ mask: UIView?) -> Self {
+        self.mask = mask
+        return self
+    }
+
+    @discardableResult
+    func ys_translatesAutoresizingMaskIntoConstraints(_ b: Bool) -> Self {
+        self.translatesAutoresizingMaskIntoConstraints = b
+        return self
+    }
+
+    @discardableResult
+    func ys_autoresizingMask(_ mask: UIView.AutoresizingMask) -> Self {
+        self.autoresizingMask = mask
+        return self
+    }
+
+    @discardableResult
+    func ys_semanticContentAttribute(_ attribute: UISemanticContentAttribute) -> Self {
+        self.semanticContentAttribute = attribute
+        return self
+    }
+
+    @discardableResult
+    func ys_accessibilityIdentifier(_ identifier: String?) -> Self {
+        self.accessibilityIdentifier = identifier
+        return self
+    }
+
+    @discardableResult
+    func ys_accessibilityLabel(_ label: String?) -> Self {
+        self.accessibilityLabel = label
+        return self
+    }
+
+    @discardableResult
+    func ys_isAccessibilityElement(_ b: Bool) -> Self {
+        self.isAccessibilityElement = b
+        return self
+    }
+
+    @discardableResult
+    func ys_layoutMargins(_ insets: UIEdgeInsets) -> Self {
+        self.layoutMargins = insets
+        return self
+    }
+
+    @discardableResult
+    func ys_preservesSuperviewLayoutMargins(_ b: Bool) -> Self {
+        self.preservesSuperviewLayoutMargins = b
+        return self
+    }
+
+    @discardableResult
+    func ys_setShadow(color: UIColor, offset: CGSize, radius: CGFloat, opacity: Float) -> Self {
+        layer.shadowColor = color.cgColor
+        layer.shadowOffset = offset
+        layer.shadowRadius = radius
+        layer.shadowOpacity = opacity
+        return self
+    }
+
+    @discardableResult
+    func ys_masksToBounds(_ b: Bool) -> Self {
+        layer.masksToBounds = b
+        return self
+    }
+
+    @discardableResult
+    func ys_removeFromSuperview() -> Self {
+        self.removeFromSuperview()
+        return self
+    }
+
+    @discardableResult
+    func ys_addSubviews(_ views: [UIView]) -> Self {
+        views.forEach { addSubview($0) }
+        return self
+    }
+
+    @discardableResult
+    func ys_addSubviews(_ views: UIView...) -> Self {
+        views.forEach { addSubview($0) }
+        return self
+    }
+
+    @discardableResult
+    func ys_setContentHuggingPriority(_ priority: UILayoutPriority, for axis: NSLayoutConstraint.Axis) -> Self {
+        self.setContentHuggingPriority(priority, for: axis)
+        return self
+    }
+
+    @discardableResult
+    func ys_setContentCompressionResistancePriority(_ priority: UILayoutPriority, for axis: NSLayoutConstraint.Axis) -> Self {
+        self.setContentCompressionResistancePriority(priority, for: axis)
+        return self
+    }
 }
 
 // MARK: - UIView + UIViewCreateProtocol

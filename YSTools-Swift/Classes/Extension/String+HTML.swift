@@ -8,8 +8,20 @@
 
 import UIKit
 
+// NSAttributedString HTML parsing internally drives WebKit/TextKit, which is
+// main-thread only. Calling from a background thread raises an NSException
+// that Swift `do/catch` cannot catch. Guard at the API boundary.
+private func ys_assertMainThreadForHTML(_ function: StaticString = #function) -> Bool {
+    if Thread.isMainThread { return true }
+    #if DEBUG
+    debugPrint("[YSTools] \(function) requires main thread; returning nil to avoid NSException.")
+    #endif
+    return false
+}
+
 public extension String {
     var html2Attributed: NSAttributedString? {
+        guard ys_assertMainThreadForHTML() else { return nil }
         do {
             guard let data = data(using: String.Encoding.utf8) else {
                 return nil
@@ -27,6 +39,7 @@ public extension String {
     }
 
     var htmlAttributed: (NSAttributedString?, NSDictionary?) {
+        guard ys_assertMainThreadForHTML() else { return (nil, nil) }
         do {
             guard let data = data(using: String.Encoding.utf8) else {
                 return (nil, nil)
@@ -52,14 +65,18 @@ public extension String {
     }
 
     func htmlAttributed(family: String?, size: CGFloat, color: UIColor) -> NSAttributedString? {
+        guard size > 0, size.isFinite else { return nil }
+        guard ys_assertMainThreadForHTML() else { return nil }
         do {
+            let escapedText = htmlEscaped
+            let fontFamily = (family ?? "Helvetica").cssSingleQuotedEscaped
             let htmlCSSString = "<style>" +
                 "html *" +
                 "{" +
                 "font-size: \(size)pt !important;" +
-                "color: #\(color.hexString!) !important;" +
-                "font-family: \(family ?? "Helvetica"), Helvetica !important;" +
-                "}</style> \(self)"
+                "color: #\(color.hexString ?? "000000") !important;" +
+                "font-family: '\(fontFamily)', Helvetica !important;" +
+                "}</style> \(escapedText)"
 
             guard let data = htmlCSSString.data(using: String.Encoding.utf8) else {
                 return nil
@@ -77,13 +94,32 @@ public extension String {
         }
     }
 
+    /// Parse HTML and overlay a single font across the whole string while
+    /// preserving inline colors (e.g. `<font color=#XXX>`).
+    /// Returns nil when HTML parsing fails or when invoked off the main thread.
+    func html2Attributed(font: UIFont) -> NSAttributedString? {
+        guard let mutable = html2Attributed?.mutableCopy() as? NSMutableAttributedString else {
+            return nil
+        }
+        mutable.addAttribute(
+            .font,
+            value: font,
+            range: NSRange(location: 0, length: mutable.length)
+        )
+        return mutable
+    }
+
     func toAttributedString(fontSize: CGFloat, lineHeight: CGFloat? = nil) -> NSAttributedString? {
-        let lineHeightMultiplier = lineHeight != nil ? lineHeight! : 1.5
-        let lineHeightStr = lineHeight != nil ? "line-height: \(lineHeightMultiplier * fontSize)px;" : ""
+        guard fontSize > 0, fontSize.isFinite else { return nil }
+        let resolvedLineHeight = lineHeight ?? fontSize * 1.5
+        guard resolvedLineHeight > 0, resolvedLineHeight.isFinite else { return nil }
+        guard ys_assertMainThreadForHTML() else { return nil }
+        let lineHeightStr = "line-height: \(resolvedLineHeight)px;"
+        let escapedText = htmlEscaped
 
         let modifiedFontString = String(
             format: "<span style=\"font-size: \(fontSize)px; font-family: '-apple-system', 'HelveticaNeue'; \(lineHeightStr)\">%@</span>",
-            self
+            escapedText
         )
 
         guard let data = modifiedFontString.data(using: .utf8) else {
@@ -104,13 +140,35 @@ public extension String {
     }
 }
 
+private extension String {
+    var htmlEscaped: String {
+        replacingOccurrences(of: "&", with: "&amp;")
+            .replacingOccurrences(of: "<", with: "&lt;")
+            .replacingOccurrences(of: ">", with: "&gt;")
+            .replacingOccurrences(of: "\"", with: "&quot;")
+            .replacingOccurrences(of: "'", with: "&#39;")
+    }
+
+    var cssSingleQuotedEscaped: String {
+        replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "'", with: "\\'")
+            .replacingOccurrences(of: "\n", with: " ")
+            .replacingOccurrences(of: "\r", with: " ")
+    }
+}
+
 extension UIColor {
     var hexString: String? {
-        if let components = self.cgColor.components {
-            let r = components[0]
-            let g = components[1]
-            let b = components[2]
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        if self.getRed(&r, green: &g, blue: &b, alpha: &a) {
             return String(format: "%02X%02X%02X", Int(r * 255), Int(g * 255), Int(b * 255))
+        }
+        // Grayscale color spaces (e.g. UIColor.white / .black created via
+        // `init(white:alpha:)`) report a single luminance component.
+        var w: CGFloat = 0
+        if self.getWhite(&w, alpha: &a) {
+            let v = Int(w * 255)
+            return String(format: "%02X%02X%02X", v, v, v)
         }
         return nil
     }

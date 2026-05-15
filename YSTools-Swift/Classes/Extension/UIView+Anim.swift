@@ -22,7 +22,7 @@ public extension UIView {
 	///   - damping: Amplitude decay per shake. Typical range is (0, 1].
 	///   - completion: Called on main thread after animation completes.
 	@discardableResult
-	public func shake(
+	func shake(
 		direction: YSShakeDirection = .horizontal,
 		duration: TimeInterval = 0.45,
 		offset: CGFloat = 8,
@@ -91,7 +91,7 @@ public extension UIView {
 	///   - damping: Amplitude decay per swing. Typical range is (0, 1].
 	///   - completion: Called on main thread after animation completes.
 	@discardableResult
-	public func swing(
+	func swing(
 		angle: CGFloat = 12,
 		duration: TimeInterval = 0.55,
 		times: Int = 6,

@@ -1,22 +1,21 @@
 PODS:
-  - SDWebImage (5.19.1):
-    - SDWebImage/Core (= 5.19.1)
-  - SDWebImage/Core (5.19.1)
-  - YSTools-Swift (0.2.7):
-    - SDWebImage (>= 5.0.0)
-    - YSTools-Swift/Create (= 0.2.7)
-    - YSTools-Swift/Extension (= 0.2.7)
-    - YSTools-Swift/Utils (= 0.2.7)
-  - YSTools-Swift/Create (0.2.7):
-    - SDWebImage (>= 5.0.0)
+  - SDWebImage (5.21.7):
+    - SDWebImage/Core (= 5.21.7)
+  - SDWebImage/Core (5.21.7)
+  - YSTools-Swift/Create (1.0.0):
     - YSTools-Swift/Extension
-  - YSTools-Swift/Extension (0.2.7):
+  - YSTools-Swift/Extension (1.0.0)
+  - YSTools-Swift/Utils (1.0.0)
+  - YSTools-Swift/WebImage (1.0.0):
     - SDWebImage (>= 5.0.0)
-  - YSTools-Swift/Utils (0.2.7):
-    - SDWebImage (>= 5.0.0)
+    - YSTools-Swift/Create
+    - YSTools-Swift/Extension
 
 DEPENDENCIES:
-  - YSTools-Swift (from `../`)
+  - YSTools-Swift/Create (from `../`)
+  - YSTools-Swift/Extension (from `../`)
+  - YSTools-Swift/Utils (from `../`)
+  - YSTools-Swift/WebImage (from `../`)
 
 SPEC REPOS:
   trunk:
@@ -27,9 +26,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SDWebImage: 40b0b4053e36c660a764958bff99eed16610acbb
-  YSTools-Swift: 784c18291033fd36d115bc371d44641194fecff7
+  SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
+  YSTools-Swift: fb0dfba55fb131ebaeb9a6b9d2795befd52da1bf
 
-PODFILE CHECKSUM: 2955d391afa2d20b322a79a480c74ea17fd32286
+PODFILE CHECKSUM: 8e166ea1e03ab2daad87596ef4f4514ddbd0e99a
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

@@ -36,6 +36,96 @@ public extension UITextViewCreateProtocol where Self: UITextView {
         self.textAlignment = textAlignment
         return self
     }
+
+    @discardableResult
+    func ys_attributedText(_ text: NSAttributedString?) -> Self {
+        self.attributedText = text
+        return self
+    }
+
+    @discardableResult
+    func ys_delegate(_ delegate: UITextViewDelegate?) -> Self {
+        self.delegate = delegate
+        return self
+    }
+
+    @discardableResult
+    func ys_isEditable(_ b: Bool) -> Self {
+        self.isEditable = b
+        return self
+    }
+
+    @discardableResult
+    func ys_isSelectable(_ b: Bool) -> Self {
+        self.isSelectable = b
+        return self
+    }
+
+    @discardableResult
+    func ys_isScrollEnabled(_ b: Bool) -> Self {
+        self.isScrollEnabled = b
+        return self
+    }
+
+    @discardableResult
+    func ys_dataDetectorTypes(_ types: UIDataDetectorTypes) -> Self {
+        self.dataDetectorTypes = types
+        return self
+    }
+
+    @discardableResult
+    func ys_textContainerInset(_ insets: UIEdgeInsets) -> Self {
+        self.textContainerInset = insets
+        return self
+    }
+
+    @discardableResult
+    func ys_linkTextAttributes(_ attributes: [NSAttributedString.Key: Any]) -> Self {
+        self.linkTextAttributes = attributes
+        return self
+    }
+
+    @discardableResult
+    func ys_keyboardType(_ type: UIKeyboardType) -> Self {
+        self.keyboardType = type
+        return self
+    }
+
+    @discardableResult
+    func ys_returnKeyType(_ type: UIReturnKeyType) -> Self {
+        self.returnKeyType = type
+        return self
+    }
+
+    @discardableResult
+    func ys_autocapitalizationType(_ type: UITextAutocapitalizationType) -> Self {
+        self.autocapitalizationType = type
+        return self
+    }
+
+    @discardableResult
+    func ys_autocorrectionType(_ type: UITextAutocorrectionType) -> Self {
+        self.autocorrectionType = type
+        return self
+    }
+
+    @discardableResult
+    func ys_inputView(_ view: UIView?) -> Self {
+        self.inputView = view
+        return self
+    }
+
+    @discardableResult
+    func ys_inputAccessoryView(_ view: UIView?) -> Self {
+        self.inputAccessoryView = view
+        return self
+    }
+
+    @discardableResult
+    func ys_tintColor(_ color: UIColor) -> Self {
+        self.tintColor = color
+        return self
+    }
 }
 
 // MARK: - UITextView + UITextViewCreateProtocol

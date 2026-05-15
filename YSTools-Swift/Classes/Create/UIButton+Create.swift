@@ -110,6 +110,53 @@ public extension UIButtonCreateProtocol where Self: UIButton {
         self.imageEdgeInsets = insets
         return self
     }
+
+    @discardableResult
+    func ys_titleEdgeInsets(_ insets: UIEdgeInsets = .zero) -> Self {
+        self.titleEdgeInsets = insets
+        return self
+    }
+
+    @discardableResult
+    func ys_tintColor(_ color: UIColor?) -> Self {
+        self.tintColor = color
+        return self
+    }
+
+    @discardableResult
+    func ys_titleNumberOfLines(_ lines: Int) -> Self {
+        self.titleLabel?.numberOfLines = lines
+        return self
+    }
+
+    @discardableResult
+    func ys_titleTextAlignment(_ alignment: NSTextAlignment) -> Self {
+        self.titleLabel?.textAlignment = alignment
+        return self
+    }
+
+    @discardableResult
+    func ys_titleLineBreakMode(_ mode: NSLineBreakMode) -> Self {
+        self.titleLabel?.lineBreakMode = mode
+        return self
+    }
+
+    @discardableResult
+    func ys_isEnabled(_ b: Bool) -> Self {
+        self.isEnabled = b
+        return self
+    }
+
+    @discardableResult
+    func ys_setBackgroundColor(_ color: UIColor, for state: UIControl.State) -> Self {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 1, height: 1))
+        let image = renderer.image { ctx in
+            color.setFill()
+            ctx.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+        }
+        self.setBackgroundImage(image, for: state)
+        return self
+    }
 }
 
 // MARK: - UIButton + UIButtonCreateProtocol
@@ -141,21 +188,21 @@ extension UIButton: UIButtonCreateProtocol {
     }
 
     private enum AssociatedKeys {
-        static var kSelMapperKey = "kSelMapperKey"
+        static var selMapperKey: UInt8 = 0
     }
 
     private var __selMapper: [String: ActionHandler]? {
         get {
-            objc_getAssociatedObject(self, &AssociatedKeys.kSelMapperKey) as? [String: ActionHandler]
+            objc_getAssociatedObject(self, &AssociatedKeys.selMapperKey) as? [String: ActionHandler]
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.kSelMapperKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKeys.selMapperKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
     @discardableResult
-    @objc public func ys_action(event: UIControl.Event, acton: ActionHandler?) -> Self {
-        guard let action = acton else {
+    @objc public func ys_action(event: UIControl.Event, action: ActionHandler?) -> Self {
+        guard let action else {
             return self
         }
 
@@ -228,10 +275,9 @@ extension UIButton: UIButtonCreateProtocol {
         }
         if let sel, let key {
             self.addTarget(self, action: sel, for: event)
-            if self.__selMapper == nil {
-                self.__selMapper = [String: ActionHandler]()
-            }
-            self.__selMapper![key] = action
+            var mapper = self.__selMapper ?? [String: ActionHandler]()
+            mapper[key] = action
+            self.__selMapper = mapper
         }
 
         return self
@@ -352,7 +398,7 @@ extension UIButton: UIButtonCreateProtocol {
     }
 
     @objc private func __ys_allEventsAction(btn _: UIButton, event _: UIControl.Event) {
-        if let map = self.__selMapper, let action = map[EventKeys.allEditingEvents] {
+        if let map = self.__selMapper, let action = map[EventKeys.allEvents] {
             action(self)
         }
     }

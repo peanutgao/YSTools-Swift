@@ -15,9 +15,7 @@ public extension Int {
     }
 
     func formatAsThousandSeparated(separator: String = ",") -> String {
-        let formatter = NumberFormatter()
-        formatter.groupingSeparator = separator
-        formatter.numberStyle = .decimal
+        let formatter = FormatterCache.numberFormatter(style: .decimal, groupingSeparator: separator)
         return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
     }
 

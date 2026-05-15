@@ -60,6 +60,67 @@ public extension UILabelCreateProtocol where Self: UILabel {
         self.lineBreakMode = mode
         return self
     }
+
+    @discardableResult
+    func ys_minimumScaleFactor(_ factor: CGFloat) -> Self {
+        self.minimumScaleFactor = factor
+        return self
+    }
+
+    @discardableResult
+    func ys_baselineAdjustment(_ adjustment: UIBaselineAdjustment) -> Self {
+        self.baselineAdjustment = adjustment
+        return self
+    }
+
+    @discardableResult
+    func ys_allowsDefaultTighteningForTruncation(_ b: Bool) -> Self {
+        self.allowsDefaultTighteningForTruncation = b
+        return self
+    }
+
+    @discardableResult
+    func ys_shadowColor(_ color: UIColor?) -> Self {
+        self.shadowColor = color
+        return self
+    }
+
+    @discardableResult
+    func ys_shadowOffset(_ offset: CGSize) -> Self {
+        self.shadowOffset = offset
+        return self
+    }
+
+    @discardableResult
+    func ys_isEnabled(_ b: Bool) -> Self {
+        self.isEnabled = b
+        return self
+    }
+
+    @discardableResult
+    func ys_highlightedTextColor(_ color: UIColor?) -> Self {
+        self.highlightedTextColor = color
+        return self
+    }
+
+    @discardableResult
+    func ys_isHighlighted(_ b: Bool) -> Self {
+        self.isHighlighted = b
+        return self
+    }
+
+    @discardableResult
+    func ys_preferredMaxLayoutWidth(_ width: CGFloat) -> Self {
+        self.preferredMaxLayoutWidth = width
+        return self
+    }
+
+    @available(iOS 14.0, *)
+    @discardableResult
+    func ys_lineBreakStrategy(_ strategy: NSParagraphStyle.LineBreakStrategy) -> Self {
+        self.lineBreakStrategy = strategy
+        return self
+    }
 }
 
 // MARK: - UILabel + UILabelCreateProtocol

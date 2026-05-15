@@ -9,6 +9,7 @@
 #import "SDWebImageCompat.h"
 
 typedef void(^SDWebImageNoParamsBlock)(void);
+/// Image Loading context option
 typedef NSString * SDWebImageContextOption NS_EXTENSIBLE_STRING_ENUM;
 typedef NSDictionary<SDWebImageContextOption, id> SDWebImageContext;
 typedef NSMutableDictionary<SDWebImageContextOption, id> SDWebImageMutableContext;
@@ -175,7 +176,7 @@ typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
      * By default, we will decode the image in the background during cache query and download from the network. This can help to improve performance because when rendering image on the screen, it need to be firstly decoded. But this happen on the main queue by Core Animation.
      * However, this process may increase the memory usage as well. If you are experiencing an issue due to excessive memory consumption, This flag can prevent decode the image.
      * @note 5.14.0 introduce `SDImageCoderDecodeUseLazyDecoding`, use that for better control from codec, instead of post-processing. Which acts the similar like this option but works for SDAnimatedImage as well (this one does not)
-     * @deprecated Deprecated in v5.17.0, if you don't want force-decode, pass [.imageForceDecodePolicy] = [SDImageForceDecodePolicy.never] in context option
+     * @deprecated Deprecated in v5.17.0, if you don't want force-decode, pass [.imageForceDecodePolicy] = SDImageForceDecodePolicy.never.rawValue in context option
      */
     SDWebImageAvoidDecodeImage API_DEPRECATED("Use SDWebImageContextImageForceDecodePolicy instead", macos(10.10, 10.10), ios(8.0, 8.0), tvos(9.0, 9.0), watchos(2.0, 2.0)) = 1 << 18,
     
@@ -336,6 +337,13 @@ FOUNDATION_EXPORT SDWebImageContextOption _Nonnull const SDWebImageContextImageT
  @warning This does not effect the cache key. So which means, this will effect the global cache even next time you query without this option. Pay attention when you use this on global options (It's always recommended to use request-level option for different pipeline)
  */
 FOUNDATION_EXPORT SDWebImageContextOption _Nonnull const SDWebImageContextImageScaleDownLimitBytes;
+
+/**
+ A Boolean value (NSNumber) to provide converting to HDR during decoding. Currently if number is 0, use SDR, else use HDR. But we may extend this option to use `NSUInteger` in the future (means, think this options as int number, but not actual boolean)
+ @note Supported by iOS 17 and above when using ImageIO coder (third-party coder can support lower firmware)
+ Defaults to @(NO), decoder will automatically convert SDR.
+ */
+FOUNDATION_EXPORT SDWebImageContextOption _Nonnull const SDWebImageContextImageDecodeToHDR;
 
 #pragma mark - Cache Context Options
 
