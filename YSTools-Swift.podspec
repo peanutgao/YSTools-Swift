@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'YSTools-Swift'
-  s.version          = '1.0.0'
+  s.version          = '1.0.1'
   s.summary          = 'Common tools used in Swift projects.'
 
 # This description is used to generate tags and improve search results.
@@ -31,8 +31,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '13.0'
   s.swift_versions = ['5.9']
 
-  # Default subspecs (no SDWebImage dependency)
-  s.default_subspecs = 'Extension', 'Create', 'Utils'
+  s.default_subspecs = 'Extension', 'Create', 'Utils', 'WebImage'
 
   s.subspec 'Extension' do |sp|
     sp.source_files = 'YSTools-Swift/Classes/Extension/**/*'
